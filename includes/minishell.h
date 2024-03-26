@@ -9,6 +9,13 @@ typedef struct s_minishell
   char **splitted_prompt;
 } t_minishell;
 
+typedef struct s_quote
+{
+  char *str;
+  char *token;
+  s_quote *next;
+} t_quote;
+
 // INCLUDES 
 #include <stdio.h>
 #include <stdlib.h>

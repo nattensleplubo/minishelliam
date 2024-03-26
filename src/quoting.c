@@ -1,8 +1,4 @@
 #include "../includes/minishell.h"
-// teub = CUL
-// echo bonjour '$teub' "$teub" $teub | echo cul > a
-// [echo]->[bonjour]->[$teub]->[CUL]->[CUL]->[echo]->[cul]->[a] => QUOTING
-// [CMD] ->[ARGUMNT]->[ARG]--->[ARG]->[ARG]->[PIPE]->[COMMAND]->[ARG]->[REDIR]->[FILE] => TOKENIZATION
 
 int	wcounter(char const *s, char c)
 {
@@ -72,7 +68,7 @@ char	**ft_split2(char **tab, char const *s, char c)
 	return (tab);
 }
 
-char	**ft_split(char const *s, char c)
+char	**prompt_splitter(char const *s, char c)
 {
 	char	**tab;
 

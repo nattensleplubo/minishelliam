@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
+/*   Updated: 2024/03/27 13:01:20 by lzaengel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/minishell.h"
 
 t_minishell *
@@ -18,11 +30,10 @@ void init_ms(void) // Initialize all values to some default ones at the
                    // beginning of the program
 {
   _ms(0)->prompt = NULL;
-
-  char *str = 3;
 }
 
-int main(void) {
+int main(void)
+{
   init_ms();
   while (9) {
     read_line();

@@ -9,12 +9,12 @@ typedef struct s_minishell
   char **splitted_prompt;
 } t_minishell;
 
-typedef struct s_quote
+/*typedef struct s_quote
 {
   char *str;
   char *token;
-  s_quote *next;
-} t_quote;
+  struct s_quote *next;
+} t_quote;*/
 
 // INCLUDES 
 #include <stdio.h>
@@ -23,10 +23,11 @@ typedef struct s_quote
 #include <readline/readline.h>
 #include <readline/history.h>
 
-# include "../libft42/libft.h"
+# include "../libft/libft.h"
 
 // PROTOS
 t_minishell *_ms(int params);
 void read_line(void);
+char	**prompt_splitter(char const *s);
 
 #endif

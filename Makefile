@@ -9,13 +9,14 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -lreadline
+FLAGS    := -Wall -Wextra -Werror
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
 SRCS        :=      main.c \
                           src/prompt.c \
+						  src/quoting.c \
                           
 OBJS        := $(SRCS:.c=.o)
 
@@ -35,10 +36,10 @@ BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
 RM		    := rm -f
 
-${NAME}:	${OBJS}
+${NAME}:    ${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			${CC} ${FLAGS} -o ${NAME} ${OBJS}
-			make -C libft42
+			${CC} ${FLAGS} -o ${NAME} ${OBJS} -lreadline
+			make -C libft
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME}
@@ -47,12 +48,12 @@ bonus:		all
 
 clean:
 			@ ${RM} *.o */*.o */*/*.o
-			make clean -C libft42
+			make clean -C libft
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
 
 fclean:		clean
 			@ ${RM} ${NAME}
-			make fclean -C libft42
+			make fclean -C libft
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
 
 re:			fclean all

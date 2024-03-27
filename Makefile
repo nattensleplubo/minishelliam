@@ -38,8 +38,8 @@ RM		    := rm -f
 
 ${NAME}:    ${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			${CC} ${FLAGS} -o ${NAME} ${OBJS} -lreadline
 			make -C libft
+			${CC} ${FLAGS} -o ${NAME} ${OBJS} -lreadline
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME}

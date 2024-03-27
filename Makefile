@@ -21,7 +21,7 @@ SRCS        :=      main.c \
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	${CC} ${FLAGS} -c $< -o ${<:.c=.o} 
 
 ################################################################################
 #                                  Makefile  objs                              #
@@ -39,7 +39,7 @@ RM		    := rm -f
 ${NAME}:    ${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
 			make -C libft
-			${CC} ${FLAGS} -o ${NAME} ${OBJS} -lreadline
+			${CC} ${FLAGS}  -L ./includes -I ./libft -o ${NAME} ${OBJS} -lreadline
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME}

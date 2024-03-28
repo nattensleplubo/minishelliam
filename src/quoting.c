@@ -21,9 +21,7 @@ int	find_next_quote(char const *s, char c, int i)
 	while (s[i])
 	{
 		if (s[i] == c)
-		{
 			return (i);
-		}
 		i++;
 	}
 	return (j);

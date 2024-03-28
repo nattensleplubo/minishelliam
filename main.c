@@ -32,8 +32,11 @@ void init_ms(void) // Initialize all values to some default ones at the
   _ms(0)->prompt = NULL;
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
+  (void)argc;
+  (void)argv;
+  print_tab(envp);
 	int i;
   init_ms();
   while (9) {

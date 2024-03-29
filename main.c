@@ -36,20 +36,13 @@ void init_ms(void) // Initialize all values to some default ones at the
 
 int main(int argc, char **argv, char **envp)
 {
-  char *line = NULL;
   (void)argc;
   (void)argv;
   init_ms();
   init_env(envp);
   while (9) {
     read_line();
-    expend_env_vars(_ms(0)->prompt);
-    line = get_value_of_varname(_ms(0)->prompt);
-    _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
-    if (line) {
-      printf("%d\n", get_index_of_varname(_ms(0)->prompt));
-      printf("%s\n", line);
-    }
-    free(line);
+    expend_env_vars();
+    printf("%s\n", _ms(0)->prompt);
   }
 }

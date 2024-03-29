@@ -18,9 +18,10 @@ void read_line(void)
   char *line;
 
   path = NULL;
-  path = getcwd(NULL, 100);
+  path = getcwd(NULL, 2048);
   line = ft_strjoin(path, " $ ");
-  free(_ms(0)->prompt);
+  if (_ms(0)->prompt)
+    free(_ms(0)->prompt);
   _ms(0)->prompt = readline(line);
   if (!_ms(0)->prompt)
   {

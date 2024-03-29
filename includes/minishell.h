@@ -38,6 +38,6 @@ void	ft_exit(char *reason);
 void init_env(char **env);
 int get_index_of_varname(char *varname);
 char  *get_value_of_varname(char *varname);
-void	expend_env_vars(char *prompt);
+void	expend_env_vars();
 
 #endif

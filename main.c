@@ -48,7 +48,7 @@ int main(int argc, char **argv, char **envp)
     if (line) {
       printf("%d\n", get_index_of_varname(_ms(0)->prompt));
       printf("%s\n", line);
-      free(line);
     }
+    free(line);
   }
 }

@@ -30,22 +30,24 @@ void init_ms(void) // Initialize all values to some default ones at the
                    // beginning of the program
 {
   _ms(0)->prompt = NULL;
+  _ms(0)->splitted_prompt = NULL;
+  _ms(0)->env = NULL;
 }
 
 int main(int argc, char **argv, char **envp)
 {
-  char *line;
+  char *line = NULL;
   (void)argc;
   (void)argv;
-  init_env(envp);
   init_ms();
+  init_env(envp);
   while (9) {
     read_line();
     line = get_value_of_varname(_ms(0)->prompt);
     _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
     if (line) {
       printf("%d\n", get_index_of_varname(_ms(0)->prompt));
-      printf("%s\n", get_value_of_varname(_ms(0)->prompt));
+      printf("%s\n", line);
       free(line);
     }
   }

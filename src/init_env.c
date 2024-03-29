@@ -7,6 +7,7 @@ char  *get_value_of_varname(char *varname)
   int   j;
   int   k;
 
+  value = NULL;
   i = get_index_of_varname(varname);
   if (i == -1)
     return (NULL);
@@ -22,6 +23,7 @@ char  *get_value_of_varname(char *varname)
     value[k] = _ms(0)->env[i][j];
     j = (k++, j + 1 );
   }
+  value[k] = '\0';
   return value;
 }
 
@@ -32,6 +34,7 @@ int get_index_of_varname(char *varname)
   char  *current;
 
   i = 0;
+  current = NULL;
   while (_ms(0)->env[i])
   {
     j = 0;
@@ -67,5 +70,6 @@ void init_env(char **env)
     _ms(0)->env[i] = ft_strdup(env[i]);
     i++;
   }
+  _ms(0)->env[i] = NULL;
 }
 

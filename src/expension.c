@@ -20,7 +20,31 @@ int get_size_of_var(int j, int blind, char *prompt)
 		j++;
 		size++;
 	}
-	return (j);
+	return (size);
+}
+
+void	skip_single_quote(char *prompt, int *i)
+{
+	*i = *i + 1;
+	while (prompt[*i] != '\'')
+		*i = *i + 1;
+	*i = *i + 1;
+}
+
+int	should_be_skipped(char *prompt, int i)
+{
+	int before;
+	int after;
+
+	before = i;
+	after = i;
+	while (prompt[after] && prompt[after] != '\"')
+		after++;
+	while (before >= 0 && prompt[before] != '\"')
+		before--;
+	if (prompt[before] == '\"' && prompt[after] == '\"')
+		return (1);
+	return (0);
 }
 
 char *is_there_env_to_expend(char *prompt)
@@ -34,11 +58,9 @@ char *is_there_env_to_expend(char *prompt)
 	blind = 0;
 	while (prompt[i])
 	{
-		if (blind == 0 && prompt[i] == '\'')
-			blind = (i++, 1);
-		if (blind == 1 && prompt[i] == '\'')
-			blind = (i++, 0);
-		if (blind == 0 && prompt[i] == '$')
+		if (prompt[i] == '\'' && should_be_skipped(prompt, i) != 1)
+			skip_single_quote(prompt, &i);
+		if (prompt[i] == '$')
 		{
 			j = get_size_of_var(i, blind, prompt);
 			printf("HI I AM GOING TO ALLOCATE %d OF MEMORY\n", j);
@@ -60,7 +82,7 @@ void expend_env_vars(char *prompt)
 
 	to_expend = NULL;
 	while (1)
-	{
+	{	
 		to_expend = is_there_env_to_expend(prompt);
 		printf("to_expend: `%s`\n", to_expend);
 		break;

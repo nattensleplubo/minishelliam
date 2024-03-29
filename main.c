@@ -37,6 +37,7 @@ int main(int argc, char **argv, char **envp)
   (void)argc;
   (void)argv;
   print_tab(envp);
+  init_env(envp);
 	int i;
   init_ms();
   while (9) {

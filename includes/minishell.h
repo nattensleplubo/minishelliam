@@ -26,19 +26,12 @@ typedef struct s_quote
   struct t_quote *next;
 } t_quote;
 
-typedef struct s_env
-{
-  char *str;
-  char *name;
-  char *value;
-  struct t_env *next;
-} t_env;
-
 // PROTOS
 t_minishell *_ms(int params);
 void read_line(void);
 char	**prompt_splitter(char const *s);
 void	print_tab(char **tab);
 int	tab_size(char **tab);
+void init_env(char **env);
 
 #endif

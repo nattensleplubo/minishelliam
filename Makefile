@@ -61,6 +61,7 @@ SRCS        :=      libft/ft_strnstr.c \
                           src/prompt.c \
                           src/quoting.c \
                           src/print_tab.c \
+                          src/init_env.c \
                           
 OBJS        := $(SRCS:.c=.o)
 

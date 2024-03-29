@@ -33,5 +33,7 @@ char	**prompt_splitter(char const *s);
 void	print_tab(char **tab);
 int	tab_size(char **tab);
 void init_env(char **env);
+int get_index_of_varname(char *varname);
+char  *get_value_of_varname(char *varname);
 
 #endif

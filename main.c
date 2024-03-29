@@ -38,18 +38,11 @@ int main(int argc, char **argv, char **envp)
   (void)argv;
   init_env(envp);
   print_tab(_ms(0)->env);
-	int i;
   init_ms();
   while (9) {
-	i = 0;
     read_line();
-	_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
-	while(_ms(0)->splitted_prompt[i])
-	{
-		printf("%s\n", _ms(0)->splitted_prompt[i]);
-		free(_ms(0)->splitted_prompt[i]);
-		i++;
-	}
-	free(_ms(0)->splitted_prompt);
+    _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
+    printf("%d\n", get_index_of_varname(_ms(0)->prompt));
+    printf("%s\n", get_value_of_varname(_ms(0)->prompt));
   }
 }

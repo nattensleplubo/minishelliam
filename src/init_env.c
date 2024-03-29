@@ -1,5 +1,58 @@
 #include "../includes/minishell.h"
 
+char  *get_value_of_varname(char *varname)
+{
+  int   i;
+  char  *value;
+  int   j;
+  int   k;
+
+  i = get_index_of_varname(varname);
+  if (i == -1)
+    return (NULL);
+  j = ft_strlen(varname) + 1;
+  k = 0;
+  while (_ms(0)->env[i][j])
+    j = (k++, j + 1 );
+  value = malloc(sizeof(char) * k + 1);
+  j = ft_strlen(varname) + 1;
+  k = 0;
+  while (_ms(0)->env[i][j])
+  {
+    value[k] = _ms(0)->env[i][j];
+    j = (k++, j + 1 );
+  }
+  return value;
+}
+
+int get_index_of_varname(char *varname)
+{
+  int i;
+  int j;
+  char  *current;
+
+  i = 0;
+  while (_ms(0)->env[i])
+  {
+    j = 0;
+    while (_ms(0)->env[i][j] != '=')
+      j++;
+    current = malloc(sizeof(char) * j + 1);
+    j = 0;
+    while (_ms(0)->env[i][j] != '=')
+    {
+      current[j] = _ms(0)->env[i][j];
+      j++;
+    }
+    current[j] = '\0';
+    if (strcmp(current, varname) == 0) //REPLACE BY ACTUAL LIBFT FUNCTION
+      return (free(current), i);
+    else
+      i = (free(current), i + 1);
+  }
+  return (-1);
+}
+
 void init_env(char **env)
 {
   int i;

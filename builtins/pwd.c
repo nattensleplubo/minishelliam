@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 14:37:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/03/29 12:03:16 by lzaengel         ###   ########.fr       */
+/*   Created: 2024/03/29 11:33:14 by lzaengel          #+#    #+#             */
+/*   Updated: 2024/03/29 12:01:57 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "../includes/minishell.h"
 
-void ft_exit(char *reason)
+void	ft_pwd()
 {
-	printf("%s\n", reason);
-	exit (0);
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (cwd != NULL)
+	{
+		printf("%s\n", cwd);
+		free(cwd);
+	}
+	else
+	{
+		ft_exit("Error getcwd");
+	}
 }

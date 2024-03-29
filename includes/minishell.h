@@ -29,6 +29,5 @@ typedef struct s_minishell
 t_minishell *_ms(int params);
 void read_line(void);
 char	**prompt_splitter(char const *s);
-void	ft_exit(char *reason);
 
 #endif

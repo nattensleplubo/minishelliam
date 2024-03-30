@@ -43,6 +43,7 @@ int main(int argc, char **argv, char **envp)
   while (9) {
     read_line();
     expend_env_vars();
+    print_tab(prompt_splitter(_ms(0)->prompt));
     printf("%s\n", _ms(0)->prompt);
   }
 }

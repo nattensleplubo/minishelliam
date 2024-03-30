@@ -47,7 +47,7 @@ int	should_be_skipped(int i)
 	return (0);
 }
 
-char *is_there_env_to_expend(int *index)
+char *is_there_env_to_expand(int *index)
 {
 	int i;
 	int j;
@@ -94,23 +94,54 @@ char	*delete_var(char *to_expend, int index)
 		i++;
 	}
 	new[j] = '\0';
+	free(_ms(0)->prompt);
 	return (new);
+}
+
+char	*insert_value(char *to_expand, int index)
+{
+	char	*new;
+	char	*value;
+	int		i;
+	int		j;
+	size_t		x;
+
+	i = 0;
+	j = 0;
+	x = 0;
+	value = get_value_of_varname(to_expand + 1);
+	if (!value)
+		value = ft_strdup("");
+	new = malloc(sizeof(char) * (ft_strlen(_ms(0)->prompt) + ft_strlen(value)));
+	while (x < ft_strlen(_ms(0)->prompt) + ft_strlen(value))
+	{
+		if (i == index)
+		{
+			while (value[j])
+				new[x++] = value[j++];
+		}
+		new[x] = _ms(0)->prompt[i];
+		i++;
+		x++;
+	}
+	new[x] = '\0';
+	return (free(value), new);
 }
 
 void expend_env_vars()
 {
-	char *to_expend;
+	char *to_expand;
 	int index;
 
-	to_expend = NULL;
+	to_expand = NULL;
 	index = -1;
 	while (1)
 	{	
-		to_expend = is_there_env_to_expend(&index);
-		if (!to_expend)
+		to_expand = is_there_env_to_expand(&index);
+		if (!to_expand)
 			break;
-		printf("to_expend: `%s` at %d\n", to_expend, index);
-		_ms(0)->prompt = delete_var(to_expend, index);
-		// prompt = insert_value(prompt, to_expend, index);
+		// printf("to_expand: `%s` at %d\n", to_expand, index);
+		_ms(0)->prompt = delete_var(to_expand, index);
+		_ms(0)->prompt = insert_value(to_expand, index);
 	}
 }

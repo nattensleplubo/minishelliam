@@ -19,7 +19,7 @@ void	print_tab(char **tab)
   size = tab_size(tab);
   while (i < size)
   {
-    printf("%s\n", tab[i]);
+    printf("[%d]:`%s`\n", i,tab[i]);
     i++;
   }
 }

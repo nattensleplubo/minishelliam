@@ -43,8 +43,9 @@ int main(int argc, char **argv, char **envp)
   while (9) {
     read_line();
     expend_env_vars();
-    // print_tab(prompt_splitter(_ms(0)->prompt));
-    printf("%s\n", _ms(0)->prompt);
+    _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
+    print_tab(_ms(0)->splitted_prompt);
+    printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
   }
 }
 

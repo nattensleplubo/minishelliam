@@ -123,7 +123,7 @@ char	*insert_value(char *to_expand, int index)
 	value = get_value_of_varname(to_expand + 1);
 	if (!value)
 		value = ft_strdup("");
-	new = malloc(sizeof(char) * (ft_strlen(_ms(0)->prompt) + ft_strlen(value) + 1));
+	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) + ft_strlen(value) + 2));
 	while (x < ft_strlen(_ms(0)->prompt) + ft_strlen(value))
 	{
 		if (i == index)

@@ -31,7 +31,7 @@ void	skip_single_quote(int *i)
 	*i = *i + 1;
 }
 
-int	should_be_skipped(int i) // ADD CHECK TO SEE IF ITS INSIDE TWO DOUBLE QUOTES AND NOT JUST SURROUNDED BY TWO
+int	should_be_skipped(int i)
 {
 	int before;
 	int after;
@@ -69,7 +69,7 @@ char *is_there_env_to_expand(int *index)
 	blind = 0;
 	while (_ms(0)->prompt[i])
 	{
-		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1) // THIS IS WRONG
+		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1)
 			skip_single_quote(&i);
 		if (_ms(0)->prompt[i] == '$')
 		{
@@ -97,7 +97,7 @@ char	*delete_var(char *to_expend, int index)
 	i = 0;
 	j = 0;
 	to_skip = ft_strlen(to_expend);
-	new = malloc(sizeof(char) * (ft_strlen(_ms(0)->prompt) - to_skip));
+	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) - to_skip + 1));
 	while (_ms(0)->prompt[i])
 	{
 		if (i < index || i >= index + to_skip)
@@ -151,7 +151,7 @@ void expend_env_vars()
 		to_expand = is_there_env_to_expand(&index);
 		if (!to_expand)
 			break;
-		// printf("to_expand: `%s` at %d\n", to_expand, index);
+		printf("to_expand: `%s` at %d\n", to_expand, index);
 		_ms(0)->prompt = delete_var(to_expand, index);
 		_ms(0)->prompt = insert_value(to_expand, index);
 	}

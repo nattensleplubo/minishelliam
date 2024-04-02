@@ -9,7 +9,7 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -g
+FLAGS    := -Wall -Wextra -Werror -g3 -fsanitize=address
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -58,9 +58,6 @@ SRCS        :=      libft/ft_strnstr.c \
                           libft/ft_itoa.c \
                           libft/ft_tolower.c \
                           main.c \
-						  exit.c \
-						  builtins/cd.c \
-						  builtins/pwd.c \
                           src/prompt.c \
                           src/quoting.c \
                           src/print_tab.c \
@@ -70,7 +67,7 @@ SRCS        :=      libft/ft_strnstr.c \
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	${CC} ${FLAGS} -c $< -o ${<:.c=.o} -g
 
 ################################################################################
 #                                  Makefile  objs                              #

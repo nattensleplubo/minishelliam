@@ -15,7 +15,7 @@ char  *get_value_of_varname(char *varname)
   k = 0;
   while (_ms(0)->env[i][j])
     j = (k++, j + 1 );
-  value = malloc(sizeof(char) * k + 1);
+  value = calloc(sizeof(char), k + 1);
   j = ft_strlen(varname) + 1;
   k = 0;
   while (_ms(0)->env[i][j])
@@ -38,9 +38,14 @@ int get_index_of_varname(char *varname)
   while (_ms(0)->env[i])
   {
     j = 0;
-    while (_ms(0)->env[i][j] != '=')
+    printf("current:");
+    while (_ms(0)->env[i][j] != '=' && _ms(0)->env[i][j] != '\0')
+    {
+      printf("%c", _ms(0)->env[i][j]);
       j++;
-    current = malloc(sizeof(char) * j + 1);
+    }
+    printf("\nSTOPPED\n");
+    current = calloc(sizeof(char),j + 1);
     j = 0;
     while (_ms(0)->env[i][j] != '=')
     {
@@ -61,7 +66,7 @@ void init_env(char **env)
   int i;
 
   i = tab_size(env);
-  _ms(0)->env = malloc(sizeof(char *) * (i + 1));
+  _ms(0)->env = calloc(sizeof(char *), i + 1);
   if (!_ms(0)->env)
     exit (0);
   i = 0;

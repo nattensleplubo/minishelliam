@@ -31,18 +31,29 @@ void	skip_single_quote(int *i)
 	*i = *i + 1;
 }
 
-int	should_be_skipped(int i)
+int	should_be_skipped(int i) // ADD CHECK TO SEE IF ITS INSIDE TWO DOUBLE QUOTES AND NOT JUST SURROUNDED BY TWO
 {
 	int before;
 	int after;
+	int inside[2];
 
 	before = i;
 	after = i;
+	inside[0] = 0;
+	inside[1] = 0;
+	while (inside[0] != i)
+	{
+		if (_ms(0)->prompt[inside[0]] == '\"' && inside[1] == 0)
+			inside[1] = 1;
+		else if (_ms(0)->prompt[inside[0]] == '\"' && inside[1] == 1)
+			inside[1] = 0;
+		inside[0]++;
+	}
 	while (_ms(0)->prompt[after] && _ms(0)->prompt[after] != '\"')
 		after++;
 	while (before >= 0 && _ms(0)->prompt[before] != '\"')
 		before--;
-	if (_ms(0)->prompt[before] == '\"' && _ms(0)->prompt[after] == '\"')
+	if (_ms(0)->prompt[before] == '\"' && _ms(0)->prompt[after] == '\"' && inside[1] == 1)
 		return (1);
 	return (0);
 }
@@ -58,7 +69,7 @@ char *is_there_env_to_expand(int *index)
 	blind = 0;
 	while (_ms(0)->prompt[i])
 	{
-		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1)
+		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1) // THIS IS WRONG
 			skip_single_quote(&i);
 		if (_ms(0)->prompt[i] == '$')
 		{

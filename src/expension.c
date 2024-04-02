@@ -26,9 +26,8 @@ int get_size_of_var(int j, int blind)
 void	skip_single_quote(int *i)
 {
 	*i = *i + 1;
-	while (_ms(0)->prompt[*i] != '\'')
+	while (_ms(0)->prompt[*i] && _ms(0)->prompt[*i] != '\'')
 		*i = *i + 1;
-	*i = *i + 1;
 }
 
 int	should_be_skipped(int i)
@@ -41,7 +40,7 @@ int	should_be_skipped(int i)
 	after = i;
 	inside[0] = 0;
 	inside[1] = 0;
-	while (inside[0] != i)
+	while (inside[0] < i)
 	{
 		if (_ms(0)->prompt[inside[0]] == '\"' && inside[1] == 0)
 			inside[1] = 1;
@@ -51,10 +50,11 @@ int	should_be_skipped(int i)
 	}
 	while (_ms(0)->prompt[after] && _ms(0)->prompt[after] != '\"')
 		after++;
-	while (before >= 0 && _ms(0)->prompt[before] != '\"')
+	while (before > 0 && _ms(0)->prompt[before] != '\"')
 		before--;
-	if (_ms(0)->prompt[before] == '\"' && _ms(0)->prompt[after] == '\"' && inside[1] == 1)
-		return (1);
+	if (_ms(0)->prompt[after])
+		if (_ms(0)->prompt[before] == '\"' && _ms(0)->prompt[after] == '\"' && inside[1] == 1)
+			return (1);
 	return (0);
 }
 
@@ -75,7 +75,7 @@ char *is_there_env_to_expand(int *index)
 		{
 			*index = i;
 			j = get_size_of_var(i, blind);
-			ret = malloc(sizeof(char) * j + 1);
+			ret = calloc(sizeof(char), j + 1);
 			j = i;
 			while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0) || _ms(0)->prompt[j] == '$')
 				ret[blind++] = _ms(0)->prompt[j++];
@@ -151,7 +151,7 @@ void expend_env_vars()
 		to_expand = is_there_env_to_expand(&index);
 		if (!to_expand)
 			break;
-		printf("to_expand: `%s` at %d\n", to_expand, index);
+		// printf("to_expand: `%s` at %d\n", to_expand, index);
 		_ms(0)->prompt = delete_var(to_expand, index);
 		_ms(0)->prompt = insert_value(to_expand, index);
 	}

@@ -38,13 +38,8 @@ int get_index_of_varname(char *varname)
   while (_ms(0)->env[i])
   {
     j = 0;
-    printf("current:");
     while (_ms(0)->env[i][j] != '=' && _ms(0)->env[i][j] != '\0')
-    {
-      printf("%c", _ms(0)->env[i][j]);
       j++;
-    }
-    printf("\nSTOPPED\n");
     current = calloc(sizeof(char),j + 1);
     j = 0;
     while (_ms(0)->env[i][j] != '=')

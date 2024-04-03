@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:56:33 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/04/01 15:05:07 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/04/03 22:41:23 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	find_next_quote(char const *s, char c, int i)
 
 int	is_pipe(char c)
 {
-	if (c == 124)
+	if (c == '|' || c == '>' || c == '<')
 		return (1);
 	return (0);
 }
@@ -53,13 +53,13 @@ int	wcounter(char const *s)
 			i = find_next_quote(s, s[i], i);
 		if (is_pipe(s[i]) && !(s[i - 1] == ' ' && s[i + 1] == ' '))
 		{
-			if (s[i - 1] != ' ')
+			if (s[i - 1] != ' ' && !is_pipe(s[i - 1]))
 				wc++;
-			while (is_pipe(s[i]))
-			{
-				wc++;
+			wc++;
+			if (s[i + 1] == s[i])
 				i++;
-			}
+			while (s[i + 1] == ' ')
+				i++;
 			sep = 0;
 		}
 		if (s[i++] == ' ')
@@ -101,21 +101,28 @@ char	**ft_split2(char **tab, char const *s)
 	{
 		while (s[i] != ' ' && s[i] != '\0')
 		{
-			while (is_pipe(s[i]) && !(s[i - 1] == ' ' && s[i + 1] == ' '))
-			{
-				if (s[i - 1] != ' ' && !is_pipe(s[i - 1]))
-					tab[wl++] = ft_substr(s, i - j, j);
-				tab[wl++] = ft_substr(s, i, 1);
-				j = (i++, 0);
-				while (s[i] == ' ' && s[i] != '\0')
-					i++;
-			}
 			if (s[i] == 39 || s[i] == '"')
 			{
 				j = j + (find_next_quote(s, s[i], i) - i);
 				i = find_next_quote(s, s[i], i);
 			}
-			j++;
+			if (is_pipe(s[i]) && !(s[i - 1] == ' ' && s[i + 1] == ' '))
+			{
+				if (s[i - 1] != ' ' && !is_pipe(s[i - 1]))
+					tab[wl++] = ft_substr(s, i - j, j);
+				j = 0;
+				if (s[i + 1] == s[i])
+				{
+					i++;
+					j++;
+				}
+				tab[wl++] = ft_substr(s, i - j, j + 1);
+				j = 0;
+				while (s[i + 1] == ' ' && s[i] != '\0')
+					i++;
+			}
+			else
+				j++;
 			i++;
 		}
 		tab[wl] = ft_substr(s, i - j, j);
@@ -136,6 +143,7 @@ char	**prompt_splitter(char const *s)
 	if (s == NULL)
 		return (NULL);
 	tab = malloc(sizeof(char *) * (wcounter(s) + 1));
+	//printf("%d\n", wcounter(s));
 	if (!tab)
 		return (NULL);
 	return (ft_split2(tab, s));

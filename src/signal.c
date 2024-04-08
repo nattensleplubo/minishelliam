@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/04/05 17:59:23 by lzaengel         ###   ########.fr       */
+/*   Created: 2024/04/05 17:16:27 by lzaengel          #+#    #+#             */
+/*   Updated: 2024/04/08 15:32:08 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void read_line(void)
+void	ft_signal(int signo)
 {
-  char *path;
-  char *line;
-
-  path = NULL;
-  path = getcwd(NULL, 100);
-  line = ft_strjoin(path, " $ ");
-  free(_ms(0)->prompt);
-  _ms(0)->prompt = readline(line);
-  if (!_ms(0)->prompt)
-  {
-    rl_clear_history();
-    printf("exit\n");
-    exit(0);
-  }
-  if (strlen(_ms(0)->prompt) != 0) //! REPLACE BY LIBFT FUNCTION
-    add_history(_ms(0)->prompt);
-  free(path);
-  free(line);
+	(void)signo;
+	write(2, "\n", 1); // new line in bash
+	rl_replace_line("", 0); // empty buffer
+	rl_on_new_line(); // new line in rl
+    rl_redisplay();	//refresh readline visually
 }

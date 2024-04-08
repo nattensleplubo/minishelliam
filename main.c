@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/03/29 12:04:39 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:17:50 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,32 @@ void init_ms(void) // Initialize all values to some default ones at the
   _ms(0)->prompt = NULL;
 }
 
-int main(int argc, char **argv, char **envp)
+void	ft_bash(void)
 {
-  char *line;
-  (void)argc;
-  (void)argv;
-  init_env(envp);
-  init_ms();
-  while (9) {
-    read_line();
+	char	*line;
+
+	read_line();
     line = get_value_of_varname(_ms(0)->prompt);
     _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
+	//fprint_tab(_ms(0)->splitted_prompt);
     if (line) {
       printf("%d\n", get_index_of_varname(_ms(0)->prompt));
       printf("%s\n", get_value_of_varname(_ms(0)->prompt));
       free(line);
-    }
-  }
+	}
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	struct sigaction s;
+	(void)argc;
+  	(void)argv;
+  	s.sa_handler = ft_signal;
+	sigaction(SIGINT, &s, NULL);
+	init_env(envp);
+	init_ms();
+	while (9)
+	{
+		ft_bash();
+	}
 }

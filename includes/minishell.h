@@ -3,6 +3,7 @@
 # define MINISHELL_H
 
 // INCLUDES 
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -38,5 +39,7 @@ void	ft_exit(char *reason);
 void init_env(char **env);
 int get_index_of_varname(char *varname);
 char  *get_value_of_varname(char *varname);
+void	ft_signal(int signo);
+void	ft_bash(void);
 
 #endif

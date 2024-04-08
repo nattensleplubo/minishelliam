@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/04/08 15:17:50 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:01:26 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
   	(void)argv;
   	s.sa_handler = ft_signal;
+	rl_catch_signals = 0;
 	sigaction(SIGINT, &s, NULL);
+	sigaction(SIGQUIT, &s, NULL);
 	init_env(envp);
 	init_ms();
 	while (9)

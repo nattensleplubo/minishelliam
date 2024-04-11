@@ -9,6 +9,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 # include "../libft/libft.h"
+#include <sys/wait.h>
 
 
 typedef struct s_minishell
@@ -23,7 +24,6 @@ typedef struct s_quote
 {
   char *str;
   char *token;
-  struct t_quote *next;
 } t_quote;
 
 // PROTOS

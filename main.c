@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/03/29 12:04:39 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:38:41 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,17 @@ void init_ms(void) // Initialize all values to some default ones at the
 
 int main(int argc, char **argv, char **envp)
 {
-  (void)argc;
-  (void)argv;
-  init_ms();
-  init_env(envp);
-  while (9) {
-    read_line();
-    expend_env_vars();
-    _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
-    print_tab(_ms(0)->splitted_prompt);
-    printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
-  }
+	(void)argc;
+	(void)argv;
+	init_ms();
+	init_env(envp);
+	while (9)
+	{
+		read_line();
+    	expend_env_vars();
+    	_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
+    	print_tab(_ms(0)->splitted_prompt);
+    	printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
+  	}
 }
 

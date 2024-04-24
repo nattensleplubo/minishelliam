@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/04/09 18:38:41 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/04/24 20:21:21 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void init_ms(void) // Initialize all values to some default ones at the
 
 int main(int argc, char **argv, char **envp)
 {
+	struct sigaction s;
+	
+	s.sa_handler = ft_signal;
+	rl_catch_signals = 0;
+	sigaction(SIGINT, &s, NULL);
+	sigaction(SIGQUIT, &s, NULL);
 	(void)argc;
 	(void)argv;
 	init_ms();

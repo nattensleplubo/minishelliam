@@ -3,6 +3,7 @@
 # define MINISHELL_H
 
 // INCLUDES 
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -10,7 +11,6 @@
 #include <readline/history.h>
 # include "../libft/libft.h"
 #include <sys/wait.h>
-
 
 typedef struct s_minishell
 {
@@ -39,5 +39,7 @@ void init_env(char **env);
 int get_index_of_varname(char *varname);
 char  *get_value_of_varname(char *varname);
 void	expend_env_vars();
+void	ft_signal(int signo);
+void	ft_bash(void);
 
 #endif

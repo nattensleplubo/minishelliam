@@ -34,20 +34,17 @@ void init_ms(void) // Initialize all values to some default ones at the
   _ms(0)->env = NULL;
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	init_ms();
-	init_env(envp);
-	while (9)
-	{
-		read_line();
-    	expend_env_vars();
-    	_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
-    	print_tab(_ms(0)->splitted_prompt);
-    	printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
-      delete_quotes();
-  	}
+int main(int argc, char **argv, char **envp) {
+  (void)argc;
+  (void)argv;
+  init_ms();
+  init_env(envp);
+  while (9) {
+    read_line();
+    expend_env_vars();
+    _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
+    print_tab(_ms(0)->splitted_prompt);
+    printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
+    // delete_quotes(); // TODO
+  }
 }
-

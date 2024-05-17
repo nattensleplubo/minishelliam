@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/04/09 18:38:41 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/05/17 16:50:45 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int main(int argc, char **argv, char **envp) {
     read_line();
     expend_env_vars();
     _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
+	delete_quotes(); // TODO
     print_tab(_ms(0)->splitted_prompt);
     printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
-    // delete_quotes(); // TODO
   }
 }

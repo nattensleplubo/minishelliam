@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/17 16:50:45 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:09:25 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,30 @@ void init_ms(void) // Initialize all values to some default ones at the
   _ms(0)->splitted_prompt = NULL;
   _ms(0)->env = NULL;
 }
-
-int main(int argc, char **argv, char **envp) {
-  (void)argc;
-  (void)argv;
-  init_ms();
-  init_env(envp);
-  while (9) {
-    read_line();
+void	ft_bash(void)
+{
+	read_line();
     expend_env_vars();
     _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
 	delete_quotes(); // TODO
     print_tab(_ms(0)->splitted_prompt);
     printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
-  }
+}
+int main(int argc, char **argv, char **envp)
+{
+  	(void)argc;
+	(void)argv;
+	struct sigaction s;
+	(void)argc;
+  	(void)argv;
+  	s.sa_handler = ft_signal;
+	rl_catch_signals = 0;
+	sigaction(SIGINT, &s, NULL);
+	sigaction(SIGQUIT, &s, NULL);
+	init_ms();
+	init_env(envp);
+	while (9)
+	{
+		ft_bash();
+	}
 }

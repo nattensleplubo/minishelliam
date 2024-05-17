@@ -64,6 +64,7 @@ SRCS        :=      libft/ft_strnstr.c \
                           src/init_env.c \
                           src/expension.c \
 						  src/quotes.c \
+						  src/signal.c \
                           
 OBJS        := $(SRCS:.c=.o)
 

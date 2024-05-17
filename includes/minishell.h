@@ -37,5 +37,7 @@ int get_index_of_varname(char *varname);
 char *get_value_of_varname(char *varname);
 void expend_env_vars();
 void delete_quotes(void);
+void	ft_signal(int signo);
+void	ft_bash(void);
 
 #endif

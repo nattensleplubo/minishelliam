@@ -151,11 +151,7 @@ void expend_env_vars()
 		to_expand = is_there_env_to_expand(&index);
 		if (!to_expand)
 			break;
-		// printf("to_expand: `%s` at %d\n", to_expand, index);
 		_ms(0)->prompt = delete_var(to_expand, index);
 		_ms(0)->prompt = insert_value(to_expand, index);
 	}
 }
-
-// for some reason this crashes ? FIXED
-// googo gagga $USER fcaca

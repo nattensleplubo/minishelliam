@@ -47,6 +47,7 @@ int main(int argc, char **argv, char **envp)
     	_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
     	print_tab(_ms(0)->splitted_prompt);
     	printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
+      delete_quotes();
   	}
 }
 

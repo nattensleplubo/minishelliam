@@ -1,0 +1,3 @@
+
+ 
+void echo(char **cmd)

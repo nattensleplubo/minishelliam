@@ -106,9 +106,9 @@ char	**ft_split2(char **tab, char const *s)
 				j = j + (find_next_quote(s, s[i], i) - i);
 				i = find_next_quote(s, s[i], i);
 			}
-			if (is_pipe(s[i]) && !(s[i - 1] == ' ' && s[i + 1] == ' '))
+			if (is_pipe(s[i]) && !( s[i + 1] == ' ' && (i == 0 || s[i - 1] == ' ')))
 			{
-				if (s[i - 1] != ' ' && !is_pipe(s[i - 1]))
+				if ((s[i - 1] != ' ' && !is_pipe(s[i - 1])))
 					tab[wl++] = ft_substr(s, i - j, j);
 				j = 0;
 				if (s[i + 1] == s[i])

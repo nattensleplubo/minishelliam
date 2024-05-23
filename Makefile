@@ -9,7 +9,7 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -g3  -fsanitize=address
+FLAGS    := -Wall -Wextra -Werror -g3
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -65,6 +65,7 @@ SRCS        :=      libft/ft_strnstr.c \
                           src/expension.c \
 						  src/quotes.c \
 						  src/signal.c \
+						  src/token.c \
                           
 OBJS        := $(SRCS:.c=.o)
 

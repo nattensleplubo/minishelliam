@@ -16,11 +16,13 @@ typedef struct s_minishell {
   int i;
   char **splitted_prompt;
   char **env;
+  t_list *tokenized_prompt;
 } t_minishell;
 
 typedef struct s_quote {
   char *str;
   char *token;
+  int  id;
 } t_quote;
 
 // PROTOS
@@ -37,7 +39,9 @@ int get_index_of_varname(char *varname);
 char *get_value_of_varname(char *varname);
 void expend_env_vars();
 void delete_quotes(void);
+int		is_pipe(char c);
 void	ft_signal(int signo);
-void	ft_bash(void);
+void	ft_token(void);
+
 
 #endif

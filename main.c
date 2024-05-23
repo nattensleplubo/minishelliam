@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/17 19:09:25 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:15:50 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,40 @@ _ms(int params) // Global function 1 to print it's values. 0 To do nothing
   return (ms);
 }
 
+void	ft_lstprint(t_list *lst)
+{
+	t_list	*temp;
+
+	if (lst == NULL)
+		return ;
+	temp = lst;
+	printf("%s\n", ((t_quote *)temp->content)->token);
+	while (temp -> next)
+	{
+		temp = temp-> next;
+		printf("%s\n", ((t_quote *)temp->content)->token);
+	}
+}
+
 void init_ms(void) // Initialize all values to some default ones at the
                    // beginning of the program
 {
   _ms(0)->prompt = NULL;
   _ms(0)->splitted_prompt = NULL;
   _ms(0)->env = NULL;
+  _ms(0)->tokenized_prompt = NULL;
 }
 void	ft_bash(void)
 {
 	read_line();
     expend_env_vars();
     _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
+	print_tab(_ms(0)->splitted_prompt);
+	ft_token();
+	ft_lstprint(_ms(0)->tokenized_prompt);
+	printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
 	delete_quotes(); // TODO
     print_tab(_ms(0)->splitted_prompt);
-    printf("NEW PROMPT = `%s`\n", _ms(0)->prompt);
 }
 int main(int argc, char **argv, char **envp)
 {

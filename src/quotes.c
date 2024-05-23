@@ -108,7 +108,6 @@ void delete_quotes()
   	size = tab_size(_ms(0)->splitted_prompt);
 	while (i < size)
 	{
-		printf("SIZE = %d", i);
 		delete_quotes_word(i);
 		i++;
 	}

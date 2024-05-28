@@ -6,62 +6,71 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/22 18:34:51 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:00:45 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	post_pipe(char *s, t_list **lst)
+{
+	lst = &(*lst)->next;
+	if (*lst == NULL)
+	{}
+	((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
+	if (!((t_quote *)(*lst)->content)->token)
+	{}
+	printf("bruh\n");
+	if (s[0] == '|')
+		ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
+	else if (s[0] == '<' || s[0] == '>')
+		ft_strlcpy(((t_quote *)(*lst)->content)->token, "fnm", 4);
+}
+
 void	is_redirection_or_pipe(t_list **lst, int i)
 {
-	char *s;	
+	char	*s;	
 
 	s = _ms(0)->splitted_prompt[i];
-	if(s[0] == '>' || s[0] == '|' || s[0] == '<')
+	if (s[0] == '>' || s[0] == '|' || s[0] == '<')
 	{
-		((t_quote *)(*lst)->content)->token=malloc(sizeof(char) * 9);
-		if(!((t_quote *)(*lst)->content)->token)
+		((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 9);
+		if (!((t_quote *)(*lst)->content)->token)
 		{}	//protect
-		if(s[1] == s[0])
+		if (s[1] == s[0])
 			ft_strlcpy(((t_quote *)(*lst)->content)->token, "DOUBLE__", 9);
 		else
 			ft_strlcpy(((t_quote *)(*lst)->content)->token, "SIMPLE__", 9);
 		((t_quote *)(*lst)->content)->token[7] = s[0];
 		((t_quote *)(*lst)->content)->token[8] = '\0';
 	}
-	if (s[0] == '|' && !is_pipe(_ms(0)->splitted_prompt[i + 1][0])) 
-	{
-        lst = &(*lst)->next;
-        if (*lst == NULL) {
-        }
-        ((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
-        if (!((t_quote *)(*lst)->content)->token) 
-		{}
-        ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
-    }
+	if (is_pipe(_ms(0)->splitted_prompt[i][0])
+		&& !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+		post_pipe(s, lst);
 }
+
 void	add_token(t_list **lst,int size)
 {
-	int	i;
-	t_quote *CONTENT;
+	int		i;
+	t_quote	*CONTENT;
+
 	i = 0;
-	
 	while (i < size)
 	{
 		CONTENT = (t_quote *)(*lst)->content;
-		if(!((t_quote *)(*lst)->content)->token)
+		if (!((t_quote *)(*lst)->content)->token)
 		{
-			if(i == 0 && !is_pipe(_ms(0)->splitted_prompt[0][0]))
+			if (i == 0 && !is_pipe(_ms(0)->splitted_prompt[0][0]))
 			{
-				CONTENT->token=malloc(sizeof(char) * 4);
-				CONTENT->token="cmd\0";
+				CONTENT->token = malloc(sizeof(char) * 4);
+				CONTENT->token = "cmd\0";
 			}
-			else if(is_pipe(_ms(0)->splitted_prompt[i][0]))
+			else if (is_pipe(_ms(0)->splitted_prompt[i][0]))
 				is_redirection_or_pipe(lst, i);
 			else
 			{
-				CONTENT->token=malloc(sizeof(char) * 4);
-				CONTENT->token="arg\0";
+				CONTENT->token = malloc(sizeof(char) * 4);
+				CONTENT->token = "arg\0";
 			}
 		}
 		lst = &(*lst)->next;

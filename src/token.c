@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/28 17:00:45 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:47:29 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ void	post_pipe(char *s, t_list **lst)
 		ft_strlcpy(((t_quote *)(*lst)->content)->token, "fnm", 4);
 }
 
-void	is_redirection_or_pipe(t_list **lst, int i)
+int	is_redirection_or_pipe(t_list **lst, int i, int cmd)
 {
 	char	*s;	
 
 	s = _ms(0)->splitted_prompt[i];
 	if (s[0] == '>' || s[0] == '|' || s[0] == '<')
 	{
+		free(((t_quote *)(*lst)->content)->token);
 		((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 9);
 		if (!((t_quote *)(*lst)->content)->token)
 		{}	//protect
@@ -47,36 +48,35 @@ void	is_redirection_or_pipe(t_list **lst, int i)
 	if (is_pipe(_ms(0)->splitted_prompt[i][0])
 		&& !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
 		post_pipe(s, lst);
+	if(s[0] == '|' && is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+		return (0);
+	return (cmd);
 }
 
 void	add_token(t_list **lst,int size)
 {
-	int		i;
-	t_quote	*CONTENT;
+	int		i[2];
 
-	i = 0;
-	while (i < size)
+	i[0] = 0;
+	i[1] = 0;
+	while (i[0] < size)
 	{
-		CONTENT = (t_quote *)(*lst)->content;
 		if (!((t_quote *)(*lst)->content)->token)
 		{
-			if (i == 0 && !is_pipe(_ms(0)->splitted_prompt[0][0]))
-			{
-				CONTENT->token = malloc(sizeof(char) * 4);
-				CONTENT->token = "cmd\0";
-			}
-			else if (is_pipe(_ms(0)->splitted_prompt[i][0]))
-				is_redirection_or_pipe(lst, i);
+			((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
+			if (!((t_quote *)(*lst)->content)->token)
+			{}
+			if (i[1] == 0 && !is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
+				((t_quote *)(*lst)->content)->token = (i[1]++, "cmd\0");
+			else if (is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
+				i[1] = is_redirection_or_pipe(lst, i[0], i[1]);
 			else
-			{
-				CONTENT->token = malloc(sizeof(char) * 4);
-				CONTENT->token = "arg\0";
-			}
+				((t_quote *)(*lst)->content)->token = "arg\0";
 		}
-		lst = &(*lst)->next;
-		i++;
+		lst = (i[0]++, &(*lst)->next);
 	}
 }
+
 t_quote *create_struct(char *arg, int i)
 {
 	t_quote *content;

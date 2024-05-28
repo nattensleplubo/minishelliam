@@ -53,25 +53,27 @@ int get_number_of_args(int i) {
 
 char ***make_commands_tab() {
   char ***ret;
-  int ints[5]; // 0: cmd, 1: i, 2: tab_size, ...
+  int ints[5]; // 0: cmd, 1: i, 2: tab_size, 3 fill_commands
   t_list *temp;
 
   temp = _ms(0)->tokenized_prompt;
   ints[1] = 0;
-  ints[0] = get_number_of_commands(); // Calcul le nombre de commandes qu'il y
-                                      // aura a executer
-  ret = malloc(sizeof(char **) *
-               (ints[0] + 1)); // Allocation de tableau de tableau de strings
-  while (ints[1] <
-         ints[0]) { // Tant que l'index est inferieur au nombre de commandes
-    if (ft_strncmp(((t_quote *)temp->content)->token, "cmd",
-                   3)) { // Si on tombe sur un commande
-      ints[2] = get_number_of_args(
-          ints[1]); // Calcul le nombre d'arguments d'une commande
-      ret[ints[1]] = malloc(sizeof(char *) *
-                            (ints[2] + 1)); // Allocation de tableau de strings
+  ints[0] = get_number_of_commands();
+  ret = malloc(sizeof(char **) * (ints[0] + 1));
+  ret[ints[0]] = NULL;
+  while (ints[1] < ints[0]) {
+    if (ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3)) {
+      ints[3] = 1;
+      ints[2] = get_number_of_args(ints[1]);
+      ret[ints[1]] = malloc(sizeof(char *) * (ints[2] + 1));
+      ret[ints[1]][ints[2]] = NULL;
+      ft_strlcpy(ret[ints[1]][0], ((t_quote *)temp->content)->str,
+                 ft_strlen(((t_quote *)temp->content)->str));
       ints[1]++;
     }
+    if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3))
+      ft_strlcpy(ret[ints[1]][ints[3]++], ((t_quote *)temp->content)->str,
+                 ft_strlen(((t_quote *)temp->content)->str));
     temp = temp->next;
   }
   return ret;
@@ -79,5 +81,5 @@ char ***make_commands_tab() {
 
 void exec(void) {
   fill_list();
-  make_commands_tab();
+  _ms(0)->commands = make_commands_tab();
 }

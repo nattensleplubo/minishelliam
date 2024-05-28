@@ -16,6 +16,7 @@ typedef struct s_minishell {
   int i;
   char **splitted_prompt;
   char **env;
+  char ***commands;
   t_list *tokenized_prompt;
 } t_minishell;
 

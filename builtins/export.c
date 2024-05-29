@@ -62,8 +62,6 @@ void	ft_export(char **arg)
 		{}
 		ft_strlcpy(env, arg[i[0]], i[1] + 1);
 		indexenv = get_index_of_varname(env);
-		printf("%d\n", indexenv);
-		printf("%s\n", env);
 		if (arg[i[0]][i[1]] == '=')
 		{
 			if (indexenv == -1)

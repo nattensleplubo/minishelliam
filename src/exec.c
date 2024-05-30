@@ -9,8 +9,13 @@ void fill_list(void) {
   size = tab_size(_ms(0)->splitted_prompt);
   i = 0;
   while (i < size) {
+    printf("%d\n", i);
+    ((t_quote *)temp->content)->str =
+        ft_calloc(sizeof(char), ft_strlen(_ms(0)->splitted_prompt[i]));
     ft_strlcpy(((t_quote *)temp->content)->str, _ms(0)->splitted_prompt[i],
-               ft_strlen(_ms(0)->splitted_prompt[i]));
+               ft_strlen(_ms(0)->splitted_prompt[i]) + 1);
+    i++;
+    temp = temp->next;
   }
 }
 
@@ -81,5 +86,6 @@ char ***make_commands_tab() {
 
 void exec(void) {
   fill_list();
-  _ms(0)->commands = make_commands_tab();
+  ft_lstprint(_ms(0)->tokenized_prompt);
+  // _ms(0)->commands = make_commands_tab();
 }

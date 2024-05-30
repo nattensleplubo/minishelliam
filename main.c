@@ -33,10 +33,12 @@ void ft_lstprint(t_list *lst) {
   if (lst == NULL)
     return;
   temp = lst;
-  printf("%s\n", ((t_quote *)temp->content)->token);
+  printf("TOKEN[%s]\t|\tCONTENT[%s]\n", ((t_quote *)temp->content)->token,
+         ((t_quote *)temp->content)->str);
   while (temp->next) {
     temp = temp->next;
-    printf("%s\n", ((t_quote *)temp->content)->token);
+    printf("TOKEN[%s]\t|\tCONTENT[%s]\n", ((t_quote *)temp->content)->token,
+           ((t_quote *)temp->content)->str);
   }
   printf("----------------------------------------------\n");
 }
@@ -53,12 +55,13 @@ void ft_bash(void) {
   read_line();
   expend_env_vars();
   _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
-  print_tab(_ms(0)->splitted_prompt);
+  // print_tab(_ms(0)->splitted_prompt);
   ft_token();
-  ft_lstprint(_ms(0)->tokenized_prompt);
-  printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
-  delete_quotes(); // TODO
+  // ft_lstprint(_ms(0)->tokenized_prompt);
+  // printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
+  delete_quotes();
   print_tab(_ms(0)->splitted_prompt);
+  exec();
 }
 int main(int argc, char **argv, char **envp) {
   (void)argc;

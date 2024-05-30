@@ -45,5 +45,5 @@ void ft_signal(int signo);
 void ft_token(void);
 void fill_list(void);
 void exec(void);
-
+void ft_lstprint(t_list *lst);
 #endif

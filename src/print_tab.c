@@ -1,7 +1,6 @@
 #include "../includes/minishell.h"
 
-int	tab_size(char **tab)
-{
+int tab_size(char **tab) {
   int i;
 
   i = 0;
@@ -10,16 +9,14 @@ int	tab_size(char **tab)
   return (i);
 }
 
-void	print_tab(char **tab)
-{
+void print_tab(char **tab) {
   int size;
   int i;
 
   i = 0;
   size = tab_size(tab);
-  while (i < size)
-  {
-    printf("[%d]:`%s`\n", i,tab[i]);
+  while (i < size) {
+    printf("[%d (%d/%d)]:`%s`\n", i, i + 1, size, tab[i]);
     i++;
   }
 }

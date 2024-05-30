@@ -63,6 +63,7 @@ SRCS        :=      libft/ft_strnstr.c \
                           src/print_tab.c \
                           src/init_env.c \
                           src/expension.c \
+                          src/exec.c \
 						  src/quotes.c \
 						  src/signal.c \
 						  src/token.c \

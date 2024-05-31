@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/28 18:50:18 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:01:31 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	post_pipe(char *s, t_list **lst)
 	((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
 	if (!((t_quote *)(*lst)->content)->token)
 	{}
-	printf("bruh\n");
 	if (s[0] == '|')
 		ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
 	else if (s[0] == '<' || s[0] == '>')
@@ -46,9 +45,10 @@ int	is_redirection_or_pipe(t_list **lst, int i, int cmd)
 		((t_quote *)(*lst)->content)->token[8] = '\0';
 	}
 	if (is_pipe(_ms(0)->splitted_prompt[i][0])
-		&& !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+		&& _ms(0)->splitted_prompt[i + 1]
+			&& !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
 		post_pipe(s, lst);
-	if(s[0] == '|' && is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+	if (s[0] == '|' && _ms(0)->splitted_prompt[i + 1] && is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
 		return (0);
 	return (cmd);
 }
@@ -73,6 +73,7 @@ void	add_token(t_list **lst,int size)
 			else
 				((t_quote *)(*lst)->content)->token = "arg\0";
 		}
+		printf("%s\n",_ms(0)->splitted_prompt[i[0]]);
 		lst = (i[0]++, &(*lst)->next);
 	}
 }

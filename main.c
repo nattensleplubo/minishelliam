@@ -53,7 +53,6 @@ void init_ms(void) // Initialize all values to some default ones at the
 }
 void ft_bash(void) {
   if (read_line()) {
-
     expend_env_vars();
     _ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
     // print_tab(_ms(0)->splitted_prompt);

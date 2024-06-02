@@ -28,7 +28,7 @@ typedef struct s_quote {
 
 // PROTOS
 t_minishell *_ms(int params);
-void read_line(void);
+int read_line(void);
 char **prompt_splitter(char const *s);
 void print_tab(char **tab);
 int tab_size(char **tab);

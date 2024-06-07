@@ -6,13 +6,123 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/17 19:00:37 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:51:29 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ft_pipe(char **prompt, int len, int *p_out, char *path, char **env, int islast	)
+int	checkifpath(char *str)
+{
+	if (str == NULL || ft_strlen(str) == 0)
+		return (0);
+	if (str[0] == '/')
+		return (1);
+	if (str[0] == '.' && (str[1] == '/' || (str[1] == '.' && str[2] == '/')))
+		return (1);
+	return (0);
+}
+
+int	ft_strcmp(const char *str1, const char *str2) 
+{
+    while (*str1 && (*str1 == *str2)) 
+	{
+        str1++;
+        str2++;
+    }
+    return *(unsigned char *)str1 - *(unsigned char *)str2;
+}
+
+int	ft_builtins(char **prompt)
+{
+	if (ft_strcmp(prompt[0], "pwd") == 0)
+	{}
+	else if (ft_strcmp(prompt[0], "echo") == 0)
+	{}
+	else if (ft_strcmp(prompt[0], "env") == 0)
+	{}
+	else if (ft_strcmp(prompt[0], "export") == 0)
+	{}
+	else if (ft_strcmp(prompt[0], "unset") == 0)
+	{}
+	else if (ft_strcmp(prompt[0], "cd") == 0)
+	{}
+	else
+		return (0);
+	return (1);
+}
+int	ft_search(char **prompt, char **path)
+{
+	int i;
+	char	*full_path;
+	char	*cmd;
+
+	i = 0;
+	cmd = ft_strjoin("/\0", prompt[0]);
+	while(path[i])
+	{
+		full_path = ft_strjoin(path[i], cmd);
+		if (access(full_path, X_OK) == 0)
+		{
+			execve(full_path, prompt, _ms(0)->env);
+			free(full_path);
+			free(cmd);
+			return(1);
+		}
+		i++;
+	}
+	free(cmd);
+	return (0);
+}
+
+void	ft_exec(char **prompt)
+{
+	char	**path;
+	
+	if (checkifpath(prompt[0]) == 1)
+	{
+		if (access(prompt[0], X_OK) == 0)
+		{
+			execve(prompt[0], prompt, _ms(0)->env);
+		}
+		else
+		{}
+	}
+	else
+	{
+		if(ft_builtins(prompt) == 0)
+		{
+			path = ft_split(get_value_of_varname("PATH"), ':');
+			ft_search(prompt, path);
+			printf("execve\n");
+			execve(prompt[0], prompt, _ms(0)->env);
+			free(path);
+		}
+
+	}
+}
+
+void	ft_last(char **prompt, int p_out)
+{
+	pid_t	childrenpid;
+
+	childrenpid = fork();
+	if (childrenpid == 0) // if we are in the children process
+	{
+		dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
+		close(p_out);
+		ft_exec(prompt);
+		exit(0);
+	}
+	else //if we are in the parent process
+	{
+		close(p_out);
+		while (wait (NULL) != -1)
+			;
+	}
+}
+
+void	ft_pipe2(char **prompt, int *p_out)
 {
 	int		pfd[2];
 	pid_t	childrenpid;
@@ -21,63 +131,42 @@ void ft_pipe(char **prompt, int len, int *p_out, char *path, char **env, int isl
 	childrenpid = fork();
 	if (childrenpid == 0) // if we are in the children process
 	{
-		if (islast == 0)
-		{
-			close(pfd[0]); // close the output of the pipe in the children proces
-			dup2(pfd[1], STDOUT_FILENO); //replace the standart ouput of the command by the input of the pipe
-			close(pfd[1]);
-		}
+		close(pfd[0]); // close the output of the pipe in the children proces
+		dup2(pfd[1], STDOUT_FILENO); //replace the standart ouput of the command by the input of the pipe
+		close(pfd[1]);
 		dup2(*p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
-		close(*p_out); 
-		prompt[len] = NULL;
-		execve(path, prompt, env); //execute the command
+		close(*p_out);
+		ft_exec(prompt);
+		exit(0);
 	}
 	else //if we are in the parent process
 	{
 		close(*p_out);
-		if (islast == 0)
-		{
-			close(pfd[1]);
-			*p_out = pfd[0]; //save the output of the pipe for the next command
-		}
-		if (islast == 1)
-		{
-			while (wait (NULL) != -1)
-				;
-		}
+		close(pfd[1]);
+		*p_out = pfd[0]; //save the output of the pipe for the next command
 	}
 }
 
-/*int ft_init_pipe(char **prompt, char *path, char **env)
+void	ft_pipe()
 {
-	
-}*/
-int	ft_len(char	**cmd)
-{
-	int	len;
+	int		prevpipe;
+	int		i;
+	char	***cmd;
 
-	len = 0;
-	while (cmd[len] && *cmd[len] != '|')
-		len++;
-	return (len);
-}
-
-int	main(int ac, char **cmd, char **env)
-{
-	int	prevpipe;
-	int	len;
-
-	(void)ac;
-	len = 0;
+	cmd = _ms(0)->commands;
+	i = 0;
 	prevpipe = dup (0);
-	while (cmd[len] && cmd[len + 1])
+	while (cmd[i])
 	{
-		cmd += len + 1;
-		len = ft_len (cmd);
-		if (cmd[len] != NULL && *cmd[len] == '|')
-			ft_pipe (cmd, len, &prevpipe, cmd[0], env, 0);
-		else if (cmd[len] == NULL)
-			ft_pipe (cmd, len, &prevpipe, cmd[0], env, 1);
+		if (cmd[i] && cmd[i + 1] != NULL)
+		{
+			ft_pipe2 (cmd[i], &prevpipe);
+		}
+		else if (cmd[i] && cmd[i + 1] == NULL)
+		{
+			ft_last (cmd[i], prevpipe);
+		}
+		i++;
 	}
-	return (0);
 }
+	

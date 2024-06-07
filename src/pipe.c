@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/07 18:51:29 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:56:53 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_search(char **prompt, char **path)
 
 	i = 0;
 	cmd = ft_strjoin("/\0", prompt[0]);
-	while(path[i])
+	while (path[i])
 	{
 		full_path = ft_strjoin(path[i], cmd);
 		if (access(full_path, X_OK) == 0)
@@ -94,8 +94,6 @@ void	ft_exec(char **prompt)
 		{
 			path = ft_split(get_value_of_varname("PATH"), ':');
 			ft_search(prompt, path);
-			printf("execve\n");
-			execve(prompt[0], prompt, _ms(0)->env);
 			free(path);
 		}
 

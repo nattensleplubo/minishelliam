@@ -67,6 +67,7 @@ SRCS        :=      libft/ft_strnstr.c \
 						  src/quotes.c \
 						  src/signal.c \
 						  src/token.c \
+						  src/pipe.c \
                           
 OBJS        := $(SRCS:.c=.o)
 
@@ -90,6 +91,9 @@ ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
 			${CC} ${FLAGS} -o ${NAME} ${OBJS} -lreadline -g
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
+			mkdir obj
+			mv */*.o obj
+			mv *.o obj
 
 all:		${NAME}
 
@@ -97,6 +101,7 @@ bonus:		all
 
 clean:
 			@ ${RM} *.o */*.o */*/*.o
+			@ rm -rf obj
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
 
 fclean:		clean

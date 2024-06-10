@@ -46,4 +46,6 @@ void ft_token(void);
 void fill_list(void);
 void exec(void);
 void ft_lstprint(t_list *lst);
+void	ft_pipe();
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/11 18:01:04 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/11 18:30:45 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 	else if (ft_strcmp(prompt[0], "cd") == 0) {
 		if (exec == 1)
 			ft_cd(prompt[1]);
+		return (2);
+	}
+	else if (ft_strcmp(prompt[0], "exit") == 0) {
+		if (exec == 1)
+			ft_exit("");
 		return (2);
 	}
 	else

@@ -58,6 +58,7 @@ SRCS        :=      libft/ft_strnstr.c \
                           libft/ft_itoa.c \
                           libft/ft_tolower.c \
                           main.c \
+						  exit.c \
                           src/prompt.c \
                           src/quoting.c \
                           src/print_tab.c \

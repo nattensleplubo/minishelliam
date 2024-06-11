@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/11 17:49:30 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/11 18:32:43 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int read_line(void) {
   if (!_ms(0)->prompt) {
     rl_clear_history();
     printf("exit\n");
-    exit(0);
+    exit(errno);
   }
   if (ft_strlen(_ms(0)->prompt) != 0)
     ret_val = (add_history(_ms(0)->prompt), 1);

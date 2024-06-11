@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:37:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/03/29 12:03:16 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:31:16 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void ft_exit(char *reason)
 {
-	printf("%s\n", reason);
-	exit (0);
+	printf("%s", reason);
+	exit (errno);
 }

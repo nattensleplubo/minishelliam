@@ -51,5 +51,8 @@ void exec(void);
 void ft_lstprint(t_list *lst);
 void	ft_pipe();
 int	make_redir(int i, int pfd[], int *p_out);
+void	ft_echo(char **cmd);
+void	ft_export(char **arg);
+void	ft_unset(char **arg);
 
 #endif

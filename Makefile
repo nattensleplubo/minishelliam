@@ -69,8 +69,7 @@ SRCS        :=      libft/ft_strnstr.c \
 						  src/token.c \
 						  src/pipe.c \
 						  src/redirection.c \
-                          
-                          src/cd.c \
+						  src/cd.c \
 						  src/echo.c \
 						  src/env.c \
 						  src/export.c\
@@ -93,7 +92,7 @@ GREEN		:= \033[1;32m
 YELLOW		:= \033[1;33m
 BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
-RM		    := rm -f
+RM			:= rm -f
 
 ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."

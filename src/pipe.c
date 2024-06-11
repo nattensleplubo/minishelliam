@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/11 17:17:02 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/11 17:36:41 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,40 @@ int	ft_strcmp(const char *str1, const char *str2)
     return *(unsigned char *)str1 - *(unsigned char *)str2;
 }
 
-int	ft_builtins(char **prompt)
+int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executing
 {
-	if (ft_strcmp(prompt[0], "pwd") == 0)
-	{}
-	else if (ft_strcmp(prompt[0], "echo") == 0)
-	{}
-	else if (ft_strcmp(prompt[0], "env") == 0)
-	{}
-	else if (ft_strcmp(prompt[0], "export") == 0)
-	{}
-	else if (ft_strcmp(prompt[0], "unset") == 0)
-	{}
-	else if (ft_strcmp(prompt[0], "cd") == 0)
-	{}
+	if (ft_strcmp(prompt[0], "pwd") == 0) {
+		if (exec == 1)
+			ft_pwd();
+		return (1);
+	}
+	else if (ft_strcmp(prompt[0], "echo") == 0) {
+		if (exec == 1)
+			ft_echo(prompt);
+		return (1);
+	}
+	else if (ft_strcmp(prompt[0], "env") == 0) {
+		if (exec == 1)
+			print_tab(_ms(0)->env);
+		return (1);
+	}
+	else if (ft_strcmp(prompt[0], "export") == 0) {
+		if (exec == 1)
+			ft_export(prompt);
+		return (1);
+	}
+	else if (ft_strcmp(prompt[0], "unset") == 0) {
+		if (exec == 1)
+			ft_unset(prompt);
+		return (1);
+	}
+	else if (ft_strcmp(prompt[0], "cd") == 0) {
+		if (exec == 1)
+			ft_cd(*prompt);
+		return (1);
+	}
 	else
 		return (0);
-	return (1);
 }
 int	ft_search(char **prompt, char **path)
 {
@@ -84,20 +101,20 @@ void	ft_exec(char **prompt, int i)
 	if (checkifpath(prompt[0]) == 1)
 	{
 		if (access(prompt[0], X_OK) == 0)
-		{
 			execve(prompt[0], prompt, _ms(0)->env);
-		}
 		else
 		{}
 	}
 	else
 	{
-		if(ft_builtins(prompt) == 0)
+		if (ft_builtins(prompt, 0) == 0)
 		{
 			path = ft_split(get_value_of_varname("PATH"), ':');
 			ft_search(prompt, path);
 			free(path);
 		}
+		else
+			ft_builtins(prompt, 1);
 
 	}
 }

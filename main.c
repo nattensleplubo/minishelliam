@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/10 12:34:20 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/10 14:21:51 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_lstprint(t_list *lst)
 {
 	t_list	*temp;
 
-	printf("TOKENIZED PROMPT :\n");
+	printf("\033[0;33mTOKENIZED PROMPT :\n");
 	if (lst == NULL)
 		return ;
 	temp = lst;
@@ -42,7 +42,7 @@ void	ft_lstprint(t_list *lst)
 		printf("TOKEN[%s]\t|\tCONTENT[%s]\n", ((t_quote *)temp->content)->token,
 			((t_quote *)temp->content)->str);
 	}
-	printf("----------------------------------------------\n");
+	printf("----------------------------------------------\033[0m\n");
 }
 
 void	init_ms(void) // Initialize all values to some default ones at the
@@ -64,7 +64,7 @@ void	ft_bash(void)
 		// ft_lstprint(_ms(0)->tokenized_prompt);
 		// printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
 		delete_quotes();
-		print_tab(_ms(0)->splitted_prompt);
+		// print_tab(_ms(0)->splitted_prompt);
 		exec();
 		ft_pipe();
 	}

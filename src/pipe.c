@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/07 18:56:53 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:17:02 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <time.h>
 
 int	checkifpath(char *str)
 {
@@ -75,8 +76,9 @@ int	ft_search(char **prompt, char **path)
 	return (0);
 }
 
-void	ft_exec(char **prompt)
+void	ft_exec(char **prompt, int i)
 {
+	(void)i;
 	char	**path;
 	
 	if (checkifpath(prompt[0]) == 1)
@@ -100,16 +102,17 @@ void	ft_exec(char **prompt)
 	}
 }
 
-void	ft_last(char **prompt, int p_out)
+void	ft_last(char **prompt, int p_out, int i)
 {
 	pid_t	childrenpid;
 
 	childrenpid = fork();
 	if (childrenpid == 0) // if we are in the children process
 	{
+		make_redir(i, NULL, &p_out);
 		dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 		close(p_out);
-		ft_exec(prompt);
+		ft_exec(prompt, i);
 		exit(0);
 	}
 	else //if we are in the parent process
@@ -120,7 +123,7 @@ void	ft_last(char **prompt, int p_out)
 	}
 }
 
-void	ft_pipe2(char **prompt, int *p_out)
+void	ft_pipe2(char **prompt, int *p_out, int i)
 {
 	int		pfd[2];
 	pid_t	childrenpid;
@@ -129,12 +132,13 @@ void	ft_pipe2(char **prompt, int *p_out)
 	childrenpid = fork();
 	if (childrenpid == 0) // if we are in the children process
 	{
+		make_redir(i, pfd, p_out);
 		close(pfd[0]); // close the output of the pipe in the children proces
 		dup2(pfd[1], STDOUT_FILENO); //replace the standart ouput of the command by the input of the pipe
 		close(pfd[1]);
 		dup2(*p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 		close(*p_out);
-		ft_exec(prompt);
+		ft_exec(prompt, i);
 		exit(0);
 	}
 	else //if we are in the parent process
@@ -158,11 +162,11 @@ void	ft_pipe()
 	{
 		if (cmd[i] && cmd[i + 1] != NULL)
 		{
-			ft_pipe2 (cmd[i], &prevpipe);
+			ft_pipe2 (cmd[i], &prevpipe, i);
 		}
 		else if (cmd[i] && cmd[i + 1] == NULL)
 		{
-			ft_last (cmd[i], prevpipe);
+			ft_last (cmd[i], prevpipe, i);
 		}
 		i++;
 	}

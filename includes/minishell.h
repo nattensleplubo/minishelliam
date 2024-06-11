@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 typedef struct s_minishell {
   char *prompt;
@@ -47,5 +50,6 @@ void fill_list(void);
 void exec(void);
 void ft_lstprint(t_list *lst);
 void	ft_pipe();
+int	make_redir(int i, int pfd[], int *p_out);
 
 #endif

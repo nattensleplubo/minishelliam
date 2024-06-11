@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/28 18:50:18 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:16:17 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	post_pipe(char *s, t_list **lst)
 	((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
 	if (!((t_quote *)(*lst)->content)->token)
 	{}
-	printf("bruh\n");
 	if (s[0] == '|')
 		ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
 	else if (s[0] == '<' || s[0] == '>')

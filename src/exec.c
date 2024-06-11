@@ -71,7 +71,6 @@ char	***make_commands_tab(void)
 	ints[1] = 0;
 	ints[4] = -1;
 	ints[0] = get_number_of_commands();
-	printf("There is %d commands\n", ints[0]);
 	ret = (char ***)ft_calloc(sizeof(char **), (ints[0] + 1));
 	ret[ints[0]] = NULL;
 	while (temp && ints[4] < ints[0])
@@ -81,7 +80,6 @@ char	***make_commands_tab(void)
 			ints[4]++;
 			ints[3] = 1;
 			ints[2] = get_number_of_args(ints[1]);
-			printf("There is %d args\n", ints[2]);
 			ret[ints[1]] = malloc(sizeof(char *) * (ints[2] + 2));
 			ret[ints[1]][ints[2] + 1] = NULL;
 			ret[ints[1]][0]
@@ -106,22 +104,7 @@ char	***make_commands_tab(void)
 
 void	exec(void)
 {
-	int		i;
-	int		j;
-	char	***test;
-
 	fill_list();
-	ft_lstprint(_ms(0)->tokenized_prompt);
+	// ft_lstprint(_ms(0)->tokenized_prompt);
 	_ms(0)->commands = make_commands_tab();
-	test = _ms(0)->commands;
-	i = 0;
-	j = 0;
-	while (test[i] != NULL)
-		i++;
-	while (j < i)
-	{
-		print_tab(test[j]);
-		j++;
-		printf("-----\n");
-	}
 }

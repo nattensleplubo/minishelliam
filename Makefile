@@ -68,6 +68,7 @@ SRCS        :=      libft/ft_strnstr.c \
 						  src/signal.c \
 						  src/token.c \
 						  src/pipe.c \
+						  src/redirection.c \
                           
 OBJS        := $(SRCS:.c=.o)
 

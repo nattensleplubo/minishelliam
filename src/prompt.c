@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/03/27 12:20:37 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:49:30 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int read_line(void) {
   path = NULL;
   path = getcwd(NULL, 2048);
   line = ft_strjoin(path, " $ ");
+  line = ft_strjoin("\033[0;36m", line);
+  line = ft_strjoin(line, "\e[0m");
   if (_ms(0)->prompt)
     free(_ms(0)->prompt);
   _ms(0)->prompt = readline(line);

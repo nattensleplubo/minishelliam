@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/11 17:36:41 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/11 18:01:04 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 	else if (ft_strcmp(prompt[0], "export") == 0) {
 		if (exec == 1)
 			ft_export(prompt);
-		return (1);
+		return (2);
 	}
 	else if (ft_strcmp(prompt[0], "unset") == 0) {
 		if (exec == 1)
 			ft_unset(prompt);
-		return (1);
+		return (2);
 	}
 	else if (ft_strcmp(prompt[0], "cd") == 0) {
 		if (exec == 1)
-			ft_cd(*prompt);
-		return (1);
+			ft_cd(prompt[1]);
+		return (2);
 	}
 	else
 		return (0);
@@ -123,17 +123,25 @@ void	ft_last(char **prompt, int p_out, int i)
 {
 	pid_t	childrenpid;
 
-	childrenpid = fork();
-	if (childrenpid == 0) // if we are in the children process
-	{
-		make_redir(i, NULL, &p_out);
-		dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
-		close(p_out);
-		ft_exec(prompt, i);
-		exit(0);
+	if (ft_builtins(prompt, 0) != 2) {
+		childrenpid = fork();
+		if (childrenpid == 0) // if we are in the children process
+		{
+			make_redir(i, NULL, &p_out);
+			dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
+			close(p_out);
+			ft_exec(prompt, i);
+			exit(0);
+		}
+		else //if we are in the parent process
+		{
+			close(p_out);
+			while (wait (NULL) != -1)
+				;
+		}
 	}
-	else //if we are in the parent process
-	{
+	else {
+		ft_builtins(prompt, 1);
 		close(p_out);
 		while (wait (NULL) != -1)
 			;

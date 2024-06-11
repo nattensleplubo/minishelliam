@@ -70,6 +70,13 @@ SRCS        :=      libft/ft_strnstr.c \
 						  src/pipe.c \
 						  src/redirection.c \
                           
+                          src/cd.c \
+						  src/echo.c \
+						  src/env.c \
+						  src/export.c\
+						  src/pwd.c\
+						  src/unset.c\
+
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:

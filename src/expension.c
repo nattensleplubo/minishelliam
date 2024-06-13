@@ -13,6 +13,8 @@ int get_size_of_var(int j, int blind)
 	int size;
 
 	size = 0;
+	if (_ms(0)->prompt[j] == '?')
+		return (1);
 	while (_ms(0)->prompt[j])
 	{
 		if (ft_isalnum(_ms(0)->prompt[j]) != 1 && _ms(0)->prompt[j] != '$')
@@ -74,6 +76,8 @@ char *is_there_env_to_expand(int *index)
 		if (_ms(0)->prompt[i] == '$')
 		{
 			*index = i;
+			if (_ms(0)->prompt[i + 1] == '?')
+				return (ft_strdup("?"));
 			j = get_size_of_var(i, blind);
 			ret = calloc(sizeof(char), j + 1);
 			j = i;
@@ -120,7 +124,10 @@ char	*insert_value(char *to_expand, int index)
 	i = 0;
 	j = 0;
 	x = 0;
-	value = get_value_of_varname(to_expand + 1);
+	if (to_expand[0] == '?')
+		value = ft_itoa(errno);
+	else
+		value = get_value_of_varname(to_expand + 1);
 	if (!value)
 		value = ft_strdup("");
 	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) + ft_strlen(value) + 2));

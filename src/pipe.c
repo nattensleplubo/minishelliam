@@ -6,11 +6,12 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/11 18:30:45 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/13 18:42:48 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
 #include <time.h>
 
 int	checkifpath(char *str)
@@ -74,6 +75,7 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 	else
 		return (0);
 }
+
 int	ft_search(char **prompt, char **path)
 {
 	int i;
@@ -88,10 +90,14 @@ int	ft_search(char **prompt, char **path)
 		if (access(full_path, X_OK) == 0)
 		{
 			execve(full_path, prompt, _ms(0)->env);
+			g_err = errno;
 			free(full_path);
 			free(cmd);
+			exit(-1);
 			return(1);
 		}
+		else
+			errno = 127;
 		i++;
 	}
 	free(cmd);
@@ -105,10 +111,13 @@ void	ft_exec(char **prompt, int i)
 	
 	if (checkifpath(prompt[0]) == 1)
 	{
-		if (access(prompt[0], X_OK) == 0)
+		if (access(prompt[0], X_OK) == 0) {
 			execve(prompt[0], prompt, _ms(0)->env);
+			g_err = errno;
+			exit(-1);
+		}
 		else
-		{}
+			exit(-1);
 	}
 	else
 	{
@@ -136,12 +145,12 @@ void	ft_last(char **prompt, int p_out, int i)
 			dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 			close(p_out);
 			ft_exec(prompt, i);
-			exit(0);
+			exit(errno);
 		}
 		else //if we are in the parent process
 		{
 			close(p_out);
-			while (wait (NULL) != -1)
+			while (wait (&_ms(0)->errnum) != -1)
 				;
 		}
 	}
@@ -169,7 +178,7 @@ void	ft_pipe2(char **prompt, int *p_out, int i)
 		dup2(*p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 		close(*p_out);
 		ft_exec(prompt, i);
-		exit(0);
+		exit(666);
 	}
 	else //if we are in the parent process
 	{
@@ -200,5 +209,6 @@ void	ft_pipe()
 		}
 		i++;
 	}
+	printf("errno : %d\n",WEXITSTATUS( _ms(0)->errnum));
 }
 	

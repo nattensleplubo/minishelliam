@@ -1,15 +1,44 @@
 #include "../includes/minishell.h"
 #include <fcntl.h>
+#include <readline/readline.h>
 #include <unistd.h>
 
+void	heredoc_loop(char *str, int fd)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (i == 0)
+	{
+		tmp = readline("> ");
+		if (!tmp)
+		{
+			printf("WARNING\n");
+			break ;
+		}
+		if (ft_strcmp(tmp, str) == 0)
+			i++;
+		else
+		{
+			write(fd, tmp, ft_strlen(tmp));
+			write(fd, "\n", 1);
+		}
+	}
+}
 
 int make_heredoc(char *str) {
-	(void)str;
-	char	*path;
-
-	path = getcwd(NULL, 2048);
-	int fd = open(path , O_RDWR | __O_TMPFILE);
-	free(path);
+	int pid;
+	int fd = open("/tmp" , O_RDWR | __O_TMPFILE, 0644);
+	printf("%d\n", fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		heredoc_loop(str, fd);
+		exit (0);
+	}
+	while (waitpid(pid, NULL, 0) != -1)
+		;
 	return fd;
 }
 
@@ -32,9 +61,9 @@ int	make_redir(int i, int pfd[], int *p_out) {
 	}
 	while (temp && ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) != 0) {
 		if (ft_strncmp("SIMPLE_>", ((t_quote *)temp->content)->token, 8) == 0) {
-			fd_o = open(((t_quote *)temp->next->content)->str, O_CREAT | O_TRUNC | O_RDWR, 0777);
+			fd_o = open(((t_quote *)temp->next->content)->str, O_CREAT | O_TRUNC | O_RDWR, 0644);
 		} else if (ft_strncmp("DOUBLE_>", ((t_quote *)temp->content)->token, 8) == 0) {
-			fd_o = (close(fd_o), open(((t_quote *)temp->next->content)->str, O_CREAT | O_APPEND | O_WRONLY));
+			fd_o = (close(fd_o), open(((t_quote *)temp->next->content)->str, O_CREAT | O_APPEND | O_WRONLY, 0644));
 		} else if (ft_strncmp("SIMPLE_<", ((t_quote *)temp->content)->token, 8) == 0) {
 			fd_i = (close(fd_i), open(((t_quote *)temp->next->content)->str, O_RDONLY));
 		} else if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0) {

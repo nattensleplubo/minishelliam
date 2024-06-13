@@ -6,11 +6,13 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/11 19:22:39 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/13 17:55:44 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
+
+int	g_err = 0;
 
 t_minishell	*_ms(int params) // Global function 1 to print it's values. 0 To do nothing
 {
@@ -51,11 +53,11 @@ void	init_ms(void) // Initialize all values to some default ones at the
 	_ms(0)->splitted_prompt = NULL;
 	_ms(0)->env = NULL;
 	_ms(0)->tokenized_prompt = NULL;
+	_ms(0)->errnum = 0;
 }
 
 void	ft_bash(void)
 {
-	errno = 0;
 	if (read_line())
 	{
 		expend_env_vars();
@@ -85,11 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	sigaction(SIGQUIT, &s, NULL);
 	init_ms();
 	init_env(envp);
-	ft_export((char *[]){
-        "?=",
-        "0",
-        NULL  // NULL-terminated array of char*
-    });
+	errno = 42;
 	while (9)
 		ft_bash();
 }

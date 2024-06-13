@@ -22,6 +22,7 @@ typedef struct s_minishell {
   char **env;
   char ***commands;
   t_list *tokenized_prompt;
+  int	errnum;
 } t_minishell;
 
 typedef struct s_quote {
@@ -29,6 +30,8 @@ typedef struct s_quote {
   char *token;
   int id;
 } t_quote;
+
+extern int g_err;
 
 // PROTOS
 t_minishell *_ms(int params);
@@ -55,5 +58,6 @@ int	make_redir(int i, int pfd[], int *p_out);
 void	ft_echo(char **cmd);
 void	ft_export(char **arg);
 void	ft_unset(char **arg);
+int	ft_strcmp(const char *str1, const char *str2);
 
 #endif

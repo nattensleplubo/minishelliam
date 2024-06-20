@@ -66,5 +66,6 @@ void	ft_echo(char **cmd);
 void	ft_export(char **arg);
 void	ft_unset(char **arg);
 int	ft_strcmp(const char *str1, const char *str2);
+void free_content(void *content);
 
 #endif

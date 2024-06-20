@@ -1,3 +1,9 @@
+#ifndef O_TMPFILE
+	#define _O_TMPFILE 020000000
+	#define O_TMPFILE (_O_TMPFILE | O_DIRECTORY)
+	#define O_TMPFILE_MASK (_O_TMPFILE | O_DIRECTORY | O_CREAT)
+#endif
+
 #ifndef MINISHELL_H
 
 #define MINISHELL_H
@@ -14,6 +20,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+
 
 typedef struct s_minishell {
   char *prompt;

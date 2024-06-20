@@ -6,11 +6,13 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/13 18:42:48 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/20 15:25:44 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <fcntl.h>
+#include <readline/readline.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -188,6 +190,53 @@ void	ft_pipe2(char **prompt, int *p_out, int i)
 	}
 }
 
+void	heredoc_loop(char *limiter, int i)
+{
+	char	*filename;
+	int		fd;
+	char	*index;
+	char	*line;
+
+	index = ft_itoa(i);
+	filename = ft_strjoin("/tmp/", index);
+	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	while (143)
+	{
+		line = readline("> ");
+		if (!line)
+			break;
+		if (ft_strcmp(line, limiter) == 0)
+			break;
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
+		free(line);
+	}
+	if (!line)
+		free(line);
+	(free(filename), free(index), close(fd));
+}
+
+void	write_heredocs(int i)
+{
+	t_list *temp;
+	int x;
+
+	temp = _ms(0)->tokenized_prompt;
+	temp = _ms(0)->tokenized_prompt;
+  	x = -1;
+	
+	while (x != i) {
+		if (ft_strncmp("cmd", ((t_quote *)temp->content)->token, 3) == 0)
+			x++;
+		temp = temp->next;
+	}
+	while (temp && ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) != 0) {
+		if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0)
+			heredoc_loop(((t_quote *)temp->next->content)->str, i);
+		temp = temp->next;
+	}
+}
+
 void	ft_pipe()
 {
 	int		prevpipe;
@@ -201,14 +250,16 @@ void	ft_pipe()
 	{
 		if (cmd[i] && cmd[i + 1] != NULL)
 		{
+			write_heredocs(i);
 			ft_pipe2 (cmd[i], &prevpipe, i);
 		}
 		else if (cmd[i] && cmd[i + 1] == NULL)
 		{
+			write_heredocs(i);
 			ft_last (cmd[i], prevpipe, i);
 		}
 		i++;
 	}
-	printf("errno : %d\n",WEXITSTATUS( _ms(0)->errnum));
+	// printf("errno : %d\n", WEXITSTATUS( _ms(0)->errnum));
 }
 	

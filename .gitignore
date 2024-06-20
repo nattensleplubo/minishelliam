@@ -2,3 +2,4 @@
 minishell
 .vscode
 valgrind-out.txt
+heredocs.cool.c

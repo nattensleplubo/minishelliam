@@ -12,7 +12,7 @@ void	fill_list(void)
 	while (i < size)
 	{
 		((t_quote *)temp->content)->str
-			= ft_calloc(sizeof(char), ft_strlen(_ms(0)->splitted_prompt[i]));
+			= ft_calloc(sizeof(char), (ft_strlen(_ms(0)->splitted_prompt[i])) + 1);
 		ft_strlcpy(((t_quote *)temp->content)->str, _ms(0)->splitted_prompt[i],
 			ft_strlen(_ms(0)->splitted_prompt[i]) + 1);
 	i++;
@@ -83,8 +83,8 @@ char	***make_commands_tab(void)
 			ret[ints[1]] = malloc(sizeof(char *) * (ints[2] + 2));
 			ret[ints[1]][ints[2] + 1] = NULL;
 			ret[ints[1]][0]
-				= ft_calloc(sizeof(char), ft_strlen
-					(((t_quote *)temp->content)->str));
+				= ft_calloc(sizeof(char), (ft_strlen
+					(((t_quote *)temp->content)->str) + 1));
 			ft_strlcpy(ret[ints[1]][0], ((t_quote *)temp->content)->str,
 				ft_strlen(((t_quote *)temp->content)->str) + 1);
 			ints[1]++;
@@ -92,7 +92,7 @@ char	***make_commands_tab(void)
 		if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3) == 0)
 		{
 			ret[ints[4]][ints[3]]
-				= ft_calloc(sizeof(char), ft_strlen(((t_quote *)temp->content)->str));
+				= ft_calloc(sizeof(char), (ft_strlen(((t_quote *)temp->content)->str) + 1));
 			ft_strlcpy(ret[ints[4]][ints[3]], ((t_quote *)temp->content)->str,
 				ft_strlen(((t_quote *)temp->content)->str) + 1);
 			ints[3]++;
@@ -104,7 +104,25 @@ char	***make_commands_tab(void)
 
 void	exec(void)
 {
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	if (_ms(0)->commands)
+	{	
+		while(_ms(0)->commands[i])
+		{
+			
+			while(_ms(0)->commands[i][j])
+			{
+				free(_ms(0)->commands[i][j++]);
+			}
+			free(_ms(0)->commands[i++]);
+		}
+		free(_ms(0)->commands);
+	}
 	fill_list();
-	// ft_lstprint(_ms(0)->tokenized_prompt);
+	//ft_lstprint(_ms(0)->tokenized_prompt);
 	_ms(0)->commands = make_commands_tab();
 }

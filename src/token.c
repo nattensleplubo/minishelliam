@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/19 20:54:13 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:01:30 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ void	add_token(t_list **lst,int size)
 			{}
 			if (i[1] == 0 && !is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
 			{
-				ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 3);
+				ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
 				i[1]++;
 			}
 			else if (is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
 				i[1] = is_redirection_or_pipe(lst, i[0], i[1]);
 			else
-				ft_strlcpy(((t_quote *)(*lst)->content)->token, "arg", 3);
+				ft_strlcpy(((t_quote *)(*lst)->content)->token, "arg", 4);
 		}
 		lst = (i[0]++, &(*lst)->next);
 	}

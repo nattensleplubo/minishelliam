@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/19 20:29:59 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:01:15 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int read_line(void) {
   _ms(0)->prompt = readline(line);
   if (!_ms(0)->prompt) 
   {
+	free(path);
+	free(line);
     rl_clear_history();
     printf("exit\n");
     ft_exit("CTRL - D");

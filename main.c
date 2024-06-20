@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/20 15:23:08 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/20 18:00:34 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,27 @@ void	init_ms(void) // Initialize all values to some default ones at the
 	_ms(0)->splitted_prompt = NULL;
 	_ms(0)->env = NULL;
 	_ms(0)->tokenized_prompt = NULL;
+	_ms(0)->commands = NULL;
 	_ms(0)->errnum = 0;
 }
 
 void	ft_bash(void)
 {
+	int	i;
+
+	i = 0;
 	if (read_line())
 	{
 		expend_env_vars();
+		if (_ms(0)->splitted_prompt)
+		{
+			while (_ms(0)->splitted_prompt[i])
+				free(_ms(0)->splitted_prompt[i++]);
+			free(_ms(0)->splitted_prompt);
+		}
 		_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
 		// print_tab(_ms(0)->splitted_prompt);
 		ft_token();
-		// ft_lstprint(_ms(0)->tokenized_prompt);
 		// printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
 		delete_quotes();
 		// print_tab(_ms(0)->splitted_prompt);

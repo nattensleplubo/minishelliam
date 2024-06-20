@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:37:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/19 20:51:08 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:00:44 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,24 @@ void	ft_exit(char *reason)
 	i = 0;
 	if (_ms(0)->commands)
 	{	
-		while(_ms(0)->commands[i])
+		while (_ms(0)->commands[i])
 		{
-			
-			while(_ms(0)->commands[i][j])
-			{
+			while (_ms(0)->commands[i][j])
 				free(_ms(0)->commands[i][j++]);
-			}
 			free(_ms(0)->commands[i++]);
 		}
 		free(_ms(0)->commands);
 	}
+	i = 0;
+	if (_ms(0)->env)
+	{
+		while (_ms(0)->env[i])
+			free(_ms(0)->env[i++]);
+		free(_ms(0)->env);
+	}
 	if (_ms(0)->tokenized_prompt)
 		ft_lstclear(&_ms(0)->tokenized_prompt, free_content);
+	free(_ms(0));
 	printf("%s", reason);
 	exit (errno);
 }

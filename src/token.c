@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/10 14:16:17 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:54:13 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,14 @@ void	add_token(t_list **lst,int size)
 			if (!((t_quote *)(*lst)->content)->token)
 			{}
 			if (i[1] == 0 && !is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
-				((t_quote *)(*lst)->content)->token = (i[1]++, "cmd\0");
+			{
+				ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 3);
+				i[1]++;
+			}
 			else if (is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
 				i[1] = is_redirection_or_pipe(lst, i[0], i[1]);
 			else
-				((t_quote *)(*lst)->content)->token = "arg\0";
+				ft_strlcpy(((t_quote *)(*lst)->content)->token, "arg", 3);
 		}
 		lst = (i[0]++, &(*lst)->next);
 	}
@@ -92,7 +95,8 @@ t_quote *create_struct(char *arg, int i)
 void free_content(void *content)
 {
     t_quote *quote = (t_quote *)content;
-    //free(quote->token);
+	free(quote->token);
+	free(quote->str);
     free(quote);
 }
 

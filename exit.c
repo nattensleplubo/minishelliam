@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:37:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/20 18:00:44 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:41:38 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_exit(char *reason)
 
 	i = 0;
 	j = 0;
+	if (_ms(0)->prompt)
+		free(_ms(0)->prompt);
 	if (_ms(0)->splitted_prompt)
 	{
 		while (_ms(0)->splitted_prompt[i])

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/20 18:00:34 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:24:34 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,37 @@ t_minishell	*_ms(int params) // Global function 1 to print it's values. 0 To do 
 			exit(0);
 	}
 	return (ms);
+}
+
+void	ft_free_prev_prompt(void)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (_ms(0)->splitted_prompt)
+	{
+		while (_ms(0)->splitted_prompt[i])
+			free(_ms(0)->splitted_prompt[i++]);
+		free(_ms(0)->splitted_prompt);
+	}
+	i = 0;
+	if (_ms(0)->commands)
+	{	
+		while (_ms(0)->commands[i])
+		{
+			while (_ms(0)->commands[i][j])
+				free(_ms(0)->commands[i][j++]);
+			free(_ms(0)->commands[i++]);
+		}
+		free(_ms(0)->commands);
+	}
+	i = 0;
+	if (_ms(0)->tokenized_prompt)
+		ft_lstclear(&_ms(0)->tokenized_prompt, free_content);
+	_ms(0)->commands = NULL;
+	_ms(0)->splitted_prompt = NULL;
 }
 
 void	ft_lstprint(t_list *lst)
@@ -59,18 +90,9 @@ void	init_ms(void) // Initialize all values to some default ones at the
 
 void	ft_bash(void)
 {
-	int	i;
-
-	i = 0;
 	if (read_line())
 	{
 		expend_env_vars();
-		if (_ms(0)->splitted_prompt)
-		{
-			while (_ms(0)->splitted_prompt[i])
-				free(_ms(0)->splitted_prompt[i++]);
-			free(_ms(0)->splitted_prompt);
-		}
 		_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
 		// print_tab(_ms(0)->splitted_prompt);
 		ft_token();
@@ -79,6 +101,7 @@ void	ft_bash(void)
 		// print_tab(_ms(0)->splitted_prompt);
 		exec();
 		ft_pipe();
+		ft_free_prev_prompt();
 	}
 }
 

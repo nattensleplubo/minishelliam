@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:11:03 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/10 16:11:17 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:15:47 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	ft_export(char **arg)
 	i[0] = 1;
 	while (arg[i[0]])
 	{
+		if (arg[i[0]][0] == '=' || isdigit(arg[i[0]][0]))
+			return ;
 		i[1] = 0;
 		while (arg[i[0]][i[1]] != '=' && arg[i[0]][i[1]])
 			i[1]++;
@@ -73,9 +75,7 @@ void	ft_export(char **arg)
 		{}
 		ft_strlcpy(env, arg[i[0]], i[1] + 1);
 		i[2] = get_index_of_varname(env);
-		if (arg[i[0]][0] == '=')
-		{} //error
-		else if (i[2] == -1 && arg[i[0]][i[1]] == '=')
+		if (i[2] == -1 && arg[i[0]][i[1]] == '=')
 			addToTab(&_ms(0)->env, arg[i[0]]);
 		else if (i[2] >= 0 && arg[i[0]][i[1]] == '=')
 			changeValue(&_ms(0)->env[i[2]], arg[i[0]]);

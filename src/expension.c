@@ -91,6 +91,30 @@ char *is_there_env_to_expand(int *index)
 	return (NULL);
 }
 
+char *is_there_ret_to_expand(int *index)
+{
+	int i;
+	char *ret;
+
+	i = 0;
+	while (_ms(0)->prompt[i])
+	{
+		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1)
+			skip_single_quote(&i);
+		if (_ms(0)->prompt[i] == '$')
+		{
+			*index = i;
+			if (_ms(0)->prompt[i + 1] == '?')
+			{
+				ret = "$?";
+				return(ret);
+			}
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 char	*delete_var(char *to_expend, int index)
 {
 	char *new;
@@ -124,8 +148,8 @@ char	*insert_value(char *to_expand, int index)
 	i = 0;
 	j = 0;
 	x = 0;
-	if (to_expand[0] == '?')
-		value = ft_itoa(errno);
+	if (to_expand && to_expand[1] == '?')
+		value = ft_itoa(_ms(0)->errnum);
 	else
 		value = get_value_of_varname(to_expand + 1);
 	if (!value)
@@ -143,6 +167,7 @@ char	*insert_value(char *to_expand, int index)
 		x++;
 	}
 	new[x] = '\0';
+	free(_ms(0)->prompt);
 	return (free(value), new);
 }
 
@@ -154,11 +179,21 @@ void expend_env_vars()
 	to_expand = NULL;
 	index = -1;
 	while (1)
+	{
+		to_expand = is_there_ret_to_expand(&index);
+		if (!to_expand)
+			break;
+		_ms(0)->prompt = delete_var(to_expand, index);
+		_ms(0)->prompt = insert_value(to_expand, index);
+	}
+	index = -1;
+	while (1)
 	{	
 		to_expand = is_there_env_to_expand(&index);
 		if (!to_expand)
 			break;
 		_ms(0)->prompt = delete_var(to_expand, index);
 		_ms(0)->prompt = insert_value(to_expand, index);
+		free(to_expand);
 	}
 }

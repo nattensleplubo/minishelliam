@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/20 15:25:44 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/24 20:04:23 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 #include <time.h>
+
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if(tab)
+	{	
+		while(tab[i])
+			free(tab[i++]);
+		free(tab);
+	}
+}
 
 int	checkifpath(char *str)
 {
@@ -95,11 +109,12 @@ int	ft_search(char **prompt, char **path)
 			g_err = errno;
 			free(full_path);
 			free(cmd);
+			free_tab(path);
 			exit(-1);
-			return(1);
 		}
 		else
 			errno = 127;
+		free(full_path);
 		i++;
 	}
 	free(cmd);
@@ -110,6 +125,7 @@ void	ft_exec(char **prompt, int i)
 {
 	(void)i;
 	char	**path;
+	char	*val;
 	
 	if (checkifpath(prompt[0]) == 1)
 	{
@@ -120,14 +136,16 @@ void	ft_exec(char **prompt, int i)
 		}
 		else
 			exit(-1);
-	}
+	}	
 	else
 	{
 		if (ft_builtins(prompt, 0) == 0)
 		{
-			path = ft_split(get_value_of_varname("PATH"), ':');
+			val = get_value_of_varname("PATH");
+			path = ft_split(val, ':');
 			ft_search(prompt, path);
-			free(path);
+			free(val);
+			free_tab(path);
 		}
 		else
 			ft_builtins(prompt, 1);
@@ -147,7 +165,7 @@ void	ft_last(char **prompt, int p_out, int i)
 			dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 			close(p_out);
 			ft_exec(prompt, i);
-			exit(errno);
+			ft_exit("");
 		}
 		else //if we are in the parent process
 		{
@@ -260,6 +278,6 @@ void	ft_pipe()
 		}
 		i++;
 	}
-	// printf("errno : %d\n", WEXITSTATUS( _ms(0)->errnum));
+	_ms(0)->errnum = WEXITSTATUS(_ms(0)->errnum);
 }
 	

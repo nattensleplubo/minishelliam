@@ -6,13 +6,11 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/20 18:01:15 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:16:14 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
 
 char	*ft_stjoin(char *s1, char *s2, int tofree)
 {

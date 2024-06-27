@@ -118,6 +118,7 @@ void	exec(void)
 			{
 				free(_ms(0)->commands[i][j++]);
 			}
+			j = 0;
 			free(_ms(0)->commands[i++]);
 		}
 		free(_ms(0)->commands);

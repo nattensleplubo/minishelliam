@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:37:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 19:41:38 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/26 21:33:50 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_exit(char *reason)
 		{
 			while (_ms(0)->commands[i][j])
 				free(_ms(0)->commands[i][j++]);
+			j = 0;
 			free(_ms(0)->commands[i++]);
 		}
 		free(_ms(0)->commands);

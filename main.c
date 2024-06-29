@@ -114,6 +114,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	s.sa_handler = ft_signal;
+	sigemptyset(&s.sa_mask);  // Initialize the signal mask to empty
+    s.sa_flags = 0;  
 	rl_catch_signals = 0;
 	sigaction(SIGINT, &s, NULL);
 	sigaction(SIGQUIT, &s, NULL);

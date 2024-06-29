@@ -41,7 +41,7 @@ void	ft_cd(char	**dirtogo)
 	if(dirtogo[1])
 	{
 		printf("too many arguments\n");
-		return
+		return ;
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)

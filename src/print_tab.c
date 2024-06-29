@@ -16,7 +16,7 @@ void print_tab(char **tab) {
   i = 0;
   size = tab_size(tab);
   while (i < size) {
-    printf("[%d (%d/%d)]:`%s`\n", i, i + 1, size, tab[i]);
+    printf("%s\n", tab[i]);
     i++;
   }
 }

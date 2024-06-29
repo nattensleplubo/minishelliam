@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 19:16:14 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:38:46 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int read_line(void) {
 	free(line);
     rl_clear_history();
     printf("exit\n");
-    ft_exit("CTRL - D");
+    ft_exit("", (char *[]){ "exit", "666", NULL });
   }
   if (ft_strlen(_ms(0)->prompt) != 0)
     ret_val = (add_history(_ms(0)->prompt), 1);

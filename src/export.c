@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:11:03 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 18:15:47 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/27 19:56:25 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	addToTab(char ***tab, const char *newstring)
 	*tab = newarray;
 }
 
-void	ft_export(char **arg)
+int	ft_export(char **arg)
 {
 	int		i[3];
 	char	*env;
@@ -66,7 +66,7 @@ void	ft_export(char **arg)
 	while (arg[i[0]])
 	{
 		if (arg[i[0]][0] == '=' || isdigit(arg[i[0]][0]))
-			return ;
+			return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 127);
 		i[1] = 0;
 		while (arg[i[0]][i[1]] != '=' && arg[i[0]][i[1]])
 			i[1]++;
@@ -82,4 +82,5 @@ void	ft_export(char **arg)
 		i[0]++;
 		free(env);
 	}
+	return (0);
 }

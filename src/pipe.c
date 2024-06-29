@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 20:04:23 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/29 11:41:32 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,22 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 {
 	if (ft_strcmp(prompt[0], "pwd") == 0) {
 		if (exec == 1)
-			ft_pwd();
+			exit ((ft_pwd(), 0));
 		return (1);
 	}
 	else if (ft_strcmp(prompt[0], "echo") == 0) {
 		if (exec == 1)
-			ft_echo(prompt);
+			exit ((ft_echo(prompt), 0));
 		return (1);
 	}
 	else if (ft_strcmp(prompt[0], "env") == 0) {
 		if (exec == 1)
-			print_tab(_ms(0)->env);
+			exit (((print_tab(_ms(0)->env), 0)));
 		return (1);
 	}
 	else if (ft_strcmp(prompt[0], "export") == 0) {
 		if (exec == 1)
-			ft_export(prompt);
+			return (ft_export(prompt));
 		return (2);
 	}
 	else if (ft_strcmp(prompt[0], "unset") == 0) {
@@ -80,12 +80,12 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 	}
 	else if (ft_strcmp(prompt[0], "cd") == 0) {
 		if (exec == 1)
-			ft_cd(prompt[1]);
+			exit ((ft_cd(prompt[1]), 0)); // Changer pour que ca renvoie la valeur renvoyee par cd quand ca sera fait
 		return (2);
 	}
 	else if (ft_strcmp(prompt[0], "exit") == 0) {
 		if (exec == 1)
-			ft_exit("");
+			ft_exit("", prompt);
 		return (2);
 	}
 	else
@@ -118,6 +118,9 @@ int	ft_search(char **prompt, char **path)
 		i++;
 	}
 	free(cmd);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(prompt[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
 	return (0);
 }
 
@@ -148,7 +151,7 @@ void	ft_exec(char **prompt, int i)
 			free_tab(path);
 		}
 		else
-			ft_builtins(prompt, 1);
+			exit (ft_builtins(prompt, 1));
 
 	}
 }
@@ -165,7 +168,7 @@ void	ft_last(char **prompt, int p_out, int i)
 			dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 			close(p_out);
 			ft_exec(prompt, i);
-			ft_exit("");
+			ft_exit("", (char *[]){ "exit", "666", NULL });
 		}
 		else //if we are in the parent process
 		{
@@ -175,7 +178,8 @@ void	ft_last(char **prompt, int p_out, int i)
 		}
 	}
 	else {
-		ft_builtins(prompt, 1);
+		_ms(0)->errnum = ft_builtins(prompt, 1);
+		// fprintf(stderr, "%d femme de pute de merde\n", WEXITSTATUS( _ms(0)->errnum));
 		close(p_out);
 		while (wait (NULL) != -1)
 			;

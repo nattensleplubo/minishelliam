@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 19:24:34 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:06:20 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	main(int argc, char **argv, char **envp)
 	sigaction(SIGQUIT, &s, NULL);
 	init_ms();
 	init_env(envp);
-	errno = 42;
+	errno = 0;
 	while (9)
 		ft_bash();
 }

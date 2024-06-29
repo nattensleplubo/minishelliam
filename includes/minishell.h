@@ -30,6 +30,7 @@ typedef struct s_minishell {
   char ***commands;
   t_list *tokenized_prompt;
   int	errnum;
+  int	status;
 } t_minishell;
 
 typedef struct s_quote {

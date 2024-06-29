@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/29 11:54:57 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/29 12:11:48 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void	ft_last(char **prompt, int p_out, int i)
 		else //if we are in the parent process
 		{
 			close(p_out);
-			while (wait (&_ms(0)->errnum) != -1)
+			while (wait (&_ms(0)->status) != -1)
 				;
 		}
 	}
@@ -181,7 +181,7 @@ void	ft_last(char **prompt, int p_out, int i)
 		_ms(0)->errnum = ft_builtins(prompt, 1);
 		// fprintf(stderr, "%d femme de pute de merde\n", WEXITSTATUS( _ms(0)->errnum));
 		close(p_out);
-		while (wait (NULL) != -1)
+		while (wait (&_ms(0)->status) != -1)
 			;
 	}
 }
@@ -279,6 +279,7 @@ void	ft_pipe()
 			ft_last (cmd[i], prevpipe, i);
 		i++;
 	}
-	_ms(0)->errnum = WEXITSTATUS(_ms(0)->errnum);
+	// if (ft_builtins(cmd[i - 1], 0) != 2 )
+	if (WIFEXITED(_ms(0)->status))
+		_ms(0)->errnum = WEXITSTATUS(_ms(0)->status);
 }
-	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:02:40 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/10 16:12:13 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:06:46 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ void	ft_unset(char **arg)
 			deletefromtab(&_ms(0)->env, index);
 		i++;
 	}
+	_ms(0)->errnum = 0;
 }

@@ -60,7 +60,7 @@ int	should_be_skipped(int i)
 	return (0);
 }
 
-char *is_there_env_to_expand(int *index)
+char *is_there_ret_to_expand(int *index)
 {
 	int i;
 	int j;
@@ -69,32 +69,6 @@ char *is_there_env_to_expand(int *index)
 
 	i = 0;
 	blind = 0;
-	while (_ms(0)->prompt[i])
-	{
-		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1)
-			skip_single_quote(&i);
-		if (_ms(0)->prompt[i] == '$' && _ms(0)->prompt[i + 1] && _ms(0)->prompt[i + 1] != ' ')
-		{
-			*index = i;
-			j = get_size_of_var(i, blind);
-			ret = calloc(sizeof(char), j + 1);
-			j = i;
-			while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0) || _ms(0)->prompt[j] == '$')
-				ret[blind++] = _ms(0)->prompt[j++];
-			ret[blind] = '\0';
-			return (ret);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-char *is_there_ret_to_expand(int *index)
-{
-	int i;
-	char *ret;
-
-	i = 0;
 	while (_ms(0)->prompt[i])
 	{
 		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1)
@@ -165,7 +139,6 @@ char	*insert_value(char *to_expand, int index)
 		x++;
 	}
 	new[x] = '\0';
-	free(_ms(0)->prompt);
 	return (free(value), new);
 }
 
@@ -192,6 +165,5 @@ void expend_env_vars()
 			break;
 		_ms(0)->prompt = delete_var(to_expand, index);
 		_ms(0)->prompt = insert_value(to_expand, index);
-		free(to_expand);
 	}
 }

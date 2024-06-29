@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:11:03 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 18:15:47 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/29 14:21:29 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	addToTab(char ***tab, const char *newstring)
 
 	i = 0;
 	size = 0;
-	while ((*tab)[size] != NULL)
 		size++;
 	newarray = malloc((size + 2) * sizeof(char *));
 	if (newarray == NULL)
@@ -61,12 +60,15 @@ void	ft_export(char **arg)
 {
 	int		i[3];
 	char	*env;
-
+trepo;pppwqpz
 	i[0] = 1;
 	while (arg[i[0]])
 	{
 		if (arg[i[0]][0] == '=' || isdigit(arg[i[0]][0]))
+		{
+			printf("export : '%s': not a valid identifier\n", arg[i[0]]);
 			return ;
+		}
 		i[1] = 0;
 		while (arg[i[0]][i[1]] != '=' && arg[i[0]][i[1]])
 			i[1]++;

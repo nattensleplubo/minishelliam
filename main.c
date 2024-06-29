@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 19:24:34 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:02:58 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	s.sa_handler = ft_signal;
+	sigemptyset(&s.sa_mask);  // Initialize the signal mask to empty
+    s.sa_flags = 0;  
 	rl_catch_signals = 0;
 	sigaction(SIGINT, &s, NULL);
 	sigaction(SIGQUIT, &s, NULL);

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/24 20:04:23 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/27 18:20:48 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,9 @@ void	ft_exec(char **prompt, int i)
 			free_tab(path);
 		}
 		else
+		{
 			ft_builtins(prompt, 1);
+		}
 
 	}
 }
@@ -198,7 +200,7 @@ void	ft_pipe2(char **prompt, int *p_out, int i)
 		dup2(*p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 		close(*p_out);
 		ft_exec(prompt, i);
-		exit(666);
+		ft_exit("");
 	}
 	else //if we are in the parent process
 	{

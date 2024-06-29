@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:11:27 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/12 16:24:33 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:53:04 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,26 @@ void	ft_changeenv(char *o_cwd)
 	free(n_owd);
 }
 
-void	ft_cd(char	*dirtogo)
+void	ft_cd(char	**dirtogo)
 {
 
 	char	*cwd;
 
+	if(dirtogo[1])
+	{
+		printf("too many arguments\n");
+		return
+	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{}
-	if (dirtogo == NULL)
+	if (dirtogo[0] == NULL)
 		chdir("/home/");
 	else
 	{
-		if (chdir(dirtogo) == -1)
+		if (chdir(dirtogo[0]) == -1)
 		{
-			printf("%s : no such file or directory\n", dirtogo);
+			printf("%s : no such file or directory\n", dirtogo[0]);
 			free(cwd);
 			return ;
 		}

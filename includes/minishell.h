@@ -47,7 +47,7 @@ int read_line(void);
 char **prompt_splitter(char const *s);
 void print_tab(char **tab);
 int tab_size(char **tab);
-void ft_cd(char *dirtogo);
+void ft_cd(char **dirtogo);
 void ft_pwd(void);
 int ft_exit(char *reason, char **prompt);
 void init_env(char **env);

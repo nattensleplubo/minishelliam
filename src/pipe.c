@@ -80,7 +80,7 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 	}
 	else if (ft_strcmp(prompt[0], "cd") == 0) {
 		if (exec == 1)
-			exit ((ft_cd(prompt[1]), 0)); // Changer pour que ca renvoie la valeur renvoyee par cd quand ca sera fait
+			ft_cd(prompt + 1); // Changer pour que ca renvoie la valeur renvoyee par cd quand ca sera fait
 		return (2);
 	}
 	else if (ft_strcmp(prompt[0], "exit") == 0) {

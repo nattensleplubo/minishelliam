@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/29 11:41:32 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/06/29 11:54:57 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,22 +264,19 @@ void	ft_pipe()
 	int		prevpipe;
 	int		i;
 	char	***cmd;
+	int j = 0;
 
 	cmd = _ms(0)->commands;
+	while (cmd[j])
+		write_heredocs(j++);
 	i = 0;
 	prevpipe = dup (0);
 	while (cmd[i])
 	{
 		if (cmd[i] && cmd[i + 1] != NULL)
-		{
-			write_heredocs(i);
 			ft_pipe2 (cmd[i], &prevpipe, i);
-		}
 		else if (cmd[i] && cmd[i + 1] == NULL)
-		{
-			write_heredocs(i);
 			ft_last (cmd[i], prevpipe, i);
-		}
 		i++;
 	}
 	_ms(0)->errnum = WEXITSTATUS(_ms(0)->errnum);

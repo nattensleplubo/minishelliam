@@ -37,17 +37,18 @@ int	ft_exit(char *reason, char **prompt)
 
 	i = 0;
 	j = 0;
-	if (prompt[2])
+	exit_number = 0;
+	if (prompt[1] && prompt[2])
 	{
 		ft_putstr_fd(" too many arguments\n", 2);
 		exit_number = 1;
 	}
-	else if (!string_is_num(prompt[1]))
+	else if (prompt[1] && !string_is_num(prompt[1]))
 	{
 		ft_putstr_fd(" numeric argument required\n", 2);
 		exit_number = 2;
 	}
-	else
+	else if(prompt[1])
 		exit_number = ft_atoi(prompt[1]);
 	if (_ms(0)->prompt)
 		free(_ms(0)->prompt);

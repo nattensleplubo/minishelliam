@@ -33,15 +33,15 @@ void	ft_changeenv(char *o_cwd)
 	free(n_owd);
 }
 
-void	ft_cd(char	**dirtogo)
+int	ft_cd(char	**dirtogo)
 {
 
 	char	*cwd;
 
-	if(dirtogo[1])
+	if(dirtogo[0] && dirtogo[1] != NULL)
 	{
-		printf("too many arguments\n");
-		return ;
+		ft_putstr_fd(" too many arguments\n", 2);
+		return (1);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
@@ -52,11 +52,12 @@ void	ft_cd(char	**dirtogo)
 	{
 		if (chdir(dirtogo[0]) == -1)
 		{
-			printf("%s : no such file or directory\n", dirtogo[0]);
+			ft_putstr_fd(" No such file or directory\n", 2);
 			free(cwd);
-			return ;
+			return (1) ;
 		}
 	}
 	ft_changeenv(cwd);	
 	free(cwd);
+	return (0);
 }

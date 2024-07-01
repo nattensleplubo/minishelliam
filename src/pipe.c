@@ -55,17 +55,17 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 {
 	if (ft_strcmp(prompt[0], "pwd") == 0) {
 		if (exec == 1)
-			exit ((ft_pwd(), 0));
+			return (ft_pwd());
 		return (1);
 	}
 	else if (ft_strcmp(prompt[0], "echo") == 0) {
 		if (exec == 1)
-			exit ((ft_echo(prompt), 0));
+			return (ft_echo(prompt));
 		return (1);
 	}
 	else if (ft_strcmp(prompt[0], "env") == 0) {
 		if (exec == 1)
-			exit (((print_tab(_ms(0)->env), 0)));
+			print_tab(_ms(0)->env);
 		return (1);
 	}
 	else if (ft_strcmp(prompt[0], "export") == 0) {
@@ -75,17 +75,17 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 	}
 	else if (ft_strcmp(prompt[0], "unset") == 0) {
 		if (exec == 1)
-			ft_unset(prompt);
+			return(ft_unset(prompt));
 		return (2);
 	}
 	else if (ft_strcmp(prompt[0], "cd") == 0) {
 		if (exec == 1)
-			ft_cd(prompt + 1); // Changer pour que ca renvoie la valeur renvoyee par cd quand ca sera fait
+			return (ft_cd(prompt + 1)); // Changer pour que ca renvoie la valeur renvoyee par cd quand ca sera fait
 		return (2);
 	}
 	else if (ft_strcmp(prompt[0], "exit") == 0) {
 		if (exec == 1)
-			ft_exit("", prompt);
+			return(ft_exit("", prompt));
 		return (2);
 	}
 	else
@@ -110,7 +110,7 @@ int	ft_search(char **prompt, char **path)
 			free(full_path);
 			free(cmd);
 			free_tab(path);
-			exit(-1);
+			ft_pexit(-1);
 		}
 		else
 			errno = 127;
@@ -135,10 +135,10 @@ void	ft_exec(char **prompt, int i)
 		if (access(prompt[0], X_OK) == 0) {
 			execve(prompt[0], prompt, _ms(0)->env);
 			g_err = errno;
-			exit(-1);
+			ft_pexit (-1);
 		}
 		else
-			exit(-1);
+			ft_pexit (-1);
 	}	
 	else
 	{
@@ -151,7 +151,7 @@ void	ft_exec(char **prompt, int i)
 			free_tab(path);
 		}
 		else
-			exit (ft_builtins(prompt, 1));
+			ft_pexit (ft_builtins(prompt, 1));
 
 	}
 }
@@ -168,7 +168,7 @@ void	ft_last(char **prompt, int p_out, int i)
 			dup2(p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 			close(p_out);
 			ft_exec(prompt, i);
-			ft_exit("", (char *[]){ "exit", "666", NULL });
+			ft_pexit(666);
 		}
 		else //if we are in the parent process
 		{
@@ -179,7 +179,7 @@ void	ft_last(char **prompt, int p_out, int i)
 	}
 	else {
 		_ms(0)->errnum = ft_builtins(prompt, 1);
-		// fprintf(stderr, "%d femme de pute de merde\n", WEXITSTATUS( _ms(0)->errnum));
+		fprintf(stderr, "%d femme de pute de merde\n", WEXITSTATUS( _ms(0)->errnum));
 		close(p_out);
 		while (wait (&_ms(0)->status) != -1)
 			;
@@ -202,7 +202,7 @@ void	ft_pipe2(char **prompt, int *p_out, int i)
 		dup2(*p_out, STDIN_FILENO); //  replace the standart input of the command by the output of the previous pipe
 		close(*p_out);
 		ft_exec(prompt, i);
-		exit(666);
+		ft_pexit(666);
 	}
 	else //if we are in the parent process
 	{
@@ -279,7 +279,4 @@ void	ft_pipe()
 			ft_last (cmd[i], prevpipe, i);
 		i++;
 	}
-	// if (ft_builtins(cmd[i - 1], 0) != 2 )
-	if (WIFEXITED(_ms(0)->status))
-		_ms(0)->errnum = WEXITSTATUS(_ms(0)->status);
 }

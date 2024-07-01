@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char	*cwd;
 
@@ -26,4 +26,5 @@ void	ft_pwd(void)
 	{
 		//ft_exit("Error getcwd");
 	}
+	return (0);
 }

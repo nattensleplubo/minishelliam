@@ -39,7 +39,7 @@ int	ft_backn(char **cmd)
 	return (backn);
 }
 
-void	ft_echo(char **cmd)
+int	ft_echo(char **cmd)
 {
 	int	backn;
 	int i;
@@ -56,4 +56,5 @@ void	ft_echo(char **cmd)
 	if (backn == 1)
 		write(1, "\n", 1);
 	errno = 0;
+	return (0);
 }

@@ -47,8 +47,8 @@ int read_line(void);
 char **prompt_splitter(char const *s);
 void print_tab(char **tab);
 int tab_size(char **tab);
-void ft_cd(char **dirtogo);
-void ft_pwd(void);
+int ft_cd(char **dirtogo);
+int ft_pwd(void);
 int ft_exit(char *reason, char **prompt);
 void init_env(char **env);
 int get_index_of_varname(char *varname);
@@ -63,10 +63,11 @@ void exec(void);
 void ft_lstprint(t_list *lst);
 void	ft_pipe();
 int	make_redir(int i, int pfd[], int *p_out);
-void	ft_echo(char **cmd);
+int	ft_echo(char **cmd);
 int	ft_export(char **arg);
-void	ft_unset(char **arg);
+int	ft_unset(char **arg);
 int	ft_strcmp(const char *str1, const char *str2);
 void free_content(void *content);
+int	ft_pexit(int exit_number);
 
 #endif

@@ -39,7 +39,7 @@ void	deletefromtab(char ***tab, int index)
 	*tab = newarray;
 }
 
-void	ft_unset(char **arg)
+int	ft_unset(char **arg)
 {
 	int	i;
 	int	index;
@@ -52,5 +52,5 @@ void	ft_unset(char **arg)
 			deletefromtab(&_ms(0)->env, index);
 		i++;
 	}
-	_ms(0)->errnum = 0;
+	return (0);
 }

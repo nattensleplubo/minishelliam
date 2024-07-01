@@ -59,28 +59,38 @@ void	addToTab(char ***tab, const char *newstring)
 
 int	ft_export(char **arg)
 {
-	int		i[3];
+	int		i[4];
 	char	*env;
 
 	i[0] = 1;
+	i[3] = 0;
 	while (arg[i[0]])
 	{
-		if (arg[i[0]][0] == '=' || isdigit(arg[i[0]][0]))
-			return (ft_putstr_fd("minishell: export: not a valid identifier\n", 2), 127);
 		i[1] = 0;
-		while (arg[i[0]][i[1]] != '=' && arg[i[0]][i[1]])
+		while (arg[i[0]][i[1]] && (i[1] == 0 || arg[i[0]][i[1]] != '='))
+		{
+			if(ft_isalnum(arg[i[0]][i[1]]) == 0 || arg[i[0]][0] == '=' || isdigit(arg[i[0]][0]))
+			{
+				i[3] = 1;
+				ft_putstr_fd(" not a valid identifier\n", 2);
+				break;
+			}
 			i[1]++;
-		env = calloc(sizeof(char), i[1] + 1);
-		if (!env)
-		{}
-		ft_strlcpy(env, arg[i[0]], i[1] + 1);
-		i[2] = get_index_of_varname(env);
-		if (i[2] == -1 && arg[i[0]][i[1]] == '=')
-			addToTab(&_ms(0)->env, arg[i[0]]);
-		else if (i[2] >= 0 && arg[i[0]][i[1]] == '=')
-			changeValue(&_ms(0)->env[i[2]], arg[i[0]]);
+		}
+		if(i[3] != 1)
+		{
+			env = calloc(sizeof(char), i[1] + 1);
+			if (!env)
+			{}
+			ft_strlcpy(env, arg[i[0]], i[1] + 1);
+			i[2] = get_index_of_varname(env);
+			if (i[2] == -1 && arg[i[0]][i[1]] == '=')
+				addToTab(&_ms(0)->env, arg[i[0]]);
+			else if (i[2] >= 0 && arg[i[0]][i[1]] == '=')
+				changeValue(&_ms(0)->env[i[2]], arg[i[0]]);
+			free(env);
+		}
 		i[0]++;
-		free(env);
 	}
-	return (0);
+	return (i[3]);
 }

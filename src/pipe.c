@@ -179,7 +179,6 @@ void	ft_last(char **prompt, int p_out, int i)
 	}
 	else {
 		_ms(0)->errnum = ft_builtins(prompt, 1);
-		fprintf(stderr, "%d femme de pute de merde\n", WEXITSTATUS( _ms(0)->errnum));
 		close(p_out);
 		while (wait (&_ms(0)->status) != -1)
 			;

@@ -13,8 +13,6 @@ int get_size_of_var(int j, int blind)
 	int size;
 
 	size = 0;
-	if (_ms(0)->prompt[j] == '?')
-		return (1);
 	while (_ms(0)->prompt[j])
 	{
 		if (ft_isalnum(_ms(0)->prompt[j]) != 1 && _ms(0)->prompt[j] != '$')
@@ -75,16 +73,17 @@ char *is_there_env_to_expand(int *index)
 			skip_single_quote(&i);
 		if (_ms(0)->prompt[i] == '$')
 		{
-			*index = i;
-			if (_ms(0)->prompt[i + 1] == '?')
-				return (ft_strdup("?"));
 			j = get_size_of_var(i, blind);
-			ret = calloc(sizeof(char), j + 1);
-			j = i;
-			while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0) || _ms(0)->prompt[j] == '$')
-				ret[blind++] = _ms(0)->prompt[j++];
-			ret[blind] = '\0';
-			return (ret);
+			if( j > 1)
+			{
+				*index = i;
+				ret = calloc(sizeof(char), j + 1);
+				j = i;
+				while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0) || _ms(0)->prompt[j] == '$')
+					ret[blind++] = _ms(0)->prompt[j++];
+				ret[blind] = '\0';
+				return (ret);
+			}
 		}
 		i++;
 	}

@@ -9,7 +9,7 @@ int tab_size(char **tab) {
   return (i);
 }
 
-void print_tab(char **tab) {
+int print_tab(char **tab) {
   int size;
   int i;
 
@@ -19,4 +19,5 @@ void print_tab(char **tab) {
     printf("%s\n", tab[i]);
     i++;
   }
+  return (0);
 }

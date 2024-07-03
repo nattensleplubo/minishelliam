@@ -49,6 +49,7 @@ void	ft_free_prev_prompt(void)
 			while (_ms(0)->commands[i][j])
 				free(_ms(0)->commands[i][j++]);
 			free(_ms(0)->commands[i++]);
+			j = 0;
 		}
 		free(_ms(0)->commands);
 	}

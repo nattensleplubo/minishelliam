@@ -45,7 +45,7 @@ extern int g_err;
 t_minishell *_ms(int params);
 int read_line(void);
 char **prompt_splitter(char const *s);
-void print_tab(char **tab);
+int print_tab(char **tab);
 int tab_size(char **tab);
 int ft_cd(char **dirtogo);
 int ft_pwd(void);

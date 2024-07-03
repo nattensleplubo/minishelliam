@@ -65,7 +65,7 @@ int	ft_builtins(char **prompt, int exec) // exec=0 just checking, exec=1 executi
 	}
 	else if (ft_strcmp(prompt[0], "env") == 0) {
 		if (exec == 1)
-			print_tab(_ms(0)->env);
+			return (print_tab(_ms(0)->env));
 		return (1);
 	}
 	else if (ft_strcmp(prompt[0], "export") == 0) {
@@ -278,4 +278,5 @@ void	ft_pipe()
 			ft_last (cmd[i], prevpipe, i);
 		i++;
 	}
+	
 }

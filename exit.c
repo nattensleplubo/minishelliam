@@ -124,5 +124,7 @@ int	ft_pexit(int exit_number)
 	if (_ms(0)->tokenized_prompt)
 		ft_lstclear(&_ms(0)->tokenized_prompt, free_content);
 	free(_ms(0));
+	if (exit_number == 666)
+		exit(errno);
 	exit (exit_number);
 }

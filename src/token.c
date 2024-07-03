@@ -45,9 +45,9 @@ int	is_redirection_or_pipe(t_list **lst, int i, int cmd)
 		((t_quote *)(*lst)->content)->token[8] = '\0';
 	}
 	if (is_pipe(_ms(0)->splitted_prompt[i][0])
-		&& !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+		&& _ms(0)->splitted_prompt[i + 1] && !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
 		post_pipe(s, lst);
-	if(s[0] == '|' && is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+	if(s[0] == '|' && _ms(0)->splitted_prompt[i + 1] && is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
 		return (0);
 	return (cmd);
 }

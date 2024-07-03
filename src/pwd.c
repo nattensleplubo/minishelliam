@@ -14,7 +14,7 @@
 
 int	ft_pwd(void)
 {
-	char	*cwd;
+	char	*cwd;  
 
 	cwd = getcwd(NULL, 0);
 	if (cwd != NULL)

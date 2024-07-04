@@ -100,7 +100,7 @@ int	ft_search(char **prompt, char **path)
 
 	i = 0;
 	cmd = ft_strjoin("/\0", prompt[0]);
-	while (path[i])
+	while (path && path[i])
 	{
 		full_path = ft_strjoin(path[i], cmd);
 		if (access(full_path, X_OK) == 0)
@@ -110,6 +110,7 @@ int	ft_search(char **prompt, char **path)
 			free(full_path);
 			free(cmd);
 			free_tab(path);
+			ft_putstr_fd("ici: \n", 2);
 			ft_pexit(-1);
 		}
 		else
@@ -118,10 +119,30 @@ int	ft_search(char **prompt, char **path)
 		i++;
 	}
 	free(cmd);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(prompt[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
+	ft_putstr_fd(" command not found\n", 2);
 	return (0);
+}
+
+int ft_error_check(char *prompt)
+{
+	struct stat path_stat;
+
+	if (access(prompt, F_OK) != 0)
+	{
+		ft_putstr_fd(" No such file or directory\n", 2);
+		ft_pexit(127);
+	}
+	else if (stat(prompt, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+	{
+		ft_putstr_fd(" Is a directory\n", 2);
+		ft_pexit(126);
+	}
+	else if (access(prompt, X_OK) != 0)
+	{
+		ft_putstr_fd(" Permission denied\n", 2);
+		ft_pexit(126);
+	}
+	return (1);
 }
 
 void	ft_exec(char **prompt, int i)
@@ -132,13 +153,10 @@ void	ft_exec(char **prompt, int i)
 	
 	if (checkifpath(prompt[0]) == 1)
 	{
-		if (access(prompt[0], X_OK) == 0) {
-			execve(prompt[0], prompt, _ms(0)->env);
-			g_err = errno;
-			ft_pexit (-1);
-		}
-		else
-			ft_pexit (-1);
+		ft_error_check(prompt[0]);
+		execve(prompt[0], prompt, _ms(0)->env);
+		g_err = errno;
+		ft_pexit (-1);
 	}	
 	else
 	{
@@ -152,7 +170,6 @@ void	ft_exec(char **prompt, int i)
 		}
 		else
 			ft_pexit (ft_builtins(prompt, 1));
-
 	}
 }
 
@@ -173,15 +190,18 @@ void	ft_last(char **prompt, int p_out, int i)
 		else //if we are in the parent process
 		{
 			close(p_out);
-			while (wait (&_ms(0)->status) != -1)
-				;
+			waitpid (childrenpid, &_ms(0)->status, 0);
+			if (WIFEXITED(_ms(0)->status)) {
+                _ms(0)->errnum = WEXITSTATUS(_ms(0)->status); // save the exit status of the child process
+            } 
+			else {
+                _ms(0)->errnum = -1; // handle error or abnormal termination
+            }
 		}
 	}
 	else {
 		_ms(0)->errnum = ft_builtins(prompt, 1);
 		close(p_out);
-		while (wait (&_ms(0)->status) != -1)
-			;
 	}
 }
 

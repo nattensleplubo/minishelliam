@@ -110,7 +110,6 @@ int	ft_search(char **prompt, char **path)
 			free(full_path);
 			free(cmd);
 			free_tab(path);
-			ft_putstr_fd("ici: \n", 2);
 			ft_pexit(-1);
 		}
 		else

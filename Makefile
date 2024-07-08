@@ -76,6 +76,7 @@ SRCS        :=      libft/ft_strnstr.c \
 						  src/export.c\
 						  src/pwd.c\
 						  src/unset.c\
+						  src/grammar.c \
 
 OBJS        := $(SRCS:.c=.o)
 

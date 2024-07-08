@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/06 11:47:34 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/08 15:54:47 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	ft_bash(void)
 {
 	if (read_line())
 	{
+		if (check_quotes() == -1) 
+			return ;
 		expend_env_vars();
 		_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
 		ft_token();
@@ -107,7 +109,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	s;
 
-
 	s.sa_handler = ft_signal;
 	sigemptyset(&s.sa_mask);  // Initialize the signal mask to empty
     s.sa_flags = 0;  
@@ -121,11 +122,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if(argv[1][0] == '-' && argv[1][1] == 'c')
 		{
-			_ms(0)->splitted_prompt = prompt_splitter(argv[2]);
+			_ms(0)->splitted_prompt = prompt_splitter(argv[2]);				
 			ft_token();
-			// printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
 			delete_quotes();
-			// print_tab(_ms(0)->splitted_prompt);
 			exec();
 			ft_pipe();
 			ft_free_prev_prompt();

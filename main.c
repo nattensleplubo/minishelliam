@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/27 14:06:20 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/06 11:47:34 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,8 @@ void	ft_bash(void)
 	{
 		expend_env_vars();
 		_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
-		// print_tab(_ms(0)->splitted_prompt);
 		ft_token();
-		// printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
 		delete_quotes();
-		// print_tab(_ms(0)->splitted_prompt);
 		exec();
 		ft_pipe();
 		ft_free_prev_prompt();

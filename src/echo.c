@@ -20,8 +20,7 @@ int	ft_backn(char **cmd)
 
 	backn = 1;
 	i[0] = 1;
-
-	while (cmd[i[0]][0] == '-' && cmd[i[0]][1] == 'n' && backn  == i[0])
+	while (cmd[i[0]] && cmd[i[0]][0] == '-' && cmd[i[0]][1] == 'n' && backn  == i[0])
 	{
 		i[1] = 2;
 		backn++;

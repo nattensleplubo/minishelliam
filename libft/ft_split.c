@@ -62,30 +62,28 @@ int	num_word(char const *str, char charset)
 char	**ft_split(char const *s, char charset)
 {
 	char	**dest;
-	int		i;
-	int		j;
-	int		k;
+	int		i[3];
 
-	i = 0;
-	k = 0;
-	if(s == NULL)
+	i[0] = 0;
+	i[1] = 0;
+	if (s == NULL)
 		return (NULL);
 	dest = malloc(sizeof(char *) * (num_word(s, charset) + 1));
 	if (!dest)
 		return (NULL);
 	dest[num_word(s, charset)] = NULL;
-	while (s[i])
+	while (s[i[0]])
 	{
-		if (is_c(s[i], charset) == 0)
+		if (is_c(s[i[0]], charset) == 0)
 		{
-			j = 0;
-			while (s[i + j] && is_c(s[i + j], charset) == 0)
-				j++;
-			dest[k] = ft_splitter(&i, s, j);
-			k++;
+			i[2] = 0;
+			while (s[i[0] + i[2]] && is_c(s[i[0] + i[2]], charset) == 0)
+				i[2]++;
+			dest[i[1]] = ft_splitter(&i[0], s, i[2]);
+			i[1]++;
 		}
 		else
-			i++;
+			i[0]++;
 	}
 	return (dest);
 }

@@ -13,9 +13,9 @@
 #include "./includes/minishell.h"
 #include "libft/libft.h"
 
-int string_is_num(char *arg)
+int	string_is_num(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arg[0] && (arg[0] == '-' || arg[0] == '+'))
@@ -33,12 +33,12 @@ int	ft_exit(char *reason, char **prompt)
 {
 	int	i;
 	int	j;
-	int exit_number;
+	int	exit_number;
 
 	i = 0;
 	j = 0;
 	exit_number = 0;
-	if(prompt)
+	if (prompt)
 	{
 		if (prompt[1] && prompt[2])
 		{
@@ -50,7 +50,7 @@ int	ft_exit(char *reason, char **prompt)
 			ft_putstr_fd(" numeric argument required\n", 2);
 			exit_number = 2;
 		}
-		else if(prompt[1])
+		else if (prompt[1])
 			exit_number = ft_atoi(prompt[1]);
 	}
 	if (_ms(0)->prompt)
@@ -63,7 +63,7 @@ int	ft_exit(char *reason, char **prompt)
 	}
 	i = 0;
 	if (_ms(0)->commands)
-	{	
+	{
 		while (_ms(0)->commands[i])
 		{
 			while (_ms(0)->commands[i][j])
@@ -89,7 +89,6 @@ int	ft_exit(char *reason, char **prompt)
 	exit (exit_number);
 }
 
-
 int	ft_pexit(int exit_number)
 {
 	int	i;
@@ -107,7 +106,7 @@ int	ft_pexit(int exit_number)
 	}
 	i = 0;
 	if (_ms(0)->commands)
-	{	
+	{
 		while (_ms(0)->commands[i])
 		{
 			while (_ms(0)->commands[i][j])

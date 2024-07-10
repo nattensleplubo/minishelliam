@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
 
 int	ft_backn(char **cmd)
@@ -20,7 +19,8 @@ int	ft_backn(char **cmd)
 
 	backn = 1;
 	i[0] = 1;
-	while (cmd[i[0]] && cmd[i[0]][0] == '-' && cmd[i[0]][1] == 'n' && backn  == i[0])
+	while (cmd[i[0]] && cmd[i[0]][0] == '-'
+		&& cmd[i[0]][1] == 'n' && backn == i[0])
 	{
 		i[1] = 2;
 		backn++;
@@ -41,7 +41,7 @@ int	ft_backn(char **cmd)
 int	ft_echo(char **cmd)
 {
 	int	backn;
-	int i;
+	int	i;
 
 	backn = ft_backn(cmd);
 	i = backn;

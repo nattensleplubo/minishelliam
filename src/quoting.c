@@ -93,7 +93,6 @@ int	nextword(char const *s, int i, int step)
 	return (0);
 }
 
-
 int	count_word(char const *s)
 {
 	int	i;
@@ -122,13 +121,15 @@ char	**prompt_splitter(char const *s)
 	j[3] = 0;
 	tab = malloc(sizeof(char *) * (j[2] + 1));
 	if (!tab)
-	{}
+	{
+	}
 	while (j[3] < j[2])
 	{
 		j[0] = nextword(s, j[1], 1);
 		tab[j[3]] = malloc(sizeof(char) * j[0] + 1);
 		if (!tab[j[3]])
-		{}
+		{
+		}
 		add_word(s, j[1], tab[j[3]]);
 		j[1] = (j[3]++, nextword(s, j[1], 0));
 	}

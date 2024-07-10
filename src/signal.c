@@ -15,12 +15,11 @@
 void	ft_signal(int signo)
 {
 	(void)signo;
-
-	if(signo == SIGINT)
+	if (signo == SIGINT)
 	{
-		write(2, "\n", 1); // new line in bash
-		rl_replace_line("", 0); // empty buffer
-		rl_on_new_line(); // new line in rl
-    	rl_redisplay();	//refresh readline visually
+		write(2, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }

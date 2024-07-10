@@ -14,7 +14,8 @@
 
 int	g_err = 0;
 
-t_minishell	*_ms(int params) // Global function 1 to print it's values. 0 To do nothing
+// Global function 1 to print it's values. 0 To do nothing
+t_minishell	*_ms(int params)
 {
 	static t_minishell	*ms = NULL;
 
@@ -43,7 +44,7 @@ void	ft_free_prev_prompt(void)
 	}
 	i = 0;
 	if (_ms(0)->commands)
-	{	
+	{
 		while (_ms(0)->commands[i])
 		{
 			while (_ms(0)->commands[i][j])
@@ -81,7 +82,7 @@ void	ft_lstprint(t_list *lst)
 
 void	init_ms(void) // Initialize all values to some default ones at the
 {
-	_ms(0)->prompt = NULL; // beginning of the program
+	_ms(0)->prompt = NULL;
 	_ms(0)->splitted_prompt = NULL;
 	_ms(0)->env = NULL;
 	_ms(0)->tokenized_prompt = NULL;
@@ -107,10 +108,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	s;
 
-
 	s.sa_handler = ft_signal;
-	sigemptyset(&s.sa_mask);  // Initialize the signal mask to empty
-    s.sa_flags = 0;  
+	sigemptyset(&s.sa_mask);
+	s.sa_flags = 0;
 	rl_catch_signals = 0;
 	sigaction(SIGINT, &s, NULL);
 	sigaction(SIGQUIT, &s, NULL);
@@ -119,13 +119,11 @@ int	main(int argc, char **argv, char **envp)
 	errno = 0;
 	if (argc > 2 && argv[1][0] && argv[1][1])
 	{
-		if(argv[1][0] == '-' && argv[1][1] == 'c')
+		if (argv[1][0] == '-' && argv[1][1] == 'c')
 		{
 			_ms(0)->splitted_prompt = prompt_splitter(argv[2]);
 			ft_token();
-			// printf("%d\n", ft_lstsize(_ms(0)->tokenized_prompt));
 			delete_quotes();
-			// print_tab(_ms(0)->splitted_prompt);
 			exec();
 			ft_pipe();
 			ft_free_prev_prompt();

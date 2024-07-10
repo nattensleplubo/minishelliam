@@ -26,7 +26,8 @@ void	deletefromtab(char ***tab, int index)
 		size++;
 	newarray = malloc((size) * sizeof(char *));
 	if (newarray == NULL)
-	{}
+	{
+	}
 	while ((*tab)[j])
 	{
 		if (j != index)

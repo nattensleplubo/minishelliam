@@ -16,10 +16,12 @@ void	post_pipe(char *s, t_list **lst)
 {
 	lst = &(*lst)->next;
 	if (*lst == NULL)
-	{}
+	{
+	}
 	((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
 	if (!((t_quote *)(*lst)->content)->token)
-	{}
+	{
+	}
 	if (s[0] == '|')
 		ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
 	else if (s[0] == '<' || s[0] == '>')
@@ -36,7 +38,8 @@ int	is_redirection_or_pipe(t_list **lst, int i, int cmd)
 		free(((t_quote *)(*lst)->content)->token);
 		((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 9);
 		if (!((t_quote *)(*lst)->content)->token)
-		{}	//protect
+		{
+		}
 		if (s[1] == s[0])
 			ft_strlcpy(((t_quote *)(*lst)->content)->token, "DOUBLE__", 9);
 		else
@@ -45,14 +48,16 @@ int	is_redirection_or_pipe(t_list **lst, int i, int cmd)
 		((t_quote *)(*lst)->content)->token[8] = '\0';
 	}
 	if (is_pipe(_ms(0)->splitted_prompt[i][0])
-		&& _ms(0)->splitted_prompt[i + 1] && !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+		&& _ms(0)->splitted_prompt[i + 1]
+			&& !is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
 		post_pipe(s, lst);
-	if(s[0] == '|' && _ms(0)->splitted_prompt[i + 1] && is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
+	if (s[0] == '|' && _ms(0)->splitted_prompt[i + 1]
+		&& is_pipe(_ms(0)->splitted_prompt[i + 1][0]))
 		return (0);
 	return (cmd);
 }
 
-void	add_token(t_list **lst,int size)
+void	add_token(t_list **lst, int size)
 {
 	int		i[2];
 
@@ -64,7 +69,8 @@ void	add_token(t_list **lst,int size)
 		{
 			((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
 			if (!((t_quote *)(*lst)->content)->token)
-			{}
+			{
+			}
 			if (i[1] == 0 && !is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
 			{
 				ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
@@ -79,43 +85,46 @@ void	add_token(t_list **lst,int size)
 	}
 }
 
-t_quote *create_struct(char *arg, int i)
+t_quote	*create_struct(char *arg, int i)
 {
-	t_quote *content;
+	t_quote	*content;
 
 	(void)arg;
 	content = malloc(sizeof(t_quote));
-	if(!content)
+	if (!content)
 	{
 	}
 	content->token = NULL;
 	content->id = i;
 	return (content);
 }
-void free_content(void *content)
+
+void	free_content(void *content)
 {
-    t_quote *quote = (t_quote *)content;
+	t_quote	*quote;
+
+	quote = (t_quote *)content;
 	free(quote->token);
 	free(quote->str);
-    free(quote);
+	free(quote);
 }
 
-void ft_token(void)
+void	ft_token(void)
 {
-	int	size;
-	int	i;
-	t_list *node;	
+	int		size;
+	int		i;
+	t_list	*node;	
 
 	i = 0;
-  	size = tab_size(_ms(0)->splitted_prompt);
-	if(_ms(0)->tokenized_prompt)
+	size = tab_size(_ms(0)->splitted_prompt);
+	if (_ms(0)->tokenized_prompt)
 	{
 		ft_lstclear(&_ms(0)->tokenized_prompt, free_content);
 	}
 	while (i < size)
 	{
-		node =  ft_lstnew(create_struct(_ms(0)->splitted_prompt[i], i));
-		if(!node)
+		node = ft_lstnew(create_struct(_ms(0)->splitted_prompt[i], i));
+		if (!node)
 		{
 		}
 		ft_lstadd_back(&_ms(0)->tokenized_prompt, node);

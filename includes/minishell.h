@@ -39,26 +39,6 @@ typedef struct s_quote {
   int id;
 } t_quote;
 
-extern int g_err;
-
-typedef enum {
-    TOKEN_CMD,
-    TOKEN_ARG,
-    TOKEN_PIPE,
-    TOKEN_REDIR_OUT,
-    TOKEN_FNM,
-    TOKEN_UNKNOWN,
-    TOKEN_COUNT
-} TokenType;
-
-typedef enum {
-    STATE_START,
-    STATE_AFTER_CMD,
-    STATE_AFTER_PIPE,
-    STATE_AFTER_REDIR,
-    STATE_ERROR
-} State;
-
 // PROTOS
 t_minishell *_ms(int params);
 int read_line(void);
@@ -88,6 +68,6 @@ int	ft_strcmp(const char *str1, const char *str2);
 void free_content(void *content);
 int	ft_pexit(int exit_number);
 int check_quotes();
-bool check_token_grammar();
+int check_token_grammar();
 
 #endif

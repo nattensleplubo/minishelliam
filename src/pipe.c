@@ -106,7 +106,6 @@ int	ft_search(char **prompt, char **path)
 		if (access(full_path, X_OK) == 0)
 		{
 			execve(full_path, prompt, _ms(0)->env);
-			g_err = errno;
 			free(full_path);
 			free(cmd);
 			free_tab(path);
@@ -154,7 +153,6 @@ void	ft_exec(char **prompt, int i)
 	{
 		ft_error_check(prompt[0]);
 		execve(prompt[0], prompt, _ms(0)->env);
-		g_err = errno;
 		ft_pexit (-1);
 	}	
 	else

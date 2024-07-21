@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
+#include <time.h>
 
 int	g_err = 0;
 
@@ -94,13 +95,13 @@ void	ft_bash(void)
 	if (read_line())
 	{
 		expend_env_vars();
-		if (!check_token_grammar())
-			return ;
 		_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
 		ft_token();
+		if (check_token_grammar() != 0)
+			return ;
 		delete_quotes();
 		exec();
-		ft_lstprint(_ms(0)->tokenized_prompt);
+		// ft_lstprint(_ms(0)->tokenized_prompt);
 		ft_pipe();
 		ft_free_prev_prompt();
 	}

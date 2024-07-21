@@ -13,8 +13,6 @@
 #include "./includes/minishell.h"
 #include <time.h>
 
-int	g_err = 0;
-
 t_minishell	*_ms(int params) // Global function 1 to print it's values. 0 To do nothing
 {
 	static t_minishell	*ms = NULL;
@@ -97,11 +95,14 @@ void	ft_bash(void)
 		expend_env_vars();
 		_ms(0)->splitted_prompt = prompt_splitter(_ms(0)->prompt);
 		ft_token();
-		if (check_token_grammar() != 0)
-			return ;
 		delete_quotes();
 		exec();
-		// ft_lstprint(_ms(0)->tokenized_prompt);
+		if (check_token_grammar() != 0)
+		{
+			ft_free_prev_prompt();
+			return ;
+		}
+		ft_lstprint(_ms(0)->tokenized_prompt);
 		ft_pipe();
 		ft_free_prev_prompt();
 	}

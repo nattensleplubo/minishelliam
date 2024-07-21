@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:11:03 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/27 19:56:25 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:31:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,37 @@ void	addtotab(char ***tab, const char *newstring)
 	*tab = newarray;
 }
 
+void	ft_export2(char **arg, int i, int j, int k)
+{
+	char	*env;
+
+	env = calloc(sizeof(char), i + 1);
+	if (!env)
+	{
+	}
+	ft_strlcpy(env, arg[j], i + 1);
+	k = get_index_of_varname(env);
+	if (k == -1 && arg[j][i] == '=')
+		addtotab(&_ms(0)->env, arg[j]);
+	else if (k >= 0 && arg[j][i] == '=')
+		changevalue(&_ms(0)->env[k], arg[j]);
+	free(env);
+}
+
 int	ft_export(char **arg)
 {
-	int		i[4];
-	char	*env;
+	int	i[4];
 
 	i[0] = 1;
 	i[3] = 0;
+	i[2] = 0;
 	while (arg[i[0]])
 	{
 		i[1] = 0;
 		while (arg[i[0]][i[1]] && (i[1] == 0 || arg[i[0]][i[1]] != '='))
 		{
-			if (ft_isalnum(arg[i[0]][i[1]]) == 0
-				|| arg[i[0]][0] == '=' || isdigit(arg[i[0]][0]))
+			if (ft_isalnum(arg[i[0]][i[1]]) == 0 || arg[i[0]][0] == '='
+				|| isdigit(arg[i[0]][0]))
 			{
 				i[3] = 1;
 				ft_putstr_fd(" not a valid identifier\n", 2);
@@ -80,19 +97,7 @@ int	ft_export(char **arg)
 			i[1]++;
 		}
 		if (i[3] != 1)
-		{
-			env = calloc(sizeof(char), i[1] + 1);
-			if (!env)
-			{
-			}
-			ft_strlcpy(env, arg[i[0]], i[1] + 1);
-			i[2] = get_index_of_varname(env);
-			if (i[2] == -1 && arg[i[0]][i[1]] == '=')
-				addtotab(&_ms(0)->env, arg[i[0]]);
-			else if (i[2] >= 0 && arg[i[0]][i[1]] == '=')
-				changevalue(&_ms(0)->env[i[2]], arg[i[0]]);
-			free(env);
-		}
+			ft_export2(arg, i[1], i[0], i[2]);
 		i[0]++;
 	}
 	return (i[3]);

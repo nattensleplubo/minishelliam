@@ -7,11 +7,11 @@
 // index finds a ` `
 // index finds a `=`
 
-int get_size_of_var(int j, int blind)
+int	get_size_of_var(int j, int blind)
 {
-	(void)blind;
-	int size;
+	int	size;
 
+	(void)blind;
 	size = 0;
 	while (_ms(0)->prompt[j])
 	{
@@ -32,9 +32,9 @@ void	skip_single_quote(int *i)
 
 int	should_be_skipped(int i)
 {
-	int before;
-	int after;
-	int inside[2];
+	int	before;
+	int	after;
+	int	inside[2];
 
 	before = i;
 	after = i;
@@ -53,17 +53,18 @@ int	should_be_skipped(int i)
 	while (before > 0 && _ms(0)->prompt[before] != '\"')
 		before--;
 	if (_ms(0)->prompt[after])
-		if (_ms(0)->prompt[before] == '\"' && _ms(0)->prompt[after] == '\"' && inside[1] == 1)
+		if (_ms(0)->prompt[before] == '\"' && _ms(0)->prompt[after] == '\"'
+			&& inside[1] == 1)
 			return (1);
 	return (0);
 }
 
-char *is_there_env_to_expand(int *index)
+char	*is_there_env_to_expand(int *index)
 {
-	int i;
-	int j;
-	int blind;
-	char *ret;
+	int		i;
+	int		j;
+	int		blind;
+	char	*ret;
 
 	i = 0;
 	blind = 0;
@@ -74,12 +75,13 @@ char *is_there_env_to_expand(int *index)
 		if (_ms(0)->prompt[i] == '$')
 		{
 			j = get_size_of_var(i, blind);
-			if( j > 1)
+			if (j > 1)
 			{
 				*index = i;
 				ret = calloc(sizeof(char), j + 1);
 				j = i;
-				while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0) || _ms(0)->prompt[j] == '$')
+				while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0)
+					|| _ms(0)->prompt[j] == '$')
 					ret[blind++] = _ms(0)->prompt[j++];
 				ret[blind] = '\0';
 				return (ret);
@@ -90,10 +92,10 @@ char *is_there_env_to_expand(int *index)
 	return (NULL);
 }
 
-char *is_there_ret_to_expand(int *index)
+char	*is_there_ret_to_expand(int *index)
 {
-	int i;
-	char *ret;
+	int		i;
+	char	*ret;
 
 	i = 0;
 	while (_ms(0)->prompt[i])
@@ -106,7 +108,7 @@ char *is_there_ret_to_expand(int *index)
 			if (_ms(0)->prompt[i + 1] == '?')
 			{
 				ret = "$?";
-				return(ret);
+				return (ret);
 			}
 		}
 		i++;
@@ -116,10 +118,10 @@ char *is_there_ret_to_expand(int *index)
 
 char	*delete_var(char *to_expend, int index)
 {
-	char *new;
-	int i;
-	int j;
-	int to_skip;
+	char	*new;
+	int		i;
+	int		j;
+	int		to_skip;
 
 	i = 0;
 	j = 0;
@@ -142,7 +144,7 @@ char	*insert_value(char *to_expand, int index)
 	char	*value;
 	int		i;
 	int		j;
-	size_t		x;
+	size_t	x;
 
 	i = 0;
 	j = 0;
@@ -153,7 +155,8 @@ char	*insert_value(char *to_expand, int index)
 		value = get_value_of_varname(to_expand + 1);
 	if (!value)
 		value = ft_strdup("");
-	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) + ft_strlen(value) + 2));
+	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) + ft_strlen(value)
+				+ 2));
 	while (x < ft_strlen(_ms(0)->prompt) + ft_strlen(value))
 	{
 		if (i == index)
@@ -170,10 +173,10 @@ char	*insert_value(char *to_expand, int index)
 	return (free(value), new);
 }
 
-void expend_env_vars()
+void	expend_env_vars(void)
 {
-	char *to_expand;
-	int index;
+	char	*to_expand;
+	int		index;
 
 	to_expand = NULL;
 	index = -1;
@@ -181,16 +184,16 @@ void expend_env_vars()
 	{
 		to_expand = is_there_ret_to_expand(&index);
 		if (!to_expand)
-			break;
+			break ;
 		_ms(0)->prompt = delete_var(to_expand, index);
 		_ms(0)->prompt = insert_value(to_expand, index);
 	}
 	index = -1;
 	while (1)
-	{	
+	{
 		to_expand = is_there_env_to_expand(&index);
 		if (!to_expand)
-			break;
+			break ;
 		_ms(0)->prompt = delete_var(to_expand, index);
 		_ms(0)->prompt = insert_value(to_expand, index);
 		free(to_expand);

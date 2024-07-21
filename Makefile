@@ -14,7 +14,7 @@ FLAGS    := -Wall -Wextra -Werror -g3
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS        :=      libft/ft_strnstr.c \
+SRCS        :=            libft/ft_strnstr.c \
                           libft/ft_isdigit.c \
                           libft/ft_lstadd_back.c \
                           libft/ft_putstr_fd.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:15:28 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/27 14:09:10 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:28:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_backn(char **cmd)
 
 	backn = 1;
 	i[0] = 1;
-	while (cmd[i[0]] && cmd[i[0]][0] == '-'
-		&& cmd[i[0]][1] == 'n' && backn == i[0])
+	while (cmd[i[0]] && cmd[i[0]][0] == '-' && cmd[i[0]][1] == 'n'
+		&& backn == i[0])
 	{
 		i[1] = 2;
 		backn++;
@@ -28,7 +28,7 @@ int	ft_backn(char **cmd)
 		{
 			if (cmd[i[0]][i[1]] != 'n')
 			{
-				backn --;
+				backn--;
 				break ;
 			}
 			i[1]++;

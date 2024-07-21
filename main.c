@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/06 11:47:34 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:53:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
 
-int	g_err = 0;
+int			g_err = 0;
 
 // Global function 1 to print it's values. 0 To do nothing
 t_minishell	*_ms(int params)
@@ -117,19 +117,6 @@ int	main(int argc, char **argv, char **envp)
 	init_ms();
 	init_env(envp);
 	errno = 0;
-	if (argc > 2 && argv[1][0] && argv[1][1])
-	{
-		if (argv[1][0] == '-' && argv[1][1] == 'c')
-		{
-			_ms(0)->splitted_prompt = prompt_splitter(argv[2]);
-			ft_token();
-			delete_quotes();
-			exec();
-			ft_pipe();
-			ft_free_prev_prompt();
-			ft_exit("", NULL);
-		}
-	}
 	while (9)
 		ft_bash();
 }

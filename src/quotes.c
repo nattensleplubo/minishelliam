@@ -11,17 +11,17 @@ void	delete_set(int i, int set)
 	j = 0;
 	k = 0;
 	size = 0;
-	while(_ms(0)->splitted_prompt[i][j])
+	while (_ms(0)->splitted_prompt[i][j])
 	{
-		if(_ms(0)->splitted_prompt[i][j] != set)
+		if (_ms(0)->splitted_prompt[i][j] != set)
 			size++;
 		j++;
 	}
 	newstring = malloc(sizeof(char) * size + 1);
 	j = 0;
-	while(_ms(0)->splitted_prompt[i][j])
+	while (_ms(0)->splitted_prompt[i][j])
 	{
-		if(_ms(0)->splitted_prompt[i][j] != set)
+		if (_ms(0)->splitted_prompt[i][j] != set)
 		{
 			newstring[k] = _ms(0)->splitted_prompt[i][j];
 			j++;
@@ -37,6 +37,7 @@ void	delete_set(int i, int set)
 	_ms(0)->splitted_prompt[i] = newstring;
 	free(oldstring);
 }
+
 int	findset(int i)
 {
 	int	set;
@@ -75,7 +76,7 @@ void	delete_quotes_word(int i)
 {
 	int	j;
 	int	set;
-	int next;
+	int	next;
 
 	j = 0;
 	set = findset(i);
@@ -99,13 +100,13 @@ void	delete_quotes_word(int i)
 	delete_set(i, set);
 }
 
-void delete_quotes()
+void	delete_quotes(void)
 {
 	int	size;
 	int	i;
 
 	i = 0;
-  	size = tab_size(_ms(0)->splitted_prompt);
+	size = tab_size(_ms(0)->splitted_prompt);
 	while (i < size)
 	{
 		delete_quotes_word(i);

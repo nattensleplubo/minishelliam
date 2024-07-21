@@ -11,12 +11,12 @@ void	fill_list(void)
 	i = 0;
 	while (i < size)
 	{
-		((t_quote *)temp->content)->str
-			= ft_calloc(sizeof(char), (ft_strlen(_ms(0)->splitted_prompt[i])) + 1);
+		((t_quote *)temp->content)->str = ft_calloc(sizeof(char),
+				(ft_strlen(_ms(0)->splitted_prompt[i])) + 1);
 		ft_strlcpy(((t_quote *)temp->content)->str, _ms(0)->splitted_prompt[i],
 			ft_strlen(_ms(0)->splitted_prompt[i]) + 1);
-	i++;
-	temp = temp->next;
+		i++;
+		temp = temp->next;
 	}
 }
 
@@ -64,9 +64,8 @@ char	***make_commands_tab(void)
 {
 	char	***ret;
 	t_list	*temp;
-	int		ints[5]; // 0: cmd, 1: i, 2: tab_size, 3 fill_commands, 4 check commands
 
-
+	int ints[5]; // 0: cmd, 1: i, 2: tab_size, 3 fill_commands, 4 check commands
 	temp = _ms(0)->tokenized_prompt;
 	ints[1] = 0;
 	ints[4] = -1;
@@ -82,17 +81,16 @@ char	***make_commands_tab(void)
 			ints[2] = get_number_of_args(ints[1]);
 			ret[ints[1]] = malloc(sizeof(char *) * (ints[2] + 2));
 			ret[ints[1]][ints[2] + 1] = NULL;
-			ret[ints[1]][0]
-				= ft_calloc(sizeof(char), (ft_strlen
-					(((t_quote *)temp->content)->str) + 1));
+			ret[ints[1]][0] = ft_calloc(sizeof(char),
+					(ft_strlen(((t_quote *)temp->content)->str) + 1));
 			ft_strlcpy(ret[ints[1]][0], ((t_quote *)temp->content)->str,
 				ft_strlen(((t_quote *)temp->content)->str) + 1);
 			ints[1]++;
 		}
 		if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3) == 0)
 		{
-			ret[ints[4]][ints[3]]
-				= ft_calloc(sizeof(char), (ft_strlen(((t_quote *)temp->content)->str) + 1));
+			ret[ints[4]][ints[3]] = ft_calloc(sizeof(char),
+					(ft_strlen(((t_quote *)temp->content)->str) + 1));
 			ft_strlcpy(ret[ints[4]][ints[3]], ((t_quote *)temp->content)->str,
 				ft_strlen(((t_quote *)temp->content)->str) + 1);
 			ints[3]++;
@@ -110,11 +108,10 @@ void	exec(void)
 	j = 0;
 	i = 0;
 	if (_ms(0)->commands)
-	{	
-		while(_ms(0)->commands[i])
+	{
+		while (_ms(0)->commands[i])
 		{
-			
-			while(_ms(0)->commands[i][j])
+			while (_ms(0)->commands[i][j])
 			{
 				free(_ms(0)->commands[i][j++]);
 			}
@@ -124,6 +121,6 @@ void	exec(void)
 		free(_ms(0)->commands);
 	}
 	fill_list();
-	//ft_lstprint(_ms(0)->tokenized_prompt);
+	// ft_lstprint(_ms(0)->tokenized_prompt);
 	_ms(0)->commands = make_commands_tab();
 }

@@ -30,6 +30,8 @@ int	pipe_syntax_check(t_quote *next)
 		return 1;	// Syntax error near token '\n'
 	if (ft_strcmp(next->token, "cmd") != 0)
 		return 2;	// Syntax error near next->token
+	if (next->id == 1)
+		return 3;
 	return 0;
 }
 

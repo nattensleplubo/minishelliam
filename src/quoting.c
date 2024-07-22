@@ -6,18 +6,11 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:56:33 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/05/31 20:12:50 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:15:25 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	is_pipe(char c)
-{
-	if (c == '|' || c == '>' || c == '<')
-		return (1);
-	return (0);
-}
 
 int	find_next_quotes(char const *s, char c, int i)
 {

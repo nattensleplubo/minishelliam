@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:37:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/21 19:54:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:32:17 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,57 +29,41 @@ int	string_is_num(char *arg)
 	return (1);
 }
 
-int	ft_exit(char *reason, char **prompt)
+int	exit_number_picker(char **prompt)
 {
-	int	i;
-	int	j;
 	int	exit_number;
 
-	i = 0;
-	j = 0;
+	exit_number = 0;
+	if (prompt[1] && prompt[2])
+	{
+		ft_putstr_fd(" too many arguments\n", 2);
+		exit_number = 1;
+	}
+	else if (prompt[1] && !string_is_num(prompt[1]))
+	{
+		ft_putstr_fd(" numeric argument required\n", 2);
+		exit_number = 2;
+	}
+	else if (prompt[1])
+		exit_number = ft_atoi(prompt[1]);
+	return (exit_number);
+}
+
+int	ft_exit(char *reason, char **prompt)
+{
+	int	exit_number;
+
 	exit_number = 0;
 	if (prompt)
-	{
-		if (prompt[1] && prompt[2])
-		{
-			ft_putstr_fd(" too many arguments\n", 2);
-			exit_number = 1;
-		}
-		else if (prompt[1] && !string_is_num(prompt[1]))
-		{
-			ft_putstr_fd(" numeric argument required\n", 2);
-			exit_number = 2;
-		}
-		else if (prompt[1])
-			exit_number = ft_atoi(prompt[1]);
-	}
+		exit_number = exit_number_picker(prompt);
 	if (_ms(0)->prompt)
 		free(_ms(0)->prompt);
 	if (_ms(0)->splitted_prompt)
-	{
-		while (_ms(0)->splitted_prompt[i])
-			free(_ms(0)->splitted_prompt[i++]);
-		free(_ms(0)->splitted_prompt);
-	}
-	i = 0;
+		free_tab(_ms(0)->splitted_prompt);
 	if (_ms(0)->commands)
-	{
-		while (_ms(0)->commands[i])
-		{
-			while (_ms(0)->commands[i][j])
-				free(_ms(0)->commands[i][j++]);
-			j = 0;
-			free(_ms(0)->commands[i++]);
-		}
-		free(_ms(0)->commands);
-	}
-	i = 0;
+		free_taboftab(_ms(0)->commands);
 	if (_ms(0)->env)
-	{
-		while (_ms(0)->env[i])
-			free(_ms(0)->env[i++]);
-		free(_ms(0)->env);
-	}
+		free_tab(_ms(0)->env);
 	if (_ms(0)->tokenized_prompt)
 		ft_lstclear(&_ms(0)->tokenized_prompt, free_content);
 	free(_ms(0));
@@ -91,38 +75,14 @@ int	ft_exit(char *reason, char **prompt)
 
 int	ft_pexit(int exit_number)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
 	if (_ms(0)->prompt)
 		free(_ms(0)->prompt);
 	if (_ms(0)->splitted_prompt)
-	{
-		while (_ms(0)->splitted_prompt[i])
-			free(_ms(0)->splitted_prompt[i++]);
-		free(_ms(0)->splitted_prompt);
-	}
-	i = 0;
+		free_tab(_ms(0)->splitted_prompt);
 	if (_ms(0)->commands)
-	{
-		while (_ms(0)->commands[i])
-		{
-			while (_ms(0)->commands[i][j])
-				free(_ms(0)->commands[i][j++]);
-			j = 0;
-			free(_ms(0)->commands[i++]);
-		}
-		free(_ms(0)->commands);
-	}
-	i = 0;
+		free_taboftab(_ms(0)->commands);
 	if (_ms(0)->env)
-	{
-		while (_ms(0)->env[i])
-			free(_ms(0)->env[i++]);
-		free(_ms(0)->env);
-	}
+		free_tab(_ms(0)->env);
 	if (_ms(0)->tokenized_prompt)
 		ft_lstclear(&_ms(0)->tokenized_prompt, free_content);
 	free(_ms(0));

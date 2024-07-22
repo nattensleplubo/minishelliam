@@ -3,152 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/29 12:11:48 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/22 16:10:05 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <fcntl.h>
-#include <readline/readline.h>
-#include <stdlib.h>
-#include <time.h>
 
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	if (tab)
-	{
-		while (tab[i])
-			free(tab[i++]);
-		free(tab);
-	}
-}
-
-int	checkifpath(char *str)
-{
-	if (str == NULL || ft_strlen(str) == 0)
-		return (0);
-	if (str[0] == '/')
-		return (1);
-	if (str[0] == '.' && (str[1] == '/' || (str[1] == '.' && str[2] == '/')))
-		return (1);
-	return (0);
-}
-
-int	ft_strcmp(const char *str1, const char *str2)
-{
-	while (*str1 && (*str1 == *str2))
-	{
-		str1++;
-		str2++;
-	}
-	return (*(unsigned char *)str1 - *(unsigned char *)str2);
-}
-
-// exec=0 just checking, exec=1 executing
 int	ft_builtins(char **prompt, int exec)
 {
+	if (exec == 1)
+		return (ft_exec_builtins(prompt));
 	if (ft_strcmp(prompt[0], "pwd") == 0)
-	{
-		if (exec == 1)
-			return (ft_pwd());
 		return (1);
-	}
 	else if (ft_strcmp(prompt[0], "echo") == 0)
-	{
-		if (exec == 1)
-			return (ft_echo(prompt));
 		return (1);
-	}
 	else if (ft_strcmp(prompt[0], "env") == 0)
-	{
-		if (exec == 1)
-			return (print_tab(_ms(0)->env));
 		return (1);
-	}
 	else if (ft_strcmp(prompt[0], "export") == 0)
-	{
-		if (exec == 1)
-			return (ft_export(prompt));
 		return (2);
-	}
 	else if (ft_strcmp(prompt[0], "unset") == 0)
-	{
-		if (exec == 1)
-			return (ft_unset(prompt));
 		return (2);
-	}
 	else if (ft_strcmp(prompt[0], "cd") == 0)
-	{
-		if (exec == 1)
-			return (ft_cd(prompt + 1));
 		return (2);
-	}
 	else if (ft_strcmp(prompt[0], "exit") == 0)
-	{
-		if (exec == 1)
-			return (ft_exit("", prompt));
 		return (2);
-	}
 	else
 		return (0);
-}
-
-int	ft_search(char **prompt, char **path)
-{
-	int		i;
-	char	*full_path;
-	char	*cmd;
-
-	i = 0;
-	cmd = ft_strjoin("/\0", prompt[0]);
-	while (path && path[i])
-	{
-		full_path = ft_strjoin(path[i], cmd);
-		if (access(full_path, X_OK) == 0)
-		{
-			execve(full_path, prompt, _ms(0)->env);
-			g_err = errno;
-			free(full_path);
-			free(cmd);
-			free_tab(path);
-			ft_pexit(-1);
-		}
-		else
-			errno = 127;
-		free(full_path);
-		i++;
-	}
-	free(cmd);
-	ft_putstr_fd(" command not found\n", 2);
-	return (0);
-}
-
-int	ft_error_check(char *prompt)
-{
-	struct stat	path_stat;
-
-	if (access(prompt, F_OK) != 0)
-	{
-		ft_putstr_fd(" No such file or directory\n", 2);
-		ft_pexit(127);
-	}
-	else if (stat(prompt, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-	{
-		ft_putstr_fd(" Is a directory\n", 2);
-		ft_pexit(126);
-	}
-	else if (access(prompt, X_OK) != 0)
-	{
-		ft_putstr_fd(" Permission denied\n", 2);
-		ft_pexit(126);
-	}
-	return (1);
 }
 
 void	ft_exec(char **prompt, int i)
@@ -161,8 +44,7 @@ void	ft_exec(char **prompt, int i)
 	{
 		ft_error_check(prompt[0]);
 		execve(prompt[0], prompt, _ms(0)->env);
-		g_err = errno;
-		ft_pexit (-1);
+		ft_pexit(-1);
 	}
 	else
 	{
@@ -175,7 +57,7 @@ void	ft_exec(char **prompt, int i)
 			free_tab(path);
 		}
 		else
-			ft_pexit (ft_builtins(prompt, 1));
+			ft_pexit(ft_builtins(prompt, 1));
 	}
 }
 
@@ -197,11 +79,8 @@ void	ft_last(char **prompt, int p_out, int i)
 		else
 		{
 			close(p_out);
-			waitpid (childrenpid, &_ms(0)->status, 0);
-			if (WIFEXITED(_ms(0)->status))
-				_ms(0)->errnum = WEXITSTATUS(_ms(0)->status);
-			else
-				_ms(0)->errnum = -1;
+			waitpid(childrenpid, &_ms(0)->status, 0);
+			pipe_error_code();
 		}
 	}
 	else
@@ -237,73 +116,22 @@ void	ft_pipe2(char **prompt, int *p_out, int i)
 	}
 }
 
-void	heredoc_loop(char *limiter, int i)
-{
-	char	*filename;
-	int		fd;
-	char	*index;
-	char	*line;
-
-	index = ft_itoa(i);
-	filename = ft_strjoin("/tmp/", index);
-	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
-	while (143)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strcmp(line, limiter) == 0)
-			break ;
-		ft_putstr_fd(line, fd);
-		ft_putstr_fd("\n", fd);
-		free(line);
-	}
-	if (!line)
-		free(line);
-	(free(filename), free(index), close(fd));
-}
-
-void	write_heredocs(int i)
-{
-	t_list	*temp;
-	int		x;
-
-	temp = _ms(0)->tokenized_prompt;
-	temp = _ms(0)->tokenized_prompt;
-	x = -1;
-	while (x != i)
-	{
-		if (ft_strncmp("cmd", ((t_quote *)temp->content)->token, 3) == 0)
-			x++;
-		temp = temp->next;
-	}
-	while (temp && ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) != 0)
-	{
-		if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0)
-			heredoc_loop(((t_quote *)temp->next->content)->str, i);
-		temp = temp->next;
-	}
-}
-
 void	ft_pipe(void)
 {
 	int		prevpipe;
 	int		i;
 	char	***cmd;
-	int		j;
 
-	j = 0;
 	cmd = _ms(0)->commands;
-	while (cmd[j])
-		write_heredocs(j++);
+	write_heredocs();
 	i = 0;
-	prevpipe = dup (0);
+	prevpipe = dup(0);
 	while (cmd[i])
 	{
 		if (cmd[i] && cmd[i + 1] != NULL)
-			ft_pipe2 (cmd[i], &prevpipe, i);
+			ft_pipe2(cmd[i], &prevpipe, i);
 		else if (cmd[i] && cmd[i + 1] == NULL)
-			ft_last (cmd[i], prevpipe, i);
+			ft_last(cmd[i], prevpipe, i);
 		i++;
 	}
 }

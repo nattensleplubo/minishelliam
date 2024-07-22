@@ -48,7 +48,7 @@ int	get_index_of_varname(char *varname)
 			j++;
 		}
 		current[j] = '\0';
-		if (strcmp(current, varname) == 0) // REPLACE BY ACTUAL LIBFT FUNCTION
+		if (ft_strcmp(current, varname) == 0)
 			return (free(current), i);
 		else
 			i = (free(current), i + 1);

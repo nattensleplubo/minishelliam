@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/21 19:46:15 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:08:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,25 @@
 char	*ft_stjoin(char *s1, char *s2, int tofree)
 {
 	char	*dest;
-	int		i;
-	int		j;
+	int		i[2];
 
-	i = 0;
-	j = 0;
+	i[0] = 0;
+	i[1] = 0;
 	dest = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!dest)
 		return (NULL);
-	while (s1[i])
+	while (s1[i[0]])
 	{
-		dest[i] = s1[i];
-		i++;
+		dest[i[0]] = s1[i[0]];
+		i[0]++;
 	}
-	while (s2[j])
+	while (s2[i[1]])
 	{
-		dest[i] = s2[j];
-		i++;
-		j++;
+		dest[i[0]] = s2[i[1]];
+		i[0]++;
+		i[1]++;
 	}
-	dest[i] = '\0';
+	dest[i[0]] = '\0';
 	if (tofree == 0)
 		free(s1);
 	else if (tofree == 1)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/22 15:40:51 by lzaengel          #+#    #+#             */
+/*   Updated: 2024/07/22 16:09:42 by lzaengel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef O_TMPFILE
 # define _O_TMPFILE 020000000
 # define O_TMPFILE (_O_TMPFILE | O_DIRECTORY)
@@ -20,6 +32,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <time.h>
 
 typedef struct s_minishell
 {
@@ -68,5 +82,16 @@ int			ft_unset(char **arg);
 int			ft_strcmp(const char *str1, const char *str2);
 void		free_content(void *content);
 int			ft_pexit(int exit_number);
+void		free_tab(char **tab);
+void		free_taboftab(char ***tab);
+int			check_quotes(void);
+int			check_token_grammar(void);
+void		free_content(void *content);
+void		pipe_error_code(void);
+void		write_heredocs(void);
+int			ft_error_check(char *prompt);
+int			ft_search(char **prompt, char **path);
+int			checkifpath(char *str);
+int			ft_exec_builtins(char **prompt);
 
 #endif

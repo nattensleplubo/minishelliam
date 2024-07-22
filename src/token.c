@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/20 18:01:30 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:51:27 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,6 @@ t_quote	*create_struct(char *arg, int i)
 	content->token = NULL;
 	content->id = i;
 	return (content);
-}
-
-void	free_content(void *content)
-{
-	t_quote	*quote;
-
-	quote = (t_quote *)content;
-	free(quote->token);
-	free(quote->str);
-	free(quote);
 }
 
 void	ft_token(void)

@@ -254,46 +254,38 @@ void	heredoc_loop(char *limiter, int i)
 	(free(filename), free(index), close(fd));
 }
 
-void	write_heredocs(int i)
+void    write_heredocs()
 {
-	t_list *temp;
-	int x;
+    t_list *temp;
 
-	temp = _ms(0)->tokenized_prompt;
-	temp = _ms(0)->tokenized_prompt;
-  	x = -1;
-	
-	while (x != i) {
-		if (ft_strncmp("cmd", ((t_quote *)temp->content)->token, 3) == 0)
-			x++;
-		temp = temp->next;
-	}
-	while (temp && ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) != 0) {
-		if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0)
-			heredoc_loop(((t_quote *)temp->next->content)->str, i);
-		temp = temp->next;
-	}
+    temp = _ms(0)->tokenized_prompt;
+
+    while (temp)
+    {
+        if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0) {
+			printf("id : %d\n", ((t_quote *)temp->content)->id);
+            heredoc_loop(((t_quote *)temp->next->content)->str, ((t_quote *)temp->next->content)->id);
+		}
+        temp = temp->next;
+    }
 }
 
-void	ft_pipe()
+void    ft_pipe()
 {
-	int		prevpipe;
-	int		i;
-	char	***cmd;
-	int j = 0;
+    int        prevpipe;
+    int        i;
+    char    ***cmd;
 
-	cmd = _ms(0)->commands;
-	while (cmd[j])
-		write_heredocs(j++);
-	i = 0;
-	prevpipe = dup (0);
-	while (cmd[i])
-	{
-		if (cmd[i] && cmd[i + 1] != NULL)
-			ft_pipe2 (cmd[i], &prevpipe, i);
-		else if (cmd[i] && cmd[i + 1] == NULL)
-			ft_last (cmd[i], prevpipe, i);
-		i++;
-	}
-	
+    cmd = _ms(0)->commands;
+    write_heredocs();
+    i = 0;
+    prevpipe = dup (0);
+    while (cmd[i])
+    {
+        if (cmd[i] && cmd[i + 1] != NULL)
+            ft_pipe2 (cmd[i], &prevpipe, i);
+        else if (cmd[i] && cmd[i + 1] == NULL)
+            ft_last (cmd[i], prevpipe, i);
+        i++;
+    }
 }

@@ -38,11 +38,7 @@ int make_redir(int i, int pfd[], int *p_out) {
       fd_i =
           (close(fd_i), open(((t_quote *)temp->next->content)->str, O_RDONLY));
     } else if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0) {
-		if (access(((t_quote *)temp->next->content)->str, F_OK) != 0)
-			return (-1);
-		if (access(((t_quote *)temp->next->content)->str, R_OK) != 0)
-			return (-2);
-		fd_i = (close(fd_i), open(ft_strjoin("/tmp/", ft_itoa(i)), O_RDONLY));
+		fd_i = (close(fd_i), open(ft_strjoin("/tmp/", ft_itoa(((t_quote *)temp->content)->id)), O_RDONLY));
 	}
     temp = temp->next;
   }

@@ -1,16 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expension.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 15:19:31 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 15:21:35 by ngobert          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
+
+// What could make the search stop ?
+// index finds a `\0`
+// index finds a `'` while outside single braces
+// index finds a `"`
+// index finds a ` `
+// index finds a `=`
 
 int	get_size_of_var(int j, int blind)
 {
@@ -165,12 +160,17 @@ char	*insert_value(char *to_expand, int index)
 	while (x < ft_strlen(_ms(0)->prompt) + ft_strlen(value))
 	{
 		if (i == index)
+		{
 			while (value[j])
 				new[x++] = value[j++];
-		new[x++] = _ms(0)->prompt[i++];
+		}
+		new[x] = _ms(0)->prompt[i];
+		i++;
+		x++;
 	}
 	new[x] = '\0';
-	return (free(_ms(0)->prompt), free(value), new);
+	free(_ms(0)->prompt);
+	return (free(value), new);
 }
 
 void	expend_env_vars(void)

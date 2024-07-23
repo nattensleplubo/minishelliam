@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   quotes.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 15:31:45 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 15:32:28 by ngobert          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
 void	delete_set(int i, int set)
@@ -34,9 +22,15 @@ void	delete_set(int i, int set)
 	while (_ms(0)->splitted_prompt[i][j])
 	{
 		if (_ms(0)->splitted_prompt[i][j] != set)
-			newstring[k++] = _ms(0)->splitted_prompt[i][j++];
-		else
+		{
+			newstring[k] = _ms(0)->splitted_prompt[i][j];
 			j++;
+			k++;
+		}
+		else
+		{
+			j++;
+		}
 	}
 	newstring[k] = '\0';
 	oldstring = _ms(0)->splitted_prompt[i];

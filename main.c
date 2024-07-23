@@ -54,7 +54,7 @@ void	ft_free_prev_prompt(void)
 	_ms(0)->splitted_prompt = NULL;
 }
 
-void	init_ms(void)
+void	init_ms(void) // Initialize all values to some default ones at the
 {
 	_ms(0)->prompt = NULL;
 	_ms(0)->splitted_prompt = NULL;
@@ -78,6 +78,7 @@ void	ft_bash(void)
 			ft_free_prev_prompt();
 			return ;
 		}
+		//ft_lstprint(_ms(0)->tokenized_prompt);
 		ft_pipe();
 		ft_free_prev_prompt();
 	}

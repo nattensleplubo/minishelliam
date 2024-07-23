@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   grammar.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 15:10:47 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 15:19:00 by ngobert          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
 int	check_quotes(void)
@@ -31,21 +19,16 @@ int	check_quotes(void)
 			d++;
 	}
 	if (s % 2 != 0 || d % 2 != 0)
-	{
-		ft_putstr_fd("minishell: parse error: Warning, string ", 2);
-		ft_putstr_fd("won't be processed, invalid number of quotes\n", 2);
-		return (-1);
-	}
+		return (ft_putstr_fd("minishell: parse error: Warning, string won't be processed, invalid number of quotes\n", 2), -1);
 	return (1);
 }
 
 int	pipe_syntax_check(t_quote *next)
 {
 	if (!next)
-		return (1);
-	if (ft_strcmp(next->token, "cmd") != 0 && ft_strcmp(next->token,
-			"SIMPLE_<") != 0 && ft_strcmp(next->token, "DOUBLE_<") != 0)
-		return (2);
+		return (1); // Syntax error near token '\n'
+	if (ft_strcmp(next->token, "cmd") != 0 && ft_strcmp(next->token, "SIMPLE_<") != 0 && ft_strcmp(next->token, "DOUBLE_<") != 0)
+		return (2); // Syntax error near next->token
 	if (next->id == 1)
 		return (3);
 	return (0);
@@ -54,9 +37,9 @@ int	pipe_syntax_check(t_quote *next)
 int	redir_syntax_check(t_quote *next)
 {
 	if (!next)
-		return (1);
+		return (1); // Syntax error near token '\n'
 	if (ft_strcmp(next->token, "fnm") != 0)
-		return (2);
+		return (2); // Syntax error near next->token
 	return (0);
 }
 

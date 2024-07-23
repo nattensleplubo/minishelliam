@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 15:27:58 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 15:29:17 by ngobert          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
 
 void	fill_list(void)
@@ -76,8 +64,8 @@ char	***make_commands_tab(void)
 {
 	char	***ret;
 	t_list	*temp;
-	int		ints[5];
 
+	int ints[5]; // 0: cmd, 1: i, 2: tab_size, 3 fill_commands, 4 check commands
 	temp = _ms(0)->tokenized_prompt;
 	ints[1] = 0;
 	ints[4] = -1;
@@ -133,5 +121,6 @@ void	exec(void)
 		free(_ms(0)->commands);
 	}
 	fill_list();
+	// ft_lstprint(_ms(0)->tokenized_prompt);
 	_ms(0)->commands = make_commands_tab();
 }

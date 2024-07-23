@@ -64,6 +64,7 @@ SRCS        :=            libft/ft_strnstr.c \
                           src/print_tab.c \
                           src/init_env.c \
                           src/expension.c \
+						  src/expension_utils.c \
                           src/exec.c \
 						  src/quotes.c \
 						  src/signal.c \
@@ -80,7 +81,7 @@ SRCS        :=            libft/ft_strnstr.c \
 						  src/grammar.c \
 						  src/heredocs.c \
 						  src/utils.c \
-						  src/pipe_utils.c \
+						  src/pipe_utils.c
 
 OBJS        := $(SRCS:.c=.o)
 

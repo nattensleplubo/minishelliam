@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:31:45 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 15:32:28 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/23 16:08:21 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,8 @@ void	delete_set(int i, int set)
 
 	j = 0;
 	k = 0;
-	size = 0;
-	while (_ms(0)->splitted_prompt[i][j])
-	{
-		if (_ms(0)->splitted_prompt[i][j] != set)
-			size++;
-		j++;
-	}
+	size = size_without_set(i, set);
 	newstring = malloc(sizeof(char) * size + 1);
-	j = 0;
 	while (_ms(0)->splitted_prompt[i][j])
 	{
 		if (_ms(0)->splitted_prompt[i][j] != set)
@@ -58,7 +51,8 @@ int	findset(int i)
 			set++;
 			j = 0;
 		}
-		j++;
+		else
+			j++;
 	}
 	return (set);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 16:54:39 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 16:54:40 by ngobert          ###   ########.fr       */
+/*   Created: 2024/07/23 15:31:45 by ngobert           #+#    #+#             */
+/*   Updated: 2024/07/23 17:19:49 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,14 @@ void	delete_set(int i, int set)
 
 	j = 0;
 	k = 0;
-	size = 0;
-	while (_ms(0)->splitted_prompt[i][j])
-	{
-		if (_ms(0)->splitted_prompt[i][j] != set)
-			size++;
-		j++;
-	}
+	size = size_without_set(i, set);
 	newstring = malloc(sizeof(char) * size + 1);
-	j = 0;
 	while (_ms(0)->splitted_prompt[i][j])
 	{
 		if (_ms(0)->splitted_prompt[i][j] != set)
-		{
-			newstring[k] = _ms(0)->splitted_prompt[i][j];
-			j++;
-			k++;
-		}
+			newstring[k++] = _ms(0)->splitted_prompt[i][j++];
 		else
-		{
 			j++;
-		}
 	}
 	newstring[k] = '\0';
 	oldstring = _ms(0)->splitted_prompt[i];
@@ -64,7 +51,8 @@ int	findset(int i)
 			set++;
 			j = 0;
 		}
-		j++;
+		else
+			j++;
 	}
 	return (set);
 }

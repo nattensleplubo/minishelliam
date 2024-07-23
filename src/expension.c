@@ -3,100 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   expension.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/23 16:53:15 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 16:53:16 by ngobert          ###   ########.fr       */
+/*   Created: 2024/07/23 15:19:31 by ngobert           #+#    #+#             */
+/*   Updated: 2024/07/23 17:19:46 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// What could make the search stop ?
-// index finds a `\0`
-// index finds a `'` while outside single braces
-// index finds a `"`
-// index finds a ` `
-// index finds a `=`
-
-int	get_size_of_var(int j, int blind)
-{
-	int	size;
-
-	(void)blind;
-	size = 0;
-	while (_ms(0)->prompt[j])
-	{
-		if (ft_isalnum(_ms(0)->prompt[j]) != 1 && _ms(0)->prompt[j] != '$')
-			return (size);
-		j++;
-		size++;
-	}
-	return (size);
-}
-
-void	skip_single_quote(int *i)
-{
-	*i = *i + 1;
-	while (_ms(0)->prompt[*i] && _ms(0)->prompt[*i] != '\'')
-		*i = *i + 1;
-}
-
-int	should_be_skipped(int i)
-{
-	int	before;
-	int	after;
-	int	inside[2];
-
-	before = i;
-	after = i;
-	inside[0] = 0;
-	inside[1] = 0;
-	while (inside[0] < i)
-	{
-		if (_ms(0)->prompt[inside[0]] == '\"' && inside[1] == 0)
-			inside[1] = 1;
-		else if (_ms(0)->prompt[inside[0]] == '\"' && inside[1] == 1)
-			inside[1] = 0;
-		inside[0]++;
-	}
-	while (_ms(0)->prompt[after] && _ms(0)->prompt[after] != '\"')
-		after++;
-	while (before > 0 && _ms(0)->prompt[before] != '\"')
-		before--;
-	if (_ms(0)->prompt[after])
-		if (_ms(0)->prompt[before] == '\"' && _ms(0)->prompt[after] == '\"'
-			&& inside[1] == 1)
-			return (1);
-	return (0);
-}
-
 char	*is_there_env_to_expand(int *index)
 {
 	int		i;
 	int		j;
-	int		blind;
-	char	*ret;
 
 	i = 0;
-	blind = 0;
 	while (_ms(0)->prompt[i])
 	{
 		if (_ms(0)->prompt[i] == '\'' && should_be_skipped(i) != 1)
 			skip_single_quote(&i);
 		if (_ms(0)->prompt[i] == '$')
 		{
-			j = get_size_of_var(i, blind);
+			j = get_size_of_var(i, j);
 			if (j > 1)
 			{
 				*index = i;
-				ret = calloc(sizeof(char), j + 1);
-				j = i;
-				while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0)
-					|| _ms(0)->prompt[j] == '$')
-					ret[blind++] = _ms(0)->prompt[j++];
-				ret[blind] = '\0';
-				return (ret);
+				return (calloc_var(j, i));
 			}
 		}
 		i++;
@@ -153,7 +85,7 @@ char	*delete_var(char *to_expend, int index)
 char	*insert_value(char *to_expand, int index)
 {
 	char	*new;
-	char	*value;
+	char	*vl;
 	int		i;
 	int		j;
 	size_t	x;
@@ -162,27 +94,21 @@ char	*insert_value(char *to_expand, int index)
 	j = 0;
 	x = 0;
 	if (to_expand && to_expand[1] == '?')
-		value = ft_itoa(_ms(0)->errnum);
+		vl = ft_itoa(_ms(0)->errnum);
 	else
-		value = get_value_of_varname(to_expand + 1);
-	if (!value)
-		value = ft_strdup("");
-	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) + ft_strlen(value)
-				+ 2));
-	while (x < ft_strlen(_ms(0)->prompt) + ft_strlen(value))
+		vl = get_value_of_varname(to_expand + 1);
+	if (!vl)
+		vl = ft_strdup("");
+	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) + ft_strlen(vl) + 2));
+	while (x < ft_strlen(_ms(0)->prompt) + ft_strlen(vl))
 	{
 		if (i == index)
-		{
-			while (value[j])
-				new[x++] = value[j++];
-		}
-		new[x] = _ms(0)->prompt[i];
-		i++;
-		x++;
+			while (vl[j])
+				new[x++] = vl[j++];
+		new[x++] = _ms(0)->prompt[i++];
 	}
 	new[x] = '\0';
-	free(_ms(0)->prompt);
-	return (free(value), new);
+	return (free(_ms(0)->prompt), free(vl), new);
 }
 
 void	expend_env_vars(void)

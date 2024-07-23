@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:40:51 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/23 16:48:04 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/23 17:16:29 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,10 @@ int			ft_error_check(char *prompt);
 int			ft_search(char **prompt, char **path);
 int			checkifpath(char *str);
 int			ft_exec_builtins(char **prompt);
+int			size_without_set(int i, int set);
+int			get_size_of_var(int j, int blind);
+void		skip_single_quote(int *i);
+char		*calloc_var(int j, int i);
+int			should_be_skipped(int i);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:40:51 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/22 16:09:42 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:48:04 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		fill_list(void);
 void		exec(void);
 void		ft_lstprint(t_list *lst);
 void		ft_pipe(void);
-int			make_redir(int i, int pfd[], int *p_out);
+void		make_redir(int i, int pfd[], int *p_out);
 int			ft_echo(char **cmd);
 int			ft_export(char **arg);
 int			ft_unset(char **arg);

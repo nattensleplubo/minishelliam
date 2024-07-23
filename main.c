@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/22 16:16:02 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:50:41 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	ft_bash(void)
 			ft_free_prev_prompt();
 			return ;
 		}
-		//ft_lstprint(_ms(0)->tokenized_prompt);
 		ft_pipe();
 		ft_free_prev_prompt();
 	}

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:19:31 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 17:19:46 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:59:26 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ char	*is_there_env_to_expand(int *index)
 {
 	int		i;
 	int		j;
+	int		blind;
 
+	blind = 0;
 	i = 0;
 	while (_ms(0)->prompt[i])
 	{
@@ -24,7 +26,7 @@ char	*is_there_env_to_expand(int *index)
 			skip_single_quote(&i);
 		if (_ms(0)->prompt[i] == '$')
 		{
-			j = get_size_of_var(i, j);
+			j = get_size_of_var(i, blind);
 			if (j > 1)
 			{
 				*index = i;

@@ -27,7 +27,7 @@ int	pipe_syntax_check(t_quote *next)
 {
 	if (!next)
 		return (1); // Syntax error near token '\n'
-	if (ft_strcmp(next->token, "cmd") != 0)
+	if (ft_strcmp(next->token, "cmd") != 0 && ft_strcmp(next->token, "SIMPLE_<") != 0 && ft_strcmp(next->token, "DOUBLE_<") != 0)
 		return (2); // Syntax error near next->token
 	if (next->id == 1)
 		return (3);
@@ -36,12 +36,10 @@ int	pipe_syntax_check(t_quote *next)
 
 int	redir_syntax_check(t_quote *next)
 {
-	printf("Checking...\n");
 	if (!next)
 		return (1); // Syntax error near token '\n'
 	if (ft_strcmp(next->token, "fnm") != 0)
 		return (2); // Syntax error near next->token
-	printf("All good :)\n");
 	return (0);
 }
 

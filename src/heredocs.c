@@ -35,7 +35,6 @@ void	write_heredocs(void)
 	{
 		if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0)
 		{
-			printf("id : %d\n", ((t_quote *)temp->content)->id);
 			heredoc_loop(((t_quote *)temp->next->content)->str,
 				((t_quote *)temp->next->content)->id);
 		}

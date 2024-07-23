@@ -13,13 +13,13 @@ int make_redir(int i, int pfd[], int *p_out) {
   fd_o = -1;
   fd_i = -1;
   temp = _ms(0)->tokenized_prompt;
-  x = -1;
+  x = 0;
   while (x != i) {
-    if (ft_strncmp("cmd", ((t_quote *)temp->content)->token, 3) == 0)
+    if (ft_strcmp("SIMPLE_|", ((t_quote *)temp->content)->token) == 0)
       x++;
     temp = temp->next;
   }
-  while (temp && ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) != 0) {
+  while (temp && ft_strcmp(((t_quote *)temp->content)->token, "SIMPLE_|") != 0) {
     if (ft_strncmp("SIMPLE_>", ((t_quote *)temp->content)->token, 8) == 0) {
 		if (access(((t_quote *)temp->next->content)->str, F_OK) == 0)
 			if (access(((t_quote *)temp->next->content)->str, W_OK) == -1)
@@ -38,7 +38,7 @@ int make_redir(int i, int pfd[], int *p_out) {
       fd_i =
           (close(fd_i), open(((t_quote *)temp->next->content)->str, O_RDONLY));
     } else if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0) {
-		fd_i = (close(fd_i), open(ft_strjoin("/tmp/", ft_itoa(((t_quote *)temp->content)->id)), O_RDONLY));
+		fd_i = (close(fd_i), open(ft_strjoin("/tmp/", ft_itoa(((t_quote *)temp->next->content)->id)), O_RDONLY));
 	}
     temp = temp->next;
   }

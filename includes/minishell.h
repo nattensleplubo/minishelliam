@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:40:51 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/23 17:16:29 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/23 23:40:02 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int			get_size_of_var(int j, int blind);
 void		skip_single_quote(int *i);
 char		*calloc_var(int j, int i);
 int			should_be_skipped(int i);
+int			get_number_of_args(int i);
 
 #endif

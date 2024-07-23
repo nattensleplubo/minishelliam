@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:53:34 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 16:54:24 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/23 23:40:19 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,29 @@ int	get_number_of_commands(void)
 	return (i);
 }
 
-int	get_number_of_args(int i)
+void	alloc_commands_tab(int ints[5], t_list *temp, char ***ret)
 {
-	int		ret_size;
-	int		j;
-	t_list	*temp;
-
-	j = 0;
-	ret_size = 0;
-	temp = _ms(0)->tokenized_prompt;
-	while (j <= i)
+	if (ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) == 0)
 	{
-		if (ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) == 0)
-			j++;
-		temp = temp->next;
+		ints[4]++;
+		ints[3] = 1;
+		ints[2] = get_number_of_args(ints[1]);
+		ret[ints[1]] = malloc(sizeof(char *) * (ints[2] + 2));
+		ret[ints[1]][ints[2] + 1] = NULL;
+		ret[ints[1]][0] = ft_calloc(sizeof(char),
+				(ft_strlen(((t_quote *)temp->content)->str) + 1));
+		ft_strlcpy(ret[ints[1]][0], ((t_quote *)temp->content)->str,
+			ft_strlen(((t_quote *)temp->content)->str) + 1);
+		ints[1]++;
 	}
-	while (temp && ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) != 0)
+	if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3) == 0)
 	{
-		if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3) == 0)
-			ret_size++;
-		temp = temp->next;
+		ret[ints[4]][ints[3]] = ft_calloc(sizeof(char),
+				(ft_strlen(((t_quote *)temp->content)->str) + 1));
+		ft_strlcpy(ret[ints[4]][ints[3]], ((t_quote *)temp->content)->str,
+			ft_strlen(((t_quote *)temp->content)->str) + 1);
+		ints[3]++;
 	}
-	return (ret_size);
 }
 
 char	***make_commands_tab(void)
@@ -86,27 +87,7 @@ char	***make_commands_tab(void)
 	ret[ints[0]] = NULL;
 	while (temp && ints[4] < ints[0])
 	{
-		if (ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) == 0)
-		{
-			ints[4]++;
-			ints[3] = 1;
-			ints[2] = get_number_of_args(ints[1]);
-			ret[ints[1]] = malloc(sizeof(char *) * (ints[2] + 2));
-			ret[ints[1]][ints[2] + 1] = NULL;
-			ret[ints[1]][0] = ft_calloc(sizeof(char),
-					(ft_strlen(((t_quote *)temp->content)->str) + 1));
-			ft_strlcpy(ret[ints[1]][0], ((t_quote *)temp->content)->str,
-				ft_strlen(((t_quote *)temp->content)->str) + 1);
-			ints[1]++;
-		}
-		if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3) == 0)
-		{
-			ret[ints[4]][ints[3]] = ft_calloc(sizeof(char),
-					(ft_strlen(((t_quote *)temp->content)->str) + 1));
-			ft_strlcpy(ret[ints[4]][ints[3]], ((t_quote *)temp->content)->str,
-				ft_strlen(((t_quote *)temp->content)->str) + 1);
-			ints[3]++;
-		}
+		alloc_commands_tab(ints, temp, ret);
 		temp = temp->next;
 	}
 	return (ret);

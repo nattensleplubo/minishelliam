@@ -6,11 +6,51 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:57:08 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/22 16:17:16 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/23 23:39:51 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	get_number_of_args(int i)
+{
+	int		ret_size;
+	int		j;
+	t_list	*temp;
+
+	j = 0;
+	ret_size = 0;
+	temp = _ms(0)->tokenized_prompt;
+	while (j <= i)
+	{
+		if (ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) == 0)
+			j++;
+		temp = temp->next;
+	}
+	while (temp && ft_strncmp(((t_quote *)temp->content)->token, "cmd", 3) != 0)
+	{
+		if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3) == 0)
+			ret_size++;
+		temp = temp->next;
+	}
+	return (ret_size);
+}
+
+int	size_without_set(int i, int set)
+{
+	int	j;
+	int	size;
+
+	j = 0;
+	size = 0;
+	while (_ms(0)->splitted_prompt[i][j])
+	{
+		if (_ms(0)->splitted_prompt[i][j] != set)
+			size++;
+		j++;
+	}
+	return (size);
+}
 
 void	ft_lstprint(t_list *lst)
 {

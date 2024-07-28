@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/27 23:07:06 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/28 14:40:54 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_exec(char **prompt, int i)
 	}
 }
 
-void wait_for_all_children(pid_t	childrenpid)
+void	wait_for_all_children(pid_t childrenpid)
 {
 	int	i;
 
@@ -71,12 +71,11 @@ void wait_for_all_children(pid_t	childrenpid)
 		_ms(0)->errnum = WEXITSTATUS(_ms(0)->status);
 	else
 		_ms(0)->errnum = -1;
-    while (i < _ms(0)->forks - 1)
-    {
+	while (i < _ms(0)->forks - 1)
+	{
 		waitpid(-1, &_ms(0)->status, 0);
 		i++;
-    }
-
+	}
 }
 
 void	ft_last(char **prompt, int p_out, int i)

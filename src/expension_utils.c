@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expension_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:35:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/24 19:49:19 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/28 14:38:02 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ char	*calloc_var(int j, int i)
 {
 	char	*ret;
 	int		blind;
-	blind = 0;
 
+	blind = 0;
 	ret = calloc(sizeof(char), j + 1);
 	if (!ret)
 	{

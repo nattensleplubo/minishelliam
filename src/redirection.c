@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:48:58 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 16:48:59 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/28 14:37:31 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ int	do_output_redir(t_list *temp, int fd)
 		if (access(((t_quote *)temp->next->content)->str, F_OK) == 0)
 			if (access(((t_quote *)temp->next->content)->str, W_OK) == -1)
 				ft_pexit(1);
-		fd_o = (close(fd_o), open(((t_quote *)temp->next->content)->str,
-					O_CREAT | O_APPEND | O_WRONLY, 0644));
+		fd_o = open(((t_quote *)temp->next->content)->str,
+				O_CREAT | O_APPEND | O_WRONLY, 0644);
 	}
+	if (fd_o != fd && fd > 0)
+		close(fd_o);
 	return (fd_o);
 }
 
@@ -68,16 +70,17 @@ int	do_input_redir(t_list *temp, int fd)
 			ft_pexit(1);
 		if (access(((t_quote *)temp->next->content)->str, R_OK) != 0)
 			ft_pexit(1);
-		fd_i = (close(fd_i), open(((t_quote *)temp->next->content)->str,
-					O_RDONLY));
+		fd_i = open(((t_quote *)temp->next->content)->str, O_RDONLY);
 	}
 	else if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0)
 	{
 		ito = ft_itoa(((t_quote *)temp->next->content)->id);
 		join = ft_strjoin("/tmp/", ito);
-		fd_i = (close(fd_i), open(join, O_RDONLY));
+		fd_i = open(join, O_RDONLY);
 		fd_i = (free(ito), free(join), fd_i);
 	}
+	if (fd_i != fd && fd > 0)
+		close(fd);
 	return (fd_i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:40:51 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/23 23:40:02 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/27 21:40:50 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_minishell
 	t_list	*tokenized_prompt;
 	int		errnum;
 	int		status;
+	int		forks;
 }			t_minishell;
 
 typedef struct s_quote

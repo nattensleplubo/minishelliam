@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:53:05 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/30 18:25:09 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:29:10 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	check_quotes(void)
 	{
 		ft_putstr_fd("minishell: parse error: Warning, string ", 2);
 		ft_putstr_fd("be processed, invalid number of quotes\n", 2);
-		return (-1);
+		return (free(temp), -1);
 	}
-	return (1);
+	return (free(temp), 1);
 }
 
 int	pipe_syntax_check(t_quote *next)

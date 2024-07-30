@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:53:05 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/25 15:08:23 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 16:47:02 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	check_quotes(void)
 	int		s;
 	int		d;
 
-	i = 0;
+	i = -1;
 	s = 0;
 	d = 0;
 	temp = ft_strdup(_ms(0)->prompt);
-	while (temp[i++])
+	while (temp[++i])
 	{
 		if (temp[i] == '\'' && d % 2 == 0)
 			s++;

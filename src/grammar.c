@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:53:05 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/30 18:29:10 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:39:05 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int	check_token_grammar(void)
 
 	i = 0;
 	temp = _ms(0)->tokenized_prompt;
-	curr = NULL;
-	next = NULL;
 	if (check_quotes() == -1)
 		return (-1);
 	while (temp != NULL && i == 0)

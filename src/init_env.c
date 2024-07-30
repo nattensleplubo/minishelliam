@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:54:48 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/30 16:08:04 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:34:33 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_value_of_varname(char *varname)
 	while (_ms(0)->env[i][j])
 		j = (k++, j + 1);
 	value = calloc(sizeof(char), k + 1);
-	if(!value)
+	if (!value)
 		ft_exit(NULL, NULL);
 	j = ft_strlen(varname) + 1;
 	k = 0;
@@ -55,7 +55,7 @@ int	get_index_of_varname(char *varname)
 		while (_ms(0)->env[i][j] != '=' && _ms(0)->env[i][j] != '\0')
 			j++;
 		current = calloc(sizeof(char), j + 1);
-		if(!current)
+		if (!current)
 			ft_exit(NULL, NULL);
 		ft_strlcpy(current, _ms(0)->env[i], j + 1);
 		if (ft_strcmp(current, varname) == 0)

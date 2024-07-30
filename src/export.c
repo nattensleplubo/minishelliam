@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:11:03 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 16:39:58 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:36:33 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	addtotab(char ***tab, const char *newstring)
 		size++;
 	newarray = malloc((size + 2) * sizeof(char *));
 	if (newarray == NULL)
-		return(-1);
+		return (-1);
 	while ((*tab)[i])
 	{
 		newarray[i] = (*tab)[i];
@@ -52,7 +52,7 @@ int	addtotab(char ***tab, const char *newstring)
 	}
 	newarray[size] = malloc((strlen(newstring) + 1) * sizeof(char));
 	if (newarray[size] == NULL)
-		return(free(newarray), -1);
+		return (free(newarray), -1);
 	strcpy(newarray[size], newstring);
 	newarray[size + 1] = NULL;
 	free(*tab);

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:40:51 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:02:50 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:36:17 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void		skip_single_quote(int *i);
 char		*calloc_var(int j, int i);
 int			should_be_skipped(int i);
 int			get_number_of_args(int i);
-void		ft_signal_cmd();
+void		ft_signal_cmd(void);
 void		ft_handle_signal_cmd(int signo);
+void		wait_for_all_children(pid_t childrenpid);
 
 #endif

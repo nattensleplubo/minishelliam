@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:05:12 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:35:39 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,10 @@ void	ft_exec(char **prompt, int i)
 	}
 }
 
-void	wait_for_all_children(pid_t childrenpid)
-{
-	int	i;
-
-	i = 0;
-	waitpid(childrenpid, &_ms(0)->status, 0);
-	if (WIFEXITED(_ms(0)->status))
-		_ms(0)->errnum = WEXITSTATUS(_ms(0)->status);
-	else
-		_ms(0)->errnum = -1;
-	while (i < _ms(0)->forks - 1)
-	{
-		waitpid(-1, &_ms(0)->status, 0);
-		i++;
-	}
-}
-
 void	ft_last(char **prompt, int p_out, int i)
 {
 	pid_t	childrenpid;
 
-	ft_signal_cmd();
 	if (ft_builtins(prompt, 0) != 2)
 	{
 		_ms(0)->forks++;

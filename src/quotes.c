@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:31:45 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/30 15:47:06 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:36:52 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	delete_set(int i, int set)
 	k = 0;
 	size = size_without_set(i, set);
 	newstring = malloc(sizeof(char) * size + 1);
-		if (!newstring)
-			ft_exit(NULL, NULL);
+	if (!newstring)
+		ft_exit(NULL, NULL);
 	while (_ms(0)->splitted_prompt[i][j])
 	{
 		if (_ms(0)->splitted_prompt[i][j] != set)

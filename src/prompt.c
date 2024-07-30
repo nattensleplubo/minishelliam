@@ -6,12 +6,12 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:15:06 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:35:20 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-	
+
 char	*ft_stjoin(char *s1, char *s2, int tofree)
 {
 	char	*dest;
@@ -40,10 +40,12 @@ char	*ft_stjoin(char *s1, char *s2, int tofree)
 		free(s2);
 	return (dest);
 }
-char *make_line(char *path)
+
+char	*make_line(char *path)
 {
 	char	*line;
-	char 	*buffer;
+	char	*buffer;
+
 	line = ft_stjoin(path, " $ ", 3);
 	if (!line)
 	{
@@ -66,6 +68,7 @@ char *make_line(char *path)
 	}
 	return (line);
 }
+
 int	read_line(void)
 {
 	char	*path;

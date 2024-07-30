@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:56:33 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 15:41:37 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:37:06 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	**prompt_splitter(char const *s)
 	j[3] = 0;
 	tab = malloc(sizeof(char *) * (j[2] + 1));
 	if (!tab)
-		return(ft_exit(NULL, NULL), NULL);
+		return (ft_exit(NULL, NULL), NULL);
 	while (j[3] < j[2])
 	{
 		j[0] = nextword(s, j[1], 1);

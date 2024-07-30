@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:37:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/22 15:32:17 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:39:17 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	ft_exit(char *reason, char **prompt)
 	if (_ms(0)->tokenized_prompt)
 		ft_lstclear(&_ms(0)->tokenized_prompt, free_content);
 	free(_ms(0));
-	printf("%s", reason);
+	if (reason)
+		printf("%s", reason);
 	if (exit_number < 0)
 		exit_number = 256 + exit_number;
 	exit (exit_number);

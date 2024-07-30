@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/22 15:51:27 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:50:19 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	is_redirection_or_pipe(t_list **lst, int i, int cmd)
 		free(((t_quote *)(*lst)->content)->token);
 		((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 9);
 		if (!((t_quote *)(*lst)->content)->token)
-		{
-		}
+			ft_exit(NULL, NULL);
 		if (s[1] == s[0])
 			ft_strlcpy(((t_quote *)(*lst)->content)->token, "DOUBLE__", 9);
 		else
@@ -69,8 +68,7 @@ void	add_token(t_list **lst, int size)
 		{
 			((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
 			if (!((t_quote *)(*lst)->content)->token)
-			{
-			}
+				ft_exit(NULL, NULL);
 			if (i[1] == 0 && !is_pipe(_ms(0)->splitted_prompt[i[0]][0]))
 			{
 				ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
@@ -92,8 +90,7 @@ t_quote	*create_struct(char *arg, int i)
 	(void)arg;
 	content = malloc(sizeof(t_quote));
 	if (!content)
-	{
-	}
+		ft_exit(NULL, NULL);
 	content->token = NULL;
 	content->id = i;
 	return (content);
@@ -115,8 +112,7 @@ void	ft_token(void)
 	{
 		node = ft_lstnew(create_struct(_ms(0)->splitted_prompt[i], i));
 		if (!node)
-		{
-		}
+			ft_exit(NULL, NULL);
 		ft_lstadd_back(&_ms(0)->tokenized_prompt, node);
 		i++;
 	}

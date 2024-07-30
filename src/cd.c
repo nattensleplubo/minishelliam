@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:11:27 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/23 16:06:42 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/28 15:48:36 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	ft_cd(char	**dirtogo)
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-	{
-	}
+		ft_exit(NULL, NULL);
 	if (dirtogo[0] == NULL)
 		chdir("/home/");
 	else

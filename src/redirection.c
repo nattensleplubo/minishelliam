@@ -6,7 +6,7 @@
 /*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:48:58 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/28 14:37:31 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 15:52:51 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	do_output_redir(t_list *temp, int fd)
 				O_CREAT | O_APPEND | O_WRONLY, 0644);
 	}
 	if (fd_o != fd && fd > 0)
-		close(fd_o);
+		close(fd);
 	return (fd_o);
 }
 

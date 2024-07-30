@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/23 16:50:41 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 17:58:53 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	init_ms(void) // Initialize all values to some default ones at the
 	_ms(0)->env = NULL;
 	_ms(0)->tokenized_prompt = NULL;
 	_ms(0)->commands = NULL;
+	_ms(0)->forks = 0;
 	_ms(0)->errnum = 0;
 }
 
@@ -99,5 +100,8 @@ int	main(int argc, char **argv, char **envp)
 	init_env(envp);
 	errno = 0;
 	while (9)
+	{
+		sigaction(SIGINT, &s, NULL);
 		ft_bash();
+	}
 }

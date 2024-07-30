@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:11:03 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/21 19:31:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:39:58 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	changevalue(char **oldstring, char *newstring)
+int	changevalue(char **oldstring, char *newstring)
 {
 	int	size;
 	int	i;
@@ -21,15 +21,18 @@ void	changevalue(char **oldstring, char *newstring)
 	size = ft_strlen(newstring);
 	free(*oldstring);
 	*oldstring = malloc(sizeof(char) * size + 1);
+	if (!*oldstring)
+		return (-1);
 	while (newstring[i])
 	{
 		(*oldstring)[i] = newstring[i];
 		i++;
 	}
 	(*oldstring)[i] = '\0';
+	return (0);
 }
 
-void	addtotab(char ***tab, const char *newstring)
+int	addtotab(char ***tab, const char *newstring)
 {
 	int		size;
 	int		i;
@@ -41,8 +44,7 @@ void	addtotab(char ***tab, const char *newstring)
 		size++;
 	newarray = malloc((size + 2) * sizeof(char *));
 	if (newarray == NULL)
-	{
-	}
+		return(-1);
 	while ((*tab)[i])
 	{
 		newarray[i] = (*tab)[i];
@@ -50,12 +52,12 @@ void	addtotab(char ***tab, const char *newstring)
 	}
 	newarray[size] = malloc((strlen(newstring) + 1) * sizeof(char));
 	if (newarray[size] == NULL)
-	{
-	}
+		return(free(newarray), -1);
 	strcpy(newarray[size], newstring);
 	newarray[size + 1] = NULL;
 	free(*tab);
 	*tab = newarray;
+	return (0);
 }
 
 void	ft_export2(char **arg, int i, int j, int k)
@@ -64,14 +66,25 @@ void	ft_export2(char **arg, int i, int j, int k)
 
 	env = calloc(sizeof(char), i + 1);
 	if (!env)
-	{
-	}
+		ft_exit(NULL, NULL);
 	ft_strlcpy(env, arg[j], i + 1);
 	k = get_index_of_varname(env);
 	if (k == -1 && arg[j][i] == '=')
-		addtotab(&_ms(0)->env, arg[j]);
+	{
+		if (addtotab(&_ms(0)->env, arg[j]) == -1)
+		{
+			free(env);
+			ft_exit(NULL, NULL);
+		}
+	}
 	else if (k >= 0 && arg[j][i] == '=')
-		changevalue(&_ms(0)->env[k], arg[j]);
+	{
+		if (changevalue(&_ms(0)->env[k], arg[j]) == -1)
+		{
+			free(env);
+			ft_exit(NULL, NULL);
+		}
+	}
 	free(env);
 }
 

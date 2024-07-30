@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/28 14:40:54 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 18:05:12 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	ft_last(char **prompt, int p_out, int i)
 {
 	pid_t	childrenpid;
 
+	ft_signal_cmd();
 	if (ft_builtins(prompt, 0) != 2)
 	{
 		_ms(0)->forks++;
@@ -144,6 +145,7 @@ void	ft_pipe(void)
 	write_heredocs();
 	i = 0;
 	prevpipe = dup(0);
+	ft_signal_cmd();
 	while (cmd[i])
 	{
 		if (cmd[i] && cmd[i + 1] != NULL)

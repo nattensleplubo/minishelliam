@@ -6,12 +6,12 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/23 17:19:47 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:15:06 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+	
 char	*ft_stjoin(char *s1, char *s2, int tofree)
 {
 	char	*dest;
@@ -40,7 +40,32 @@ char	*ft_stjoin(char *s1, char *s2, int tofree)
 		free(s2);
 	return (dest);
 }
-
+char *make_line(char *path)
+{
+	char	*line;
+	char 	*buffer;
+	line = ft_stjoin(path, " $ ", 3);
+	if (!line)
+	{
+		free (path);
+		ft_exit(NULL, NULL);
+	}
+	buffer = ft_stjoin("\033[0;36m", line, 1);
+	if (!buffer)
+	{
+		free (line);
+		free (path);
+		ft_exit(NULL, NULL);
+	}
+	line = ft_stjoin(buffer, "\e[0m", 0);
+	if (!line)
+	{
+		free (buffer);
+		free (path);
+		ft_exit(NULL, NULL);
+	}
+	return (line);
+}
 int	read_line(void)
 {
 	char	*path;
@@ -50,9 +75,7 @@ int	read_line(void)
 	ret_val = 0;
 	path = NULL;
 	path = getcwd(NULL, 2048);
-	line = ft_stjoin(path, " $ ", 3);
-	line = ft_stjoin("\033[0;36m", line, 1);
-	line = ft_stjoin(line, "\e[0m", 0);
+	line = make_line(path);
 	if (_ms(0)->prompt)
 		free(_ms(0)->prompt);
 	_ms(0)->prompt = readline(line);

@@ -6,13 +6,12 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:26 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 17:58:53 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:17:01 by ngobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
 
-// Global function 1 to print it's values. 0 To do nothing
 t_minishell	*_ms(int params)
 {
 	static t_minishell	*ms = NULL;

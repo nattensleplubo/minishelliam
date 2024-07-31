@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expension_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:35:01 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/28 14:38:02 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 22:47:26 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ char	*calloc_var(int j, int i)
 	int		blind;
 
 	blind = 0;
-	ret = calloc(sizeof(char), j + 1);
+	ret = ft_calloc(sizeof(char), j + 1);
 	if (!ret)
-	{
-	}
+		ft_exit(NULL, NULL);
 	j = i;
 	while ((_ms(0)->prompt[j] && ft_isalnum(_ms(0)->prompt[j]) != 0)
 		|| _ms(0)->prompt[j] == '$')

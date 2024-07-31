@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:19:31 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 17:59:26 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:55:23 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ char	*delete_var(char *to_expend, int index)
 	i = 0;
 	j = 0;
 	to_skip = ft_strlen(to_expend);
-	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) - to_skip + 1));
+	new = ft_calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) - to_skip + 1));
+	if (!new)
+		ft_exit(NULL, NULL);
 	while (_ms(0)->prompt[i])
 	{
 		if (i < index || i >= index + to_skip)
@@ -101,7 +103,8 @@ char	*insert_value(char *to_expand, int index)
 		vl = get_value_of_varname(to_expand + 1);
 	if (!vl)
 		vl = ft_strdup("");
-	new = calloc(sizeof(char), (ft_strlen(_ms(0)->prompt) + ft_strlen(vl) + 2));
+	new = ft_cal_te(sizeof(char), (ft_strlen(_ms(0)->prompt)
+				+ ft_strlen(vl) + 2), NULL, vl);
 	while (x < ft_strlen(_ms(0)->prompt) + ft_strlen(vl))
 	{
 		if (i == index)
@@ -109,8 +112,7 @@ char	*insert_value(char *to_expand, int index)
 				new[x++] = vl[j++];
 		new[x++] = _ms(0)->prompt[i++];
 	}
-	new[x] = '\0';
-	return (free(_ms(0)->prompt), free(vl), new);
+	return (new[x] = '\0', free(_ms(0)->prompt), free(vl), new);
 }
 
 void	expend_env_vars(void)

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:11:27 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/28 15:48:36 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/31 00:09:00 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,18 @@ void	ft_changeenv(char *o_cwd)
 	n_owd = getcwd(NULL, 0);
 	if (!n_owd)
 	{
+		free(nwd[1]);
+		ft_exit("Error getcwd", NULL);
 	}
 	nwd[2] = ft_strjoin("PWD=\0", n_owd);
 	nwd[3] = NULL;
 	if (!nwd[1] || !nwd[2])
 	{
+		if (!nwd[1])
+			free(nwd[1]);
+		if (!nwd[2])
+			free(nwd[2]);
+		ft_exit("Fail Malloc", NULL);
 	}
 	ft_export(nwd);
 	free(nwd[1]);

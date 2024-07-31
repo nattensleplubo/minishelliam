@@ -82,6 +82,7 @@ SRCS        :=            libft/ft_strnstr.c \
 						  src/heredocs.c \
 						  src/utils.c \
 						  src/pipe_utils.c \
+						  src/exit_utils.c \
 
 OBJS        := $(SRCS:.c=.o)
 

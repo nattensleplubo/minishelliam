@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:53:34 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 23:40:19 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:55:14 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	fill_list(void)
 	{
 		((t_quote *)temp->content)->str = ft_calloc(sizeof(char),
 				(ft_strlen(_ms(0)->splitted_prompt[i])) + 1);
+		if (!((t_quote *)temp->content)->str)
+			ft_exit(NULL, NULL);
 		ft_strlcpy(((t_quote *)temp->content)->str, _ms(0)->splitted_prompt[i],
 			ft_strlen(_ms(0)->splitted_prompt[i]) + 1);
 		i++;
@@ -55,18 +57,18 @@ void	alloc_commands_tab(int ints[5], t_list *temp, char ***ret)
 		ints[4]++;
 		ints[3] = 1;
 		ints[2] = get_number_of_args(ints[1]);
-		ret[ints[1]] = malloc(sizeof(char *) * (ints[2] + 2));
+		ret[ints[1]] = ft_cal_te(sizeof(char *), (ints[2] + 2), ret, NULL);
 		ret[ints[1]][ints[2] + 1] = NULL;
-		ret[ints[1]][0] = ft_calloc(sizeof(char),
-				(ft_strlen(((t_quote *)temp->content)->str) + 1));
+		ret[ints[1]][0] = ft_cal_te(sizeof(char),
+				(ft_strlen(((t_quote *)temp->content)->str) + 1), ret, NULL);
 		ft_strlcpy(ret[ints[1]][0], ((t_quote *)temp->content)->str,
 			ft_strlen(((t_quote *)temp->content)->str) + 1);
 		ints[1]++;
 	}
 	if (ft_strncmp(((t_quote *)temp->content)->token, "arg", 3) == 0)
 	{
-		ret[ints[4]][ints[3]] = ft_calloc(sizeof(char),
-				(ft_strlen(((t_quote *)temp->content)->str) + 1));
+		ret[ints[4]][ints[3]] = ft_cal_te(sizeof(char),
+				(ft_strlen(((t_quote *)temp->content)->str) + 1), ret, NULL);
 		ft_strlcpy(ret[ints[4]][ints[3]], ((t_quote *)temp->content)->str,
 			ft_strlen(((t_quote *)temp->content)->str) + 1);
 		ints[3]++;
@@ -84,6 +86,8 @@ char	***make_commands_tab(void)
 	ints[4] = -1;
 	ints[0] = get_number_of_commands();
 	ret = (char ***)ft_calloc(sizeof(char **), (ints[0] + 1));
+	if (!ret)
+		ft_exit(NULL, NULL);
 	ret[ints[0]] = NULL;
 	while (temp && ints[4] < ints[0])
 	{

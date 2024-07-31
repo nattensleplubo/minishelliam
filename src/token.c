@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:22:31 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 15:50:19 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:56:35 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	post_pipe(char *s, t_list **lst)
 	}
 	((t_quote *)(*lst)->content)->token = malloc(sizeof(char) * 4);
 	if (!((t_quote *)(*lst)->content)->token)
-	{
-	}
+		ft_exit(NULL, NULL);
 	if (s[0] == '|')
 		ft_strlcpy(((t_quote *)(*lst)->content)->token, "cmd", 4);
 	else if (s[0] == '<' || s[0] == '>')

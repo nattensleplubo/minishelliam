@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:16:35 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:35:39 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/31 00:08:52 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void	ft_last(char **prompt, int p_out, int i)
 	if (ft_builtins(prompt, 0) != 2)
 	{
 		_ms(0)->forks++;
-		childrenpid = fork();
+		childrenpid = ft_fork();
 		if (childrenpid == 0)
 		{
 			make_redir(i, NULL, &p_out);
-			dup2(p_out, STDIN_FILENO);
+			ft_dup(p_out, STDIN_FILENO, NULL, 1);
 			close(p_out);
 			ft_exec(prompt, i);
 			ft_pexit(666);
@@ -95,16 +95,16 @@ void	ft_pipe2(char **prompt, int *p_out, int i)
 	int		pfd[2];
 	pid_t	childrenpid;
 
-	pipe(pfd);
-	_ms(0)->forks++;
-	childrenpid = fork();
+	if (pipe(pfd) == -1)
+		ft_exit(NULL, NULL);
+	childrenpid = (_ms(0)->forks++, ft_fork());
 	if (childrenpid == 0)
 	{
 		make_redir(i, pfd, p_out);
 		close(pfd[0]);
-		dup2(pfd[1], STDOUT_FILENO);
+		ft_dup(pfd[1], STDOUT_FILENO, pfd, 0);
 		close(pfd[1]);
-		dup2(*p_out, STDIN_FILENO);
+		ft_dup(*p_out, STDIN_FILENO, pfd, 1);
 		close(*p_out);
 		ft_exec(prompt, i);
 		ft_pexit(666);
@@ -127,6 +127,8 @@ void	ft_pipe(void)
 	write_heredocs();
 	i = 0;
 	prevpipe = dup(0);
+	if (prevpipe == -1)
+		ft_exit("Error Dup", NULL);
 	ft_signal_cmd();
 	while (cmd[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:20:36 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:35:20 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/31 00:09:58 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int	read_line(void)
 	ret_val = 0;
 	path = NULL;
 	path = getcwd(NULL, 2048);
+	if (!path)
+		ft_exit("Error getcwd", NULL);
 	line = make_line(path);
 	if (_ms(0)->prompt)
 		free(_ms(0)->prompt);

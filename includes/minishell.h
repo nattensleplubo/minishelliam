@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:40:51 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:36:17 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 23:53:52 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,10 @@ int			get_number_of_args(int i);
 void		ft_signal_cmd(void);
 void		ft_handle_signal_cmd(int signo);
 void		wait_for_all_children(pid_t childrenpid);
+void		*ft_cal_te(size_t count, size_t size, char ***tab, char *str);
+void		ft_dup(int fd1, int fd2, int pfd[2], int tofree);
+pid_t		ft_fork(void);
+void		check_if_null(char *str);
+char		*heredoc_join(char *index);
 
 #endif

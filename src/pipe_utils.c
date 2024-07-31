@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:53:48 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/22 16:14:23 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/31 00:11:57 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,21 @@ int	ft_search(char **prompt, char **path)
 
 	i = 0;
 	cmd = ft_strjoin("/\0", prompt[0]);
+	if (!cmd)
+		(free_tab(path), ft_pexit(128));
 	while (path && path[i])
 	{
 		full_path = ft_strjoin(path[i], cmd);
+		if (!full_path)
+			(free(cmd), free_tab(path), ft_pexit(128));
 		if (access(full_path, X_OK) == 0)
 		{
 			execve(full_path, prompt, _ms(0)->env);
-			free(full_path);
-			free(cmd);
-			free_tab(path);
-			ft_pexit(-1);
+			(free(full_path), free(cmd), free_tab(path), ft_pexit(-1));
 		}
 		else
 			errno = 127;
-		free(full_path);
-		i++;
+		(free(full_path), i++);
 	}
 	free(cmd);
 	ft_putstr_fd(" command not found\n", 2);

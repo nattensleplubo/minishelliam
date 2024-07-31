@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:48:58 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/30 15:52:51 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 23:56:44 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	do_output_redir(t_list *temp, int fd)
 	}
 	if (fd_o != fd && fd > 0)
 		close(fd);
+	if (fd_o == -1)
+		ft_exit("Open Error", NULL);
 	return (fd_o);
 }
 
@@ -75,12 +77,14 @@ int	do_input_redir(t_list *temp, int fd)
 	else if (ft_strncmp("DOUBLE_<", ((t_quote *)temp->content)->token, 8) == 0)
 	{
 		ito = ft_itoa(((t_quote *)temp->next->content)->id);
-		join = ft_strjoin("/tmp/", ito);
+		join = (check_if_null(ito), heredoc_join(ito));
 		fd_i = open(join, O_RDONLY);
 		fd_i = (free(ito), free(join), fd_i);
 	}
 	if (fd_i != fd && fd > 0)
 		close(fd);
+	if (fd_i == -1)
+		ft_exit("Open Error", NULL);
 	return (fd_i);
 }
 
@@ -107,7 +111,7 @@ void	make_redir(int i, int pfd[], int *p_out)
 		if (pfd)
 			pfd[1] = fd_o;
 		else
-			dup2(fd_o, STDOUT_FILENO);
+			ft_dup(fd_o, STDOUT_FILENO, NULL, 1);
 	}
 	if (fd_i != -1)
 		*p_out = fd_i;

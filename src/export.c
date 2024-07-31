@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 16:11:03 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:36:33 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:45:13 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_export2(char **arg, int i, int j, int k)
 {
 	char	*env;
 
-	env = calloc(sizeof(char), i + 1);
+	env = ft_calloc(sizeof(char), i + 1);
 	if (!env)
 		ft_exit(NULL, NULL);
 	ft_strlcpy(env, arg[j], i + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:02:40 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/06/29 12:06:46 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 19:33:59 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	deletefromtab(char ***tab, int index)
 		size++;
 	newarray = malloc((size) * sizeof(char *));
 	if (newarray == NULL)
-	{
-	}
+		ft_exit(NULL, NULL);
 	while ((*tab)[j])
 	{
 		if (j != index)

@@ -6,7 +6,7 @@
 /*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:16:27 by lzaengel          #+#    #+#             */
-/*   Updated: 2024/07/30 18:37:17 by lzaengel         ###   ########.fr       */
+/*   Updated: 2024/07/31 00:09:14 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	wait_for_all_children(pid_t childrenpid)
 	int	i;
 
 	i = 0;
+	if (childrenpid == -1)
+		ft_exit(NULL, NULL);
 	waitpid(childrenpid, &_ms(0)->status, 0);
 	if (WIFEXITED(_ms(0)->status))
 		_ms(0)->errnum = WEXITSTATUS(_ms(0)->status);

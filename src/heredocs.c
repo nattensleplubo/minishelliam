@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngobert <ngobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lzaengel <lzaengel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:50:50 by ngobert           #+#    #+#             */
-/*   Updated: 2024/07/23 16:50:56 by ngobert          ###   ########.fr       */
+/*   Updated: 2024/07/30 23:49:30 by lzaengel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*heredoc_join(char *index)
+{
+	char	*filename;
+
+	filename = ft_strjoin("/tmp/", index);
+	if (!filename)
+	{
+		free(index);
+		ft_exit("Malloc Error", NULL);
+	}
+	return (filename);
+}
 
 void	heredoc_loop(char *limiter, int i)
 {
@@ -20,8 +33,11 @@ void	heredoc_loop(char *limiter, int i)
 	char	*line;
 
 	index = ft_itoa(i);
-	filename = ft_strjoin("/tmp/", index);
+	check_if_null(index);
+	filename = heredoc_join(index);
 	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	if (fd == -1)
+		(free(filename), free(index), ft_exit("Error Open", NULL));
 	while (143)
 	{
 		line = readline("> ");
